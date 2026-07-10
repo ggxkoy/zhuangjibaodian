@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>装机宝典 · 智能装机推荐</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="navbar">
+      <span class="navbar-icon">🖥️</span>
+      <div>
+        <h1>装机宝典</h1>
+        <p>说出预算和用途，一键生成整机方案</p>
+      </div>
+    </header>
+
+    <!-- 需求输入页 -->
+    <main id="page-form" class="page">
+      <section class="card">
+        <h2 class="card-title">💰 你的预算</h2>
+        <div class="budget-input-wrap">
+          <span class="yuan">¥</span>
+          <input id="budget" type="number" inputmode="numeric" placeholder="请输入预算金额" min="1000" max="500000">
+        </div>
+        <div class="chips" id="budget-chips">
+          <button class="chip" data-v="3000">3000</button>
+          <button class="chip" data-v="5000">5000</button>
+          <button class="chip" data-v="8000">8000</button>
+          <button class="chip" data-v="12000">1.2万</button>
+          <button class="chip" data-v="20000">2万</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title">🎯 主要用途</h2>
+        <div class="usage-grid" id="usage-grid">
+          <button class="usage-item selected" data-usage="gaming">
+            <span class="usage-icon">🎮</span>
+            <span class="usage-name">游戏</span>
+            <span class="usage-desc">3A大作 / 电竞网游</span>
+          </button>
+          <button class="usage-item" data-usage="productivity">
+            <span class="usage-icon">🛠️</span>
+            <span class="usage-name">生产力</span>
+            <span class="usage-desc">剪辑 / 编程 / 渲染</span>
+          </button>
+          <button class="usage-item" data-usage="office">
+            <span class="usage-icon">📄</span>
+            <span class="usage-name">办公</span>
+            <span class="usage-desc">文档 / 网页 / 会议</span>
+          </button>
+        </div>
+      </section>
+
+      <p id="form-error" class="form-error" hidden></p>
+      <button id="btn-generate" class="btn-primary">生成装机方案</button>
+      <p class="tip">价格实时拉取京东 / 淘宝 / 拼多多，取各平台最低价</p>
+    </main>
+
+    <!-- 方案结果页 -->
+    <main id="page-result" class="page" hidden>
+      <section class="card summary-card">
+        <div class="summary-head">
+          <span id="result-usage" class="badge-usage"></span>
+          <button id="btn-back" class="btn-link">← 重新配置</button>
+        </div>
+        <div class="total-row">
+          <div>
+            <p class="total-label">整机合计</p>
+            <p class="total-price">¥<span id="result-total"></span></p>
+          </div>
+          <div class="total-right">
+            <p class="total-label">预算 ¥<span id="result-budget"></span></p>
+            <p id="result-remaining" class="total-remaining"></p>
+          </div>
+        </div>
+        <div class="budget-bar"><div id="budget-bar-fill" class="budget-bar-fill"></div></div>
+        <p id="result-summary" class="perf-summary"></p>
+      </section>
+
+      <div id="price-status" class="price-status">正在拉取各平台最低价…</div>
+      <section id="parts-list"></section>
+
+      <div class="result-actions">
+        <button id="btn-regen" class="btn-secondary">🔄 换一套方案</button>
+        <button id="btn-refresh-price" class="btn-secondary">💹 刷新比价</button>
+      </div>
+    </main>
+
+    <footer class="footer">装机宝典 · 价格仅供参考，下单前请以平台页面为准</footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

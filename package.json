@@ -1,0 +1,13 @@
+{
+  "name": "zhuangjibaodian",
+  "version": "1.0.0",
+  "description": "装机宝典 —— 按预算和用途智能生成装机方案，多平台实时比价",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "license": "MIT"
+}
