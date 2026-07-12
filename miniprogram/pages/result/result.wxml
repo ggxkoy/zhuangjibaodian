@@ -1,0 +1,57 @@
+<view class="card">
+  <view class="summary-head">
+    <text class="badge-usage">{{plan.usageLabel}}配置 · 预算 ¥{{plan.budget}}</text>
+    <text class="btn-link" bindtap="onBack">← 重新配置</text>
+  </view>
+  <view class="total-row">
+    <view>
+      <view class="total-label">整机合计</view>
+      <view class="total-price">¥{{total}}</view>
+    </view>
+    <view class="total-right">
+      <view class="total-label">预算 ¥{{plan.budget}}</view>
+      <view class="total-remain">{{remainText}}</view>
+    </view>
+  </view>
+  <view class="bar"><view class="bar-fill" style="width: {{percent}}%"></view></view>
+  <view class="perf">{{plan.summary}}</view>
+</view>
+
+<view class="price-status {{priceStatusLevel}}">{{priceStatus}}</view>
+
+<view class="card part" wx:for="{{parts}}" wx:key="id" wx:for-item="p">
+  <view class="part-head"><text>{{p.icon}}</text><text class="part-cat">{{p.categoryLabel}}</text></view>
+  <view class="part-name">{{p.name}}</view>
+  <view class="part-spec">{{p.spec}}</view>
+  <view class="part-price-row">
+    <view class="part-price">¥{{p.price}}
+      <text wx:if="{{p.badge}}" class="price-badge {{p.badgeLevel}}">{{p.badge}}</text>
+    </view>
+    <view class="buy-links" wx:if="{{p.links}}">
+      <text class="buy-link jd" data-url="{{p.links.jd}}" data-name="京东" bindtap="onCopyLink">京东</text>
+      <text class="buy-link tb" data-url="{{p.links.taobao}}" data-name="淘宝" bindtap="onCopyLink">淘宝</text>
+      <text class="buy-link pdd" data-url="{{p.links.pdd}}" data-name="拼多多" bindtap="onCopyLink">拼多多</text>
+    </view>
+  </view>
+  <view class="trend-row" wx:if="{{p.verdict}}">
+    <text class="verdict {{p.verdict.level}}">{{p.verdict.label}}</text>
+    <text class="hist">{{p.hist}}</text>
+  </view>
+</view>
+
+<view class="card ai-card" wx:if="{{aiEnabled && advice}}">
+  <text class="card-title">🤖 AI 装机顾问点评 <text class="powered">by DeepSeek</text></text>
+  <view class="advice">{{advice}}</view>
+</view>
+
+<view class="card" wx:if="{{plan.tips.length}}">
+  <text class="card-title">📚 装机经验参考</text>
+  <view class="tip" wx:for="{{plan.tips}}" wx:key="text" wx:for-item="t">
+    <text class="tip-src">{{t.source}}</text>{{t.text}}
+  </view>
+</view>
+
+<view class="actions">
+  <button class="btn-secondary" bindtap="onRegen" disabled="{{regenLoading}}">🔄 换一套方案</button>
+</view>
+<view class="tip-line">价格仅供参考，下单前请以平台页面为准</view>

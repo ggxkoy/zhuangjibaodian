@@ -11,7 +11,8 @@ node server.js
 # 打开 http://localhost:3000
 ```
 
-界面为移动端优先的小程序风格 H5，可直接嵌入微信小程序 web-view 或用作独立网页。
+界面为移动端优先的小程序风格 H5；仓库同时提供**原生微信小程序**（`miniprogram/` 目录，
+微信开发者工具导入即可本地运行）。微信端三条路径与完整验收清单见 [docs/WECHAT.md](docs/WECHAT.md)。
 
 ## 功能
 
@@ -37,8 +38,10 @@ data/parts.json           # 零件库（规格、性能分、参考价、搜索�
 data/price-history.json   # 价格历史（天级数据点，运行时持续追加）
 data/knowledge.json       # 装机经验条目（社区共识，人工维护）
 scripts/seed-history.js   # 从公开行情报道推算的品类级历史基线生成器
-scripts/fetch-knowledge.js# 论坛经验线索抓取（输出候选供人工筛选入库）
-public/                   # 前端页面（原生 HTML/CSS/JS，小程序风格）
+scripts/fetch-knowledge.js# 多源经验线索抓取（B站专栏/图拉丁吧，候选供人工筛选）
+public/                   # H5 前端（原生 HTML/CSS/JS，小程序风格）
+miniprogram/              # 原生微信小程序（开发者工具导入即用）
+docs/WECHAT.md            # 微信端运行与验证指南（三条路径 + 验收清单）
 ```
 
 ## API
@@ -69,9 +72,18 @@ DeepSeek 只做两件它擅长的事——听懂自然语言需求、结合经�
 `data/knowledge.json` 收录社区实战共识（平台选择、避坑、验机流程等），每条带匹配条件
 （零件/插槽/用途/功耗阈值），方案页自动展示最相关的 5 条，并全量提供给 AI 点评做上下文。
 
-`scripts/fetch-knowledge.js` 可从图拉丁吧抓取热帖标题作为经验线索（输出到
-`data/knowledge-inbox.json` 供人工提炼——论坛内容质量参差，**不做自动入库**）。
-注意贴吧反爬严格，数据中心 IP 基本会被 403，家用网络成功率更高。
+`scripts/fetch-knowledge.js` 是多源经验线索抓取器（输出到 `data/knowledge-inbox.json`
+供人工提炼——论坛内容质量参差，**不做自动入库**）：
+
+```bash
+node scripts/fetch-knowledge.js                    # 默认抓 B站专栏，关键词“装机”
+node scripts/fetch-knowledge.js bilibili 装机避坑   # B站图文教程（公开API，成功率高）
+node scripts/fetch-knowledge.js tieba 内存          # 图拉丁吧（反爬严格，数据中心IP多403）
+node scripts/fetch-knowledge.js all 装机教程        # 全部来源
+```
+
+新增来源（知乎/Chiphell/NGA 等）只需在脚本 `SOURCES` 里加一个返回
+`[{title, url, from}]` 的函数。
 
 ## 接入实时价格（重要）
 

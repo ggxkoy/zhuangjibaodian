@@ -1,0 +1,43 @@
+<view class="header">
+  <text class="header-icon">🖥️</text>
+  <view>
+    <view class="header-title">装机宝典</view>
+    <view class="header-sub">说出预算和用途，一键生成整机方案</view>
+  </view>
+</view>
+
+<view class="card ai-card" wx:if="{{aiEnabled}}">
+  <text class="card-title">🤖 直接说需求（AI 解析）</text>
+  <textarea class="ai-text" value="{{aiText}}" bindinput="onAiText" maxlength="300"
+    placeholder="例如：我有一张2080Ti留着用，8000块配一套跑UE5的平台，以后只换显卡" />
+  <button class="btn-ai" bindtap="onAiParse" disabled="{{loading}}">AI 解析并生成方案</button>
+  <view class="ai-note" wx:if="{{aiNote}}">{{aiNote}}</view>
+</view>
+
+<view class="card">
+  <text class="card-title">💰 你的预算</text>
+  <view class="budget-wrap">
+    <text class="yuan">¥</text>
+    <input type="number" value="{{budget}}" bindinput="onBudget" placeholder="请输入预算金额" />
+  </view>
+  <view class="chips">
+    <view class="chip {{budget === item ? 'selected' : ''}}" wx:for="{{chips}}" wx:key="*this"
+      data-v="{{item}}" bindtap="onChip">{{item}}</view>
+  </view>
+</view>
+
+<view class="card">
+  <text class="card-title">🎯 主要用途</text>
+  <view class="usage-grid">
+    <view class="usage-item {{usage === item.key ? 'selected' : ''}}" wx:for="{{usages}}" wx:key="key"
+      data-usage="{{item.key}}" bindtap="onUsage">
+      <text class="usage-icon">{{item.icon}}</text>
+      <text class="usage-name">{{item.name}}</text>
+      <text class="usage-desc">{{item.desc}}</text>
+    </view>
+  </view>
+</view>
+
+<view class="err" wx:if="{{errMsg}}">{{errMsg}}</view>
+<button class="btn-primary" bindtap="onGenerate" disabled="{{loading}}">{{loading ? '正在生成…' : '生成装机方案'}}</button>
+<view class="tip-line">价格实时拉取京东 / 淘宝 / 拼多多，取各平台最低价</view>

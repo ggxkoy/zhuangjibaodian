@@ -1,0 +1,12 @@
+{
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "zhuangjibaodian",
+  "libVersion": "3.4.0",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": true
+  }
+}

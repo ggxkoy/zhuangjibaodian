@@ -1,0 +1,10 @@
+{
+  "pages": ["pages/index/index", "pages/result/result"],
+  "window": {
+    "navigationBarTitleText": "装机宝典",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f2f3f7",
+    "backgroundTextStyle": "light"
+  }
+}
