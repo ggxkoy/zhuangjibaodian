@@ -112,7 +112,36 @@ function renderPlan(plan) {
         </div>
         <div class="buy-links"></div>
       </div>
+      <div class="trend-row" hidden></div>
     </div>`).join('');
+}
+
+// 迷你价格走势折线图（近一年，日级数据点）
+function sparklineSVG(points, level) {
+  const w = 88, h = 24, pad = 2;
+  const ps = points.map(x => x.p);
+  const min = Math.min(...ps), max = Math.max(...ps);
+  const span = max - min || 1;
+  const step = (w - pad * 2) / Math.max(1, points.length - 1);
+  const coords = points.map((x, i) =>
+    `${(pad + i * step).toFixed(1)},${(h - pad - ((x.p - min) / span) * (h - pad * 2)).toFixed(1)}`);
+  const color = { high: '#fa5151', low: '#07c160', good: '#07c160' }[level] || '#86909c';
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <polyline points="${coords.join(' ')}" fill="none" stroke="${color}" stroke-width="1.6"
+      stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${coords[coords.length - 1].split(',')[0]}" cy="${coords[coords.length - 1].split(',')[1]}" r="2" fill="${color}"/>
+  </svg>`;
+}
+
+function renderTrend(card, hist) {
+  const row = card.querySelector('.trend-row');
+  if (!hist || !hist.points || hist.points.length < 2) { row.hidden = true; return; }
+  const v = hist.verdict || { level: 'none', label: '' };
+  row.hidden = false;
+  row.innerHTML = `
+    ${sparklineSVG(hist.points, v.level)}
+    ${v.label ? `<span class="verdict-badge ${v.level}">${v.label}</span>` : ''}
+    <span class="hist-info">年内最低 ¥${hist.min} · 均价 ¥${hist.avg}</span>`;
 }
 
 async function loadPrices(plan, force) {
@@ -126,12 +155,17 @@ async function loadPrices(plan, force) {
     const data = await res.json();
     let liveCount = 0;
     let total = 0;
+    let highCount = 0, dealCount = 0;
 
     for (const q of data.prices) {
       const card = document.querySelector(`.part-card[data-part="${q.partId}"]`);
       if (!card) continue;
       total += q.price;
       if (q.live) liveCount++;
+      renderTrend(card, q.history);
+      const lvl = q.history && q.history.verdict && q.history.verdict.level;
+      if (lvl === 'high') highCount++;
+      if (lvl === 'low' || lvl === 'good') dealCount++;
 
       const numEl = card.querySelector('.price-num');
       numEl.textContent = q.price;
@@ -164,6 +198,12 @@ async function loadPrices(plan, force) {
     } else {
       statusEl.className = 'price-status warn';
       statusEl.textContent = `⚠️ 已接入 ${srcNames.join('/')} 但本次未取到实时报价，以下为参考价，请点击平台按钮核实`;
+    }
+    if (highCount > 0 || dealCount > 0) {
+      const bits = [];
+      if (dealCount > 0) bits.push(`${dealCount} 件处于好价区间`);
+      if (highCount > 0) bits.push(`${highCount} 件处于历史高位（近期涨价品类，急用再买）`);
+      statusEl.textContent += ` · 走势判定：${bits.join('，')}`;
     }
   } catch (e) {
     statusEl.textContent = '比价服务暂不可用，显示参考价';
