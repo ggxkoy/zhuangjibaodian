@@ -38,14 +38,23 @@ public/                # 前端页面（原生 HTML/CSS/JS，小程序风格）
 | `GET /api/recommend` | `budget`（元）、`usage`（gaming/productivity/office）、`exclude`（可选，排除零件 ID） | 生成装机方案 |
 | `GET /api/prices` | `ids`（逗号分隔零件 ID） | 拉取各平台最低价 |
 
-## 接入实时价格
+## 接入实时价格（重要）
 
-比价服务是适配器架构（`lib/price-service.js`），开箱即用参考价，接入真实数据源后自动变为实时价：
+三大平台适配器已完整实现（含签名算法），**配置环境变量即启用实时最低价**，无需改代码：
 
-1. **京东**：在 `data/parts.json` 中为零件填入 `jdSku`（商品页 URL 中的数字 ID），即走京东公开价格接口 `p.3.cn` 实时取价，比价链接也会直达商品页
-2. **淘宝**：申请[淘宝开放平台](https://open.taobao.com/)凭据，配置 `TAOBAO_APP_KEY` / `TAOBAO_APP_SECRET` 环境变量后在 `taobao` 适配器中实现签名请求
-3. **拼多多**：申请[多多进宝](https://jinbao.pinduoduo.com/)凭据，配置 `PDD_CLIENT_ID` / `PDD_CLIENT_SECRET` 后在 `pdd` 适配器中实现
+| 平台 | 环境变量 | 凭据申请（免费） |
+|------|----------|------------------|
+| 京东联盟 | `JD_APP_KEY` `JD_APP_SECRET` | [union.jd.com](https://union.jd.com/) → 工具 → API |
+| 淘宝联盟 | `TAOBAO_APP_KEY` `TAOBAO_APP_SECRET` `TAOBAO_ADZONE_ID` | [open.taobao.com](https://open.taobao.com/) + 淘宝联盟推广位 |
+| 多多进宝 | `PDD_CLIENT_ID` `PDD_CLIENT_SECRET`（可选 `PDD_PID`） | [jinbao.pinduoduo.com](https://jinbao.pinduoduo.com/) → 开放平台 |
 
-任一平台失败均自动降级，不影响出方案。
+```bash
+JD_APP_KEY=xxx JD_APP_SECRET=xxx node server.js
+```
 
-> 零件库价格为人工维护的市场参考价，仅供预算规划参考，下单前请以平台页面实价为准。
+取价逻辑：按零件关键词在各平台搜索（京东零件可在 `parts.json` 填 `jdSku` 精确到商品），
+对结果做**标题分词匹配 + 价格合理性区间过滤**（防止配件、错配商品混入），再取各平台最低价，缓存 10 分钟。
+任一平台失败自动降级为参考价并在界面明确标注，不影响出方案。
+
+> ⚠️ 未接入实时源时显示的是人工维护的参考价。2025 下半年起内存/固态经历大幅涨价（"一天三个价"），
+> 参考价与实际行情可能存在明显误差，界面会显著提示，下单前务必点击平台按钮核实实价。

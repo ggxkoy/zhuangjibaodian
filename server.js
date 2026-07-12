@@ -55,8 +55,8 @@ const server = http.createServer(async (req, res) => {
     if (url.pathname === '/api/prices') {
       const ids = (url.searchParams.get('ids') || '').split(',').filter(Boolean).slice(0, 20);
       if (ids.length === 0) return sendJson(res, 400, { error: '缺少零件 ID' });
-      const prices = await getPrices(ids);
-      return sendJson(res, 200, { prices, fetchedAt: new Date().toISOString() });
+      const { prices, sources } = await getPrices(ids);
+      return sendJson(res, 200, { prices, sources, fetchedAt: new Date().toISOString() });
     }
 
     return serveStatic(res, url.pathname);

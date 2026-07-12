@@ -152,11 +152,18 @@ async function loadPrices(plan, force) {
     $('#result-remaining').textContent = remaining > 0 ? `还剩 ¥${Math.round(remaining)}` : '预算刚好用满';
     $('#budget-bar-fill').style.width = Math.min(100, (total / plan.budget) * 100) + '%';
 
+    const srcNames = Object.entries(data.sources || {})
+      .filter(([, on]) => on).map(([k]) => PLATFORM_NAMES[k]);
+    const time = new Date(data.fetchedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
     if (liveCount > 0) {
       statusEl.className = 'price-status live';
-      statusEl.textContent = `✓ 已获取 ${liveCount}/${data.prices.length} 件实时最低价，其余为参考价 · 点击平台按钮可直达比价`;
+      statusEl.textContent = `✓ ${time} 已获取 ${liveCount}/${data.prices.length} 件实时最低价（来源：${srcNames.join('/')}），其余为参考价`;
+    } else if (srcNames.length === 0) {
+      statusEl.className = 'price-status warn';
+      statusEl.textContent = '⚠️ 未接入实时价格源，以下为参考价——近期内存/固态行情波动剧烈，可能与实际价有较大误差，请点击平台按钮核实；接入方法见 README';
     } else {
-      statusEl.textContent = '暂未获取到实时报价，以下为参考价 · 点击平台按钮可直达比价';
+      statusEl.className = 'price-status warn';
+      statusEl.textContent = `⚠️ 已接入 ${srcNames.join('/')} 但本次未取到实时报价，以下为参考价，请点击平台按钮核实`;
     }
   } catch (e) {
     statusEl.textContent = '比价服务暂不可用，显示参考价';
