@@ -6,7 +6,9 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { recommend } = require('./lib/recommender');
-const { getPrices } = require('./lib/price-service');
+const { getPrices, configuredPlatforms } = require('./lib/price-service');
+const { tipsForBuild } = require('./lib/knowledge');
+const advisor = require('./lib/llm-advisor');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -19,6 +21,20 @@ const MIME = {
   '.png': 'image/png',
   '.ico': 'image/x-icon'
 };
+
+function readJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    req.on('data', c => {
+      body += c;
+      if (body.length > 64 * 1024) { req.destroy(); reject(new Error('请求体过大')); }
+    });
+    req.on('end', () => {
+      try { resolve(JSON.parse(body || '{}')); } catch (e) { reject(new Error('请求体非 JSON')); }
+    });
+    req.on('error', reject);
+  });
+}
 
 function sendJson(res, code, obj) {
   const body = JSON.stringify(obj);
@@ -49,7 +65,37 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: '请输入有效预算（1 ~ 500000 元）' });
       }
       const plan = recommend(budget, usage, exclude);
+      if (!plan.error) plan.tips = tipsForBuild(plan);
       return sendJson(res, plan.error ? 422 : 200, plan);
+    }
+
+    if (url.pathname === '/api/config') {
+      return sendJson(res, 200, { deepseek: advisor.configured(), platforms: configuredPlatforms() });
+    }
+
+    // 自然语言需求解析（DeepSeek）
+    if (url.pathname === '/api/parse' && req.method === 'POST') {
+      if (!advisor.configured()) return sendJson(res, 501, { error: '未配置 DEEPSEEK_API_KEY，AI 需求解析不可用' });
+      const { text } = await readJsonBody(req);
+      if (!text || !String(text).trim()) return sendJson(res, 400, { error: '请输入需求描述' });
+      const parsed = await advisor.parseRequirement(String(text));
+      return sendJson(res, 200, parsed);
+    }
+
+    // AI 装机顾问点评（DeepSeek + 经验库）
+    if (url.pathname === '/api/review' && req.method === 'POST') {
+      if (!advisor.configured()) return sendJson(res, 501, { error: '未配置 DEEPSEEK_API_KEY，AI 点评不可用' });
+      const { plan, note } = await readJsonBody(req);
+      if (!plan || !Array.isArray(plan.parts)) return sendJson(res, 400, { error: '缺少方案数据' });
+      // 附带各零件当前价位判定，让点评能提“该不该现在买”
+      const { prices } = await getPrices(plan.parts.map(p => p.id));
+      const priceNotes = {};
+      for (const q of prices) {
+        const v = q.history && q.history.verdict;
+        if (v && v.label) priceNotes[q.partId] = v.label;
+      }
+      const advice = await advisor.reviewBuild(plan, tipsForBuild(plan, 8), priceNotes, note);
+      return sendJson(res, 200, { advice });
     }
 
     if (url.pathname === '/api/prices') {

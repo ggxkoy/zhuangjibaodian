@@ -18,6 +18,13 @@
 
     <!-- 需求输入页 -->
     <main id="page-form" class="page">
+      <section class="card ai-card" id="ai-input-card" hidden>
+        <h2 class="card-title">🤖 直接说需求（AI 解析）</h2>
+        <textarea id="ai-text" rows="2" placeholder="例如：我有一张2080Ti留着用，8000块配一套跑UE5的平台，以后只换显卡"></textarea>
+        <button id="btn-ai-parse" class="btn-ai">AI 解析并生成方案</button>
+        <p id="ai-parse-note" class="ai-note" hidden></p>
+      </section>
+
       <section class="card">
         <h2 class="card-title">💰 你的预算</h2>
         <div class="budget-input-wrap">
@@ -82,6 +89,16 @@
 
       <div id="price-status" class="price-status">正在拉取各平台最低价…</div>
       <section id="parts-list"></section>
+
+      <section class="card ai-card" id="ai-review-card" hidden>
+        <h2 class="card-title">🤖 AI 装机顾问点评 <span class="powered">by DeepSeek</span></h2>
+        <p id="ai-review-text" class="ai-review-text">正在点评…</p>
+      </section>
+
+      <section class="card" id="tips-card" hidden>
+        <h2 class="card-title">📚 装机经验参考</h2>
+        <ul id="tips-list" class="tips-list"></ul>
+      </section>
 
       <div class="result-actions">
         <button id="btn-regen" class="btn-secondary">🔄 换一套方案</button>

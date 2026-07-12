@@ -5,8 +5,16 @@ const $ = sel => document.querySelector(sel);
 const state = {
   usage: 'gaming',
   plan: null,
-  excludeHistory: [] // “换一套”时排除已出过的核心件
+  excludeHistory: [], // “换一套”时排除已出过的核心件
+  aiEnabled: false,
+  aiNote: '' // AI 解析出的用户特殊需求，随点评请求传给顾问
 };
+
+// 探测服务端能力：配置了 DeepSeek 才显示 AI 入口
+fetch('/api/config').then(r => r.json()).then(cfg => {
+  state.aiEnabled = !!cfg.deepseek;
+  $('#ai-input-card').hidden = !state.aiEnabled;
+}).catch(() => {});
 
 const PLATFORM_NAMES = { jd: '京东', taobao: '淘宝', pdd: '拼多多', ref: '参考价' };
 
@@ -29,7 +37,37 @@ $('#usage-grid').addEventListener('click', e => {
   document.querySelectorAll('.usage-item').forEach(u => u.classList.toggle('selected', u === item));
 });
 
-$('#btn-generate').addEventListener('click', () => generate(false));
+$('#btn-generate').addEventListener('click', () => { state.aiNote = ''; generate(false); });
+
+// AI 自然语言需求解析 -> 填表 -> 生成
+$('#btn-ai-parse').addEventListener('click', async () => {
+  const text = $('#ai-text').value.trim();
+  const noteEl = $('#ai-parse-note');
+  if (!text) { noteEl.hidden = false; noteEl.textContent = '先描述一下你的需求~'; return; }
+  const btn = $('#btn-ai-parse');
+  btn.disabled = true; btn.textContent = 'AI 解析中…';
+  try {
+    const res = await fetch('/api/parse', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text })
+    });
+    const parsed = await res.json();
+    if (parsed.error) throw new Error(parsed.error);
+    $('#budget').value = parsed.budget;
+    state.usage = parsed.usage;
+    document.querySelectorAll('.usage-item').forEach(u =>
+      u.classList.toggle('selected', u.dataset.usage === parsed.usage));
+    state.aiNote = parsed.note || '';
+    noteEl.hidden = false;
+    noteEl.textContent = `✓ 已解析：预算 ¥${parsed.budget} · ${{ gaming: '游戏', productivity: '生产力', office: '办公' }[parsed.usage]}${parsed.note ? ' · ' + parsed.note : ''}`;
+    generate(false);
+  } catch (e) {
+    noteEl.hidden = false;
+    noteEl.textContent = '解析失败：' + e.message;
+  } finally {
+    btn.disabled = false; btn.textContent = 'AI 解析并生成方案';
+  }
+});
 $('#btn-regen').addEventListener('click', () => generate(true));
 $('#btn-back').addEventListener('click', () => showPage('form'));
 $('#btn-refresh-price').addEventListener('click', () => state.plan && loadPrices(state.plan, true));
@@ -80,6 +118,7 @@ async function generate(regen) {
     renderPlan(plan);
     showPage('result');
     loadPrices(plan, false);
+    loadAiReview(plan);
   } catch (e) {
     showPage('form');
     showError('网络异常，请重试');
@@ -114,6 +153,36 @@ function renderPlan(plan) {
       </div>
       <div class="trend-row" hidden></div>
     </div>`).join('');
+
+  // 装机经验参考（本地经验库，无需任何凭据）
+  const tipsCard = $('#tips-card');
+  if (plan.tips && plan.tips.length) {
+    tipsCard.hidden = false;
+    $('#tips-list').innerHTML = plan.tips.map(t =>
+      `<li><span class="tip-src">${t.source}</span>${t.text}</li>`).join('');
+  } else {
+    tipsCard.hidden = true;
+  }
+}
+
+// AI 装机顾问点评（DeepSeek，异步加载不阻塞出方案）
+async function loadAiReview(plan) {
+  const card = $('#ai-review-card');
+  if (!state.aiEnabled) { card.hidden = true; return; }
+  card.hidden = false;
+  const textEl = $('#ai-review-text');
+  textEl.textContent = '顾问正在看你的配置单…';
+  try {
+    const res = await fetch('/api/review', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan, note: state.aiNote })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    textEl.textContent = data.advice;
+  } catch (e) {
+    textEl.textContent = '点评暂不可用：' + e.message;
+  }
 }
 
 // 迷你价格走势折线图（近一年，日级数据点）

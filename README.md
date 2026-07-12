@@ -21,6 +21,8 @@ node server.js
 - **价格走势与好价判定**（参考"什么值得买"）：每次取价按天记录价格历史，零件卡片展示近一年走势迷你曲线，并判定当前价位——接近历史低点 / 低于均价 / 价格平稳 / **历史高位**（如当前的内存、固态），方案顶部汇总"N 件好价、M 件高位急用再买"
 - **比价直达**：每个零件附京东 / 淘宝 / 拼多多搜索直达链接
 - **换一套方案**：排除已推荐的核心件重新生成备选方案
+- **AI 装机顾问（DeepSeek）**：自然语言描述需求（"我有张 2080Ti，8000 配一套跑 UE5 的平台"）自动解析成预算/用途/特殊约束；方案生成后结合经验库给出"老哥点评"——合理性、风险、该不该现在买
+- **装机经验库**：内置图拉丁吧等社区沉淀的实战共识，按方案零件/平台/用途匹配展示最相关的几条，同时作为 AI 点评的知识上下文
 
 ## 项目结构
 
@@ -29,9 +31,13 @@ server.js                 # 零依赖 HTTP 服务：静态页面 + API
 lib/recommender.js        # 配单引擎（兼容性校验 + 加权评分 + CPU/显卡均衡约束）
 lib/price-service.js      # 多平台比价服务（官方开放平台适配器 + 缓存 + 回退）
 lib/price-history.js      # 价格历史记录与好价判定
+lib/llm-advisor.js        # DeepSeek 顾问（需求解析 + 方案点评）
+lib/knowledge.js          # 装机经验库匹配
 data/parts.json           # 零件库（规格、性能分、参考价、搜索关键词）
 data/price-history.json   # 价格历史（天级数据点，运行时持续追加）
+data/knowledge.json       # 装机经验条目（社区共识，人工维护）
 scripts/seed-history.js   # 从公开行情报道推算的品类级历史基线生成器
+scripts/fetch-knowledge.js# 论坛经验线索抓取（输出候选供人工筛选入库）
 public/                   # 前端页面（原生 HTML/CSS/JS，小程序风格）
 ```
 
@@ -39,8 +45,33 @@ public/                   # 前端页面（原生 HTML/CSS/JS，小程序风格�
 
 | 接口 | 参数 | 说明 |
 |------|------|------|
-| `GET /api/recommend` | `budget`（元）、`usage`（gaming/productivity/office）、`exclude`（可选，排除零件 ID） | 生成装机方案 |
-| `GET /api/prices` | `ids`（逗号分隔零件 ID） | 拉取各平台最低价 |
+| `GET /api/recommend` | `budget`（元）、`usage`（gaming/productivity/office）、`exclude`（可选，排除零件 ID） | 生成装机方案（含经验提示） |
+| `GET /api/prices` | `ids`（逗号分隔零件 ID） | 拉取各平台最低价 + 走势判定 |
+| `GET /api/config` | — | 服务端能力探测（AI/比价源是否已配置） |
+| `POST /api/parse` | `{ text }` | 自然语言需求解析（需 DeepSeek） |
+| `POST /api/review` | `{ plan, note }` | AI 装机顾问点评（需 DeepSeek） |
+
+## 接入 DeepSeek（AI 顾问）
+
+```bash
+DEEPSEEK_API_KEY=sk-xxx node server.js
+```
+
+可选：`DEEPSEEK_MODEL`（默认 `deepseek-chat`）、`DEEPSEEK_BASE_URL`（默认 `https://api.deepseek.com`，
+可指向任意 OpenAI 兼容网关）。key 在 [platform.deepseek.com](https://platform.deepseek.com/) 申请。
+
+职责边界：**兼容性校验、预算分配、价格计算全部由规则引擎完成**（LLM 不碰数字运算，杜绝算错钱），
+DeepSeek 只做两件它擅长的事——听懂自然语言需求、结合经验库对方案讲人话点评。
+未配置 key 时 AI 入口自动隐藏，其余功能不受影响。
+
+## 装机经验库（图拉丁吧等社区沉淀）
+
+`data/knowledge.json` 收录社区实战共识（平台选择、避坑、验机流程等），每条带匹配条件
+（零件/插槽/用途/功耗阈值），方案页自动展示最相关的 5 条，并全量提供给 AI 点评做上下文。
+
+`scripts/fetch-knowledge.js` 可从图拉丁吧抓取热帖标题作为经验线索（输出到
+`data/knowledge-inbox.json` 供人工提炼——论坛内容质量参差，**不做自动入库**）。
+注意贴吧反爬严格，数据中心 IP 基本会被 403，家用网络成功率更高。
 
 ## 接入实时价格（重要）
 

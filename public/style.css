@@ -174,6 +174,37 @@ body {
 }
 .btn-secondary:active { background: var(--bg); }
 
+/* AI 卡片 */
+.ai-card { border: 1.5px solid #e3ddff; background: linear-gradient(180deg, #faf9ff, #fff); }
+#ai-text {
+  width: 100%; border: 1.5px solid #e5e6eb; border-radius: 10px;
+  padding: 10px 12px; font-size: 14px; font-family: inherit; color: var(--text);
+  resize: none; outline: none; margin-bottom: 10px; box-sizing: border-box;
+}
+#ai-text:focus { border-color: #7b61ff; }
+.btn-ai {
+  width: 100%; border: none; cursor: pointer;
+  background: linear-gradient(135deg, #8b5cf6, #6d4aff);
+  color: #fff; font-size: 15px; font-weight: 600;
+  padding: 11px; border-radius: 10px;
+}
+.btn-ai:disabled { opacity: 0.6; }
+.ai-note { font-size: 12.5px; color: #6d4aff; margin-top: 8px; line-height: 1.5; }
+.powered { font-size: 10.5px; font-weight: 400; color: var(--text-2); margin-left: 4px; }
+.ai-review-text { font-size: 13.5px; color: #4e5969; line-height: 1.75; white-space: pre-wrap; }
+
+/* 经验提示 */
+.tips-list { list-style: none; }
+.tips-list li {
+  font-size: 13px; color: #4e5969; line-height: 1.65;
+  padding: 8px 0; border-bottom: 1px dashed #eef0f4;
+}
+.tips-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.tips-list .tip-src {
+  font-size: 10.5px; color: #b25e00; background: #fff7e8;
+  padding: 1px 7px; border-radius: 999px; margin-right: 6px; white-space: nowrap;
+}
+
 .footer { text-align: center; font-size: 11.5px; color: #c0c4cc; margin-top: 26px; }
 
 .skeleton { color: transparent !important; background: #f2f3f7; border-radius: 6px; animation: pulse 1.2s infinite; }
