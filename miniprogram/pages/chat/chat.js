@@ -1,7 +1,7 @@
 // 老板娘 galgame 主界面：
 // 立绘舞台 + 底部对话框 + 打字机逐字 + 点击画面推进 + 居中选项肢 + 📜回想（backlog）。
 // 业务路由与 chat-first 版一致：换一套 > 本地意图 > AI 解析/闲聊 > 引导。
-// 立绘素材：miniprogram/assets/boss.png（竖构图，背景合入图内）；缺图自动降级为渐变场景。
+// 立绘素材：miniprogram/assets/boss.jpg（竖构图，背景合入图内，JPG 控制包体）；缺图自动降级为渐变场景。
 
 const { getRecommend, getConfig } = require('../../utils/api');
 const { elicit, reviewBuild, bossChat } = require('../../utils/ai');
@@ -13,7 +13,7 @@ const BUDGET_ASK = '预算大概多少？直接说个数就行，8000、1.5万 �
 
 Page({
   data: {
-    hasSprite: true, spriteSrc: '/assets/boss.png', mood: 'normal',
+    hasSprite: true, spriteSrc: '/assets/boss.jpg', mood: 'normal',
     bossName: '老板娘',
     speaker: '老板娘', shownText: '', typing: false, hasMore: false, waiting: false,
     choices: [], planMsg: null,
@@ -59,17 +59,17 @@ Page({
     if (ch.customSprite) src = ch.customSprite; // 用户上传的立绘（无表情差分）
     else {
       const base = ch.sprite || 'boss';
-      src = `/assets/${base}${this.data.mood !== 'normal' ? '-' + this.data.mood : ''}.png`;
+      src = `/assets/${base}${this.data.mood !== 'normal' ? '-' + this.data.mood : ''}.jpg`;
     }
     this.setData({ spriteSrc: src, hasSprite: true });
   },
   onSpriteErr() {
-    // 降级链：表情差分 → 该角色常态图 → 默认 boss.png → emoji 场景
+    // 降级链：表情差分 → 该角色常态图 → 默认 boss.jpg → emoji 场景
     const ch = this.ch();
-    if (this.data.spriteSrc === '/assets/boss.png') return this.setData({ hasSprite: false });
+    if (this.data.spriteSrc === '/assets/boss.jpg') return this.setData({ hasSprite: false });
     if (ch.customSprite) { ch.customSprite = ''; saveCharacter(ch); return this.updateSprite(); }
     if (this.data.mood !== 'normal') { this.setData({ mood: 'normal' }); return this.updateSprite(); }
-    this.setData({ spriteSrc: '/assets/boss.png' });
+    this.setData({ spriteSrc: '/assets/boss.jpg' });
   },
 
   onOpenPanel() {

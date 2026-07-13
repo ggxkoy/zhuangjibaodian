@@ -23,14 +23,27 @@ function extractJson(raw) {
 }
 
 async function cloudAiText(messages) {
-  const model = wx.cloud.extend.AI.createModel('deepseek');
-  const res = await model.streamText({
-    data: { model: 'deepseek-v3', messages }
-  });
-  let out = '';
-  for await (const chunk of res.textStream) out += chunk;
-  if (!out.trim()) throw new Error('AI 未返回内容');
-  return out.trim();
+  try {
+    if (!wx.cloud.extend || !wx.cloud.extend.AI) {
+      throw new Error('基础库过低（需≥3.7.1，检查开发者工具调试基础库设置）');
+    }
+    const model = wx.cloud.extend.AI.createModel('deepseek');
+    const res = await model.streamText({
+      data: { model: 'deepseek-v3', messages }
+    });
+    let out = '';
+    for await (const chunk of res.textStream) out += chunk;
+    if (!out.trim()) throw new Error('AI 返回了空内容');
+    return out.trim();
+  } catch (e) {
+    // 内置模型通道最常见的失败：云开发 AI 能力未开通/欠费时 SDK 收到空响应
+    const msg = String(e && e.message || e);
+    if (/Unexpected end of JSON|空内容|empty/i.test(msg)) {
+      throw new Error('云开发内置 AI 不可用：请在云开发控制台开通 AI 能力并确认额度；' +
+        '或给云函数配 DEEPSEEK_API_KEY 改用自己的模型（见 docs/WECHAT.md）');
+    }
+    throw new Error(msg);
+  }
 }
 
 async function parseRequirement(text) {

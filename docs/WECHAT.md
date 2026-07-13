@@ -89,6 +89,7 @@ curl "http://localhost:3000/api/recommend?budget=2000&usage=gaming"
 
 | 现象 | 原因 | 处理 |
 |------|------|------|
+| `Unexpected end of JSON input`（对话页显示「哎呀出岔子了」） | **云开发 AI 能力未开通**（或欠费/环境不支持），SDK 收到空响应 | 云开发控制台开通 AI 能力并确认额度；或直接走 ownKey 模式（下一节，最省事） |
 | `wx.cloud.extend is undefined` / `AI is undefined` | 调试基础库低于 3.7.1 | 开发者工具切换调试基础库 |
 | `cloud.init` 报错 / `env check invalid` | 未开通云开发或 `cloudEnv` 填错 | 核对环境 ID，或留空用默认环境 |
 | `Insufficient balance` / 配额类错误 | 免费额度用尽 | 云开发控制台 AI 用量页充值或换环境 |
@@ -112,6 +113,12 @@ curl "http://localhost:3000/api/recommend?budget=2000&usage=gaming"
 排查「AI 听不懂/回复是固定话术」：那说明 AI 根本没接上而不是模型弱——
 看到「这个问题店里的智能助手还没接上」「AI 未配置」字样时，检查
 `config` 返回值（ownKey/deepseek）、云函数是否已部署、调试基础库版本。
+
+⚠️ **改完服务端代码必须重新上传部署云函数**：小程序端调用的是云端已部署的版本，
+本地代码更新不会自动生效——elicit/chat/ownKey 等新 action 都要求云函数是最新版。
+
+⚠️ **主包体积**：小程序主包上限 2MB。含背景的立绘一律用 **JPG（≤400KB）**，
+不要放 1MB+ 的 PNG（背景已合入图内不需要透明通道）；透明底差分才用 PNG。
 
 ### 云开发模式验收清单
 
