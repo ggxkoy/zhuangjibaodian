@@ -55,12 +55,26 @@ function cleanComments(raw) {
     .slice(0, 40);
 }
 
+// 视频标题相关性过滤：防止同名产品混入（如“白刃”既是内存也是鼠标微动）。
+// 含数字的规格分词（DDR5/6000/32G/型号）至少命中一个，纯文字分词命中一半以上。
+function titleMatches(title, keyword) {
+  const t = title.replace(/<[^>]+>/g, '').toLowerCase();
+  const tokens = keyword.toLowerCase().split(/\s+/).filter(Boolean);
+  const spec = tokens.filter(x => /\d/.test(x));
+  const text = tokens.filter(x => !/\d/.test(x));
+  if (spec.length && !spec.some(x => t.includes(x))) return false;
+  const hit = text.filter(x => t.includes(x)).length;
+  return hit >= Math.ceil(text.length * 0.5);
+}
+
 async function fetchForPart(part, cookies) {
   const kw = encodeURIComponent(`${part.keyword} 评测`);
   const search = JSON.parse((await get(
-    `https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword=${kw}&page=1&page_size=5`, cookies)).body);
+    `https://api.bilibili.com/x/web-interface/search/type?search_type=video&keyword=${kw}&page=1&page_size=10`, cookies)).body);
   if (search.code !== 0) throw new Error('B站搜索返回 ' + search.code);
-  const videos = (search.data.result || []).slice(0, 3);
+  const videos = (search.data.result || [])
+    .filter(v => titleMatches(v.title || '', part.keyword))
+    .slice(0, 3);
   const comments = [];
   const sources = [];
   for (const v of videos) {

@@ -32,5 +32,134 @@
       }
     ],
     "updatedAt": "2026-07-12"
+  },
+  "ram-d5-32": {
+    "summary": "性价比 RGB 条的代表，海力士 A-die 版本体质好；但个别板 U 组合开不了 XMP，装好先验稳。",
+    "pros": [
+      "活动价常比同门星刃便宜还带 RGB",
+      "海力士 A-die 颗粒版本可上 6800 高频"
+    ],
+    "cons": [
+      "同系列不同批次颗粒体质差异明显（有边角料颗粒的说法）"
+    ],
+    "pitfalls": [
+      "有用户反馈个别平台 XMP 开不了——装机后第一件事开 XMP 跑 MemTest 验证稳定性，趁可退期"
+    ],
+    "suitFor": "要 RGB 又要性价比的主流装机",
+    "confidence": "low",
+    "sampleCount": 6,
+    "sources": [
+      {
+        "title": "金百达DDR5 6800白刃：性能与颜值双重升级！",
+        "url": "https://www.bilibili.com/video/av115773880145572",
+        "from": "B站"
+      },
+      {
+        "title": "618 D5内存选购指南-金百达DDR5 6800 48G M-die星刃和白刃有什么区别",
+        "url": "https://www.bilibili.com/video/av1205639371",
+        "from": "B站"
+      },
+      {
+        "title": "C28超低时序！AMD装机升级推荐丨海力士A-die颗粒、轻松OC7000Mhz+丨金百达刃DDR5 6000 C28 16x2 32G内存条测试分享【艾说】",
+        "url": "https://www.bilibili.com/video/av1306256366",
+        "from": "B站"
+      }
+    ],
+    "updatedAt": "2026-07-13"
+  },
+  "ram-d5-16": {
+    "summary": "性价比 RGB 条的代表，海力士 A-die 版本体质好；但个别板 U 组合开不了 XMP，装好先验稳。",
+    "pros": [
+      "活动价常比同门星刃便宜还带 RGB",
+      "海力士 A-die 颗粒版本可上 6800 高频"
+    ],
+    "cons": [
+      "同系列不同批次颗粒体质差异明显（有边角料颗粒的说法）"
+    ],
+    "pitfalls": [
+      "有用户反馈个别平台 XMP 开不了——装机后第一件事开 XMP 跑 MemTest 验证稳定性，趁可退期"
+    ],
+    "suitFor": "要 RGB 又要性价比的主流装机",
+    "confidence": "low",
+    "sampleCount": 6,
+    "sources": [
+      {
+        "title": "618 D5内存选购指南-金百达DDR5 6800 48G M-die星刃和白刃有什么区别",
+        "url": "https://www.bilibili.com/video/av1205639371",
+        "from": "B站"
+      },
+      {
+        "title": "金百达DDR5 6800白刃：性能与颜值双重升级！",
+        "url": "https://www.bilibili.com/video/av115773880145572",
+        "from": "B站"
+      },
+      {
+        "title": "C28超低时序！AMD装机升级推荐丨海力士A-die颗粒、轻松OC7000Mhz+丨金百达刃DDR5 6000 C28 16x2 32G内存条测试分享【艾说】",
+        "url": "https://www.bilibili.com/video/av1306256366",
+        "from": "B站"
+      }
+    ],
+    "updatedAt": "2026-07-13"
+  },
+  "ram-d4-32": {
+    "summary": "DDR4 大容量的实惠之选，超频空间尚可，但颗粒批次混用，长鑫颗粒版本有稳定性个案。",
+    "pros": [
+      "用户实测可超 3600~3700，两条超频空间尚可"
+    ],
+    "cons": [
+      "颗粒不固定（海力士 CJR / 长鑫 / 三星看批次），超频体质开盲盒"
+    ],
+    "pitfalls": [
+      "有用户反馈长鑫颗粒版本开 XMP 3200 用一个月后游戏闪退蓝屏，上调内存电压才解决——出现类似症状先加内存电压排查"
+    ],
+    "suitFor": "预算有限、想在 DDR4 平台上大容量的装机",
+    "confidence": "low",
+    "sampleCount": 7,
+    "sources": [
+      {
+        "title": "【2026年618内存条推荐】等等党的胜利？200-1000元以上价位，包含DDR4||DDR5内存条，哪几款更值得入手？七彩虹、阿斯加特、金士顿、金百达等",
+        "url": "https://www.bilibili.com/video/av116753367571342",
+        "from": "B站"
+      },
+      {
+        "title": "我朴实无华 但是我内芯强大 金百达32G DDR4 3600MHz 128G 全网唯一首发测评",
+        "url": "https://www.bilibili.com/video/av488130183",
+        "from": "B站"
+      },
+      {
+        "title": "2*32G金百达银爵DDR4 3600 海力士CJR上机，台风显示。",
+        "url": "https://www.bilibili.com/video/av522720662",
+        "from": "B站"
+      }
+    ],
+    "updatedAt": "2026-07-13"
+  },
+  "ram-d5-96": {
+    "summary": "公认的颜值天花板，芝奇颗粒编号公开透明；但溢价高，做工细节有吐槽。",
+    "pros": [
+      "外观公认好看，免折腾直接开 XMP 7200 可用",
+      "颗粒编号公开（如 10B=三星 B-die），买前可查"
+    ],
+    "cons": [
+      "为颜值付高溢价，纯性能取向不划算",
+      "做工细节被指导光条松动、导热垫贴合度一般，高频版本存在混用颗粒的说法"
+    ],
+    "pitfalls": [],
+    "suitFor": "颜值优先、预算充足的海景房展示型装机",
+    "confidence": "low",
+    "sampleCount": 6,
+    "sources": [
+      {
+        "title": "特挑-芝奇‘垃圾之王’焰光戟3600C16，勿盲信品牌。累了就上DDR5 12代吧",
+        "url": "https://www.bilibili.com/video/av676466189",
+        "from": "B站"
+      },
+      {
+        "title": "首发推荐！芝奇皇家戟 Trident Z5 Royal DDR5",
+        "url": "https://www.bilibili.com/video/av1956200505",
+        "from": "B站"
+      }
+    ],
+    "updatedAt": "2026-07-13"
   }
 }

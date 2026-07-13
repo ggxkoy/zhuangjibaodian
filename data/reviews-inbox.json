@@ -61,5 +61,371 @@
         "from": "B站"
       }
     ]
+  },
+  "ram-d4-16": {
+    "name": "金百达 银爵 16GB(8G×2) DDR4 3200",
+    "fetchedAt": "2026-07-13",
+    "comments": [
+      {
+        "text": "长鑫16*2 3200超3600 17-18-18-38 1.35和1.4其他auto Gear Down Mode(Disabled) power Down Enble(Disabled)这两个关了选2t，蓝屏重启，选1t延迟高，压小参tm5报错5分钟4个，服了，就想3600都不稳原时序16-20-20-36，up主又啥好办法嘛",
+        "like": 117,
+        "source": "https://www.bilibili.com/video/av401520579"
+      },
+      {
+        "text": "可惜没灯条，不然想搞一套黑色灯条adie的",
+        "like": 72,
+        "source": "https://www.bilibili.com/video/av401520579"
+      },
+      {
+        "text": "微信公众号：codeyuri（视频文案版在里面） 0:01 前言 0:26 内存介绍 1:03 性能测试 2:32 总结",
+        "like": 68,
+        "source": "https://www.bilibili.com/video/av401520579"
+      }
+    ],
+    "sources": [
+      {
+        "title": "金百达银爵 DDR4 3200 台式内存，8G×2 组成 16GB 双通道套装，C16 低时序稳定兼容，金属散热马甲控温出色，多开高画质流畅运行黑神话悟空。",
+        "url": "https://www.bilibili.com/video/av116854651684055",
+        "from": "B站"
+      },
+      {
+        "title": "金百达 银爵三星C16 DDR4 3200MHz 内存条 16G",
+        "url": "https://www.bilibili.com/video/av116712515051501",
+        "from": "B站"
+      },
+      {
+        "title": "单条16G长鑫Adie 金百达银爵3200C16 16G*2评测 附小参",
+        "url": "https://www.bilibili.com/video/av401520579",
+        "from": "B站"
+      }
+    ]
+  },
+  "ram-d4-32": {
+    "name": "金百达 银爵 32GB(16G×2) DDR4 3600",
+    "fetchedAt": "2026-07-13",
+    "comments": [
+      {
+        "text": "我倆个刃D5，16X2灯光，当年才700多，现在抢钱呢",
+        "like": 4,
+        "source": "https://www.bilibili.com/video/av116753367571342"
+      },
+      {
+        "text": "6.18买了32G的金百达银爵 3200频率长鑫颗粒的只开了XMP到3200用了一个月左右上周出现游戏闪退和蓝屏问题了，上调了内存电压才解决，现在改用成了宏碁掠夺者特挑三星B希望不会再出问题[笑哭]",
+        "like": 2,
+        "source": "https://www.bilibili.com/video/av488130183"
+      },
+      {
+        "text": "有出台式机DDR5 16G或者24G的吗？[笑哭]",
+        "like": 1,
+        "source": "https://www.bilibili.com/video/av116753367571342"
+      },
+      {
+        "text": "这个条子你要是可以的必须两条超，不过你是连号没准可以四条起飞。 我插两条超频和降低时序都没问题 四条一起也可以就是调的幅度小了。也可能因为我的内存不是连号",
+        "like": 1,
+        "source": "https://www.bilibili.com/video/av488130183"
+      },
+      {
+        "text": "楼主后来超频了吗 我哥您一样配置，只能到3700，延迟在63ns",
+        "like": 1,
+        "source": "https://www.bilibili.com/video/av488130183"
+      },
+      {
+        "text": "vkc后缀就是cjr吗？",
+        "like": 1,
+        "source": "https://www.bilibili.com/video/av522720662"
+      },
+      {
+        "text": "哪里买的，为啥测不出产地",
+        "like": 0,
+        "source": "https://www.bilibili.com/video/av522720662"
+      }
+    ],
+    "sources": [
+      {
+        "title": "【2026年618内存条推荐】等等党的胜利？200-1000元以上价位，包含DDR4||DDR5内存条，哪几款更值得入手？七彩虹、阿斯加特、金士顿、金百达等",
+        "url": "https://www.bilibili.com/video/av116753367571342",
+        "from": "B站"
+      },
+      {
+        "title": "我朴实无华 但是我内芯强大 金百达32G DDR4 3600MHz 128G 全网唯一首发测评",
+        "url": "https://www.bilibili.com/video/av488130183",
+        "from": "B站"
+      },
+      {
+        "title": "2*32G金百达银爵DDR4 3600 海力士CJR上机，台风显示。",
+        "url": "https://www.bilibili.com/video/av522720662",
+        "from": "B站"
+      }
+    ]
+  },
+  "ram-d5-16": {
+    "name": "金百达 白刃 16GB(8G×2) DDR5 6000",
+    "fetchedAt": "2026-07-13",
+    "comments": [
+      {
+        "text": "开头说适合AMD使用，后面都是用intel平台测的[吃瓜]",
+        "like": 51,
+        "source": "https://www.bilibili.com/video/av1306256366"
+      },
+      {
+        "text": "买了，xmp都开不了",
+        "like": 12,
+        "source": "https://www.bilibili.com/video/av1306256366"
+      },
+      {
+        "text": "价格侠来了，金百达这个白刃618做活动比星刃便宜，还带RGB，999 星刃没有活动，1039 [doge]",
+        "like": 10,
+        "source": "https://www.bilibili.com/video/av1205639371"
+      },
+      {
+        "text": "我用的就是金百达刃海力士A 代颗粒6800频率。",
+        "like": 7,
+        "source": "https://www.bilibili.com/video/av1306256366"
+      },
+      {
+        "text": "颗粒一样时序一样漂频率一样，金百达星刃和白刃和阿斯加特女武神这仨哪个好",
+        "like": 4,
+        "source": "https://www.bilibili.com/video/av1205639371"
+      },
+      {
+        "text": "黑刃不行，都是用的边角料颗粒，顶多开xmp6800，超到7200c36吃鸡都闪退",
+        "like": 4,
+        "source": "https://www.bilibili.com/video/av1205639371"
+      }
+    ],
+    "sources": [
+      {
+        "title": "618 D5内存选购指南-金百达DDR5 6800 48G M-die星刃和白刃有什么区别",
+        "url": "https://www.bilibili.com/video/av1205639371",
+        "from": "B站"
+      },
+      {
+        "title": "金百达DDR5 6800白刃：性能与颜值双重升级！",
+        "url": "https://www.bilibili.com/video/av115773880145572",
+        "from": "B站"
+      },
+      {
+        "title": "C28超低时序！AMD装机升级推荐丨海力士A-die颗粒、轻松OC7000Mhz+丨金百达刃DDR5 6000 C28 16x2 32G内存条测试分享【艾说】",
+        "url": "https://www.bilibili.com/video/av1306256366",
+        "from": "B站"
+      }
+    ]
+  },
+  "ram-d5-32": {
+    "name": "金百达 白刃 32GB(16G×2) DDR5 6000 C30",
+    "fetchedAt": "2026-07-13",
+    "comments": [
+      {
+        "text": "开头说适合AMD使用，后面都是用intel平台测的[吃瓜]",
+        "like": 51,
+        "source": "https://www.bilibili.com/video/av1306256366"
+      },
+      {
+        "text": "买了，xmp都开不了",
+        "like": 12,
+        "source": "https://www.bilibili.com/video/av1306256366"
+      },
+      {
+        "text": "价格侠来了，金百达这个白刃618做活动比星刃便宜，还带RGB，999 星刃没有活动，1039 [doge]",
+        "like": 10,
+        "source": "https://www.bilibili.com/video/av1205639371"
+      },
+      {
+        "text": "我用的就是金百达刃海力士A 代颗粒6800频率。",
+        "like": 7,
+        "source": "https://www.bilibili.com/video/av1306256366"
+      },
+      {
+        "text": "颗粒一样时序一样漂频率一样，金百达星刃和白刃和阿斯加特女武神这仨哪个好",
+        "like": 4,
+        "source": "https://www.bilibili.com/video/av1205639371"
+      },
+      {
+        "text": "黑刃不行，都是用的边角料颗粒，顶多开xmp6800，超到7200c36吃鸡都闪退",
+        "like": 4,
+        "source": "https://www.bilibili.com/video/av1205639371"
+      }
+    ],
+    "sources": [
+      {
+        "title": "金百达DDR5 6800白刃：性能与颜值双重升级！",
+        "url": "https://www.bilibili.com/video/av115773880145572",
+        "from": "B站"
+      },
+      {
+        "title": "618 D5内存选购指南-金百达DDR5 6800 48G M-die星刃和白刃有什么区别",
+        "url": "https://www.bilibili.com/video/av1205639371",
+        "from": "B站"
+      },
+      {
+        "title": "C28超低时序！AMD装机升级推荐丨海力士A-die颗粒、轻松OC7000Mhz+丨金百达刃DDR5 6000 C28 16x2 32G内存条测试分享【艾说】",
+        "url": "https://www.bilibili.com/video/av1306256366",
+        "from": "B站"
+      }
+    ]
+  },
+  "ram-d5-48": {
+    "name": "芝奇 幻锋戟 48GB(24G×2) DDR5 6400",
+    "fetchedAt": "2026-07-13",
+    "comments": [
+      {
+        "text": "新马甲模具都能一直用一套，真就换色，大概率还是保温马甲",
+        "like": 58,
+        "source": "https://www.bilibili.com/video/av113362927095484"
+      },
+      {
+        "text": "芝奇同样的价钱可以买到 影驰ADIE 科赋AIDE 光威AIDE 金百达ADIE 这些做好一点散热基本都是7600随便超 摸到好体质的内存 CPU+主板OK 7800-8000都轻松，芝奇除了这个品牌没有一点可参考价值 因为现在内存大掉价时代 DDR4独占的BDIE不同 国产也好 原厂小绿条小黑条也好 都已经便宜到不行且能超 为什么我要花差不多1000买个Mdie？",
+        "like": 42,
+        "source": "https://www.bilibili.com/video/av312670752"
+      },
+      {
+        "text": "不超频啥颗粒都没区别，厂家质保又不变。再一个除了一些FPS游戏比较吃内存，其他游戏内存的提升小的可以忽略，7200c34和6000c30基本没差距。就算是FPS游戏，最重要的还是cpu和显卡，这两个够用，基础频率上去了，内存差的那十几二十帧真的看不出来。300帧和320帧你能看出来？",
+        "like": 30,
+        "source": "https://www.bilibili.com/video/av312670752"
+      },
+      {
+        "text": "我也是这个芝奇幻锋戟DDR5 6400 C32 16G*2 超到7000 32-46-46-58 ce2",
+        "like": 25,
+        "source": "https://www.bilibili.com/video/av312670752"
+      },
+      {
+        "text": "审美还得是芝奇，天天白色白色，跟塑料一样，廉价又低级",
+        "like": 21,
+        "source": "https://www.bilibili.com/video/av113362927095484"
+      },
+      {
+        "text": "简介这么多废话，直接写颗粒还有频率时序不会？拿颗粒向电路板上焊再套个壳壳，有什么可介绍的。",
+        "like": 19,
+        "source": "https://www.bilibili.com/video/av113362927095484"
+      }
+    ],
+    "sources": [
+      {
+        "title": "芝奇幻锋戟6400c32开箱，海力士mdie也不错？",
+        "url": "https://www.bilibili.com/video/av312670752",
+        "from": "B站"
+      },
+      {
+        "title": "芝奇幻锋戟RGB内存条大降价！32GB DDR5 6400仅899元，RGB灯效+1.4V低电压",
+        "url": "https://www.bilibili.com/video/av114696095011862",
+        "from": "B站"
+      },
+      {
+        "title": "芝奇全新旗舰「幻锋CK系列」DDR5 CU-DIMM 内存，曜黑登场。",
+        "url": "https://www.bilibili.com/video/av113362927095484",
+        "from": "B站"
+      }
+    ]
+  },
+  "ram-d5-64": {
+    "name": "金百达 黑刃 64GB(32G×2) DDR5 6000",
+    "fetchedAt": "2026-07-13",
+    "comments": [
+      {
+        "text": "ddr5纸面数据是要强很多，但目前实机表现并没有比ddr4好，如果追求高性能，可能会失望，尤其现在价格还普遍很贵。 ddr4刚出那会儿比ddr3也没好到哪儿去，所以现在入手ddr5，装新机预算充足或者遇到高性价比的，可以考虑。本来就是ddr4的话，说实话目前升级ddr5没啥好处。",
+        "like": 142,
+        "source": "https://www.bilibili.com/video/av946171928"
+      },
+      {
+        "text": "D5贵 金百达:无所谓，我会出手",
+        "like": 100,
+        "source": "https://www.bilibili.com/video/av946171928"
+      },
+      {
+        "text": "呜呜呜，大家买铭瑄的主板一定不要买金百达的内存了，它们不兼容呜呜呜，我自己搞了半天也没点亮，就去问客服了，客服说不兼容金百达[大哭][大哭] 你们谁要金百达的内存条啊，999买了俩ddr5 6000，16g。我连点亮都没有啊，这个能卖多少啊[大哭]",
+        "like": 24,
+        "source": "https://www.bilibili.com/video/av946171928"
+      },
+      {
+        "text": "金百达的刃系列咋说 d5 6400频率16*2 拼夕夕700拿下[doge]",
+        "like": 10,
+        "source": "https://www.bilibili.com/video/av569583111"
+      },
+      {
+        "text": "[doge]别人都在发78x3d",
+        "like": 8,
+        "source": "https://www.bilibili.com/video/av569583111"
+      },
+      {
+        "text": "我的银爵 6000 开了 amd 超频的设置就蓝屏只能跑默频 4800 别买加点钱买别的一分钱一分货",
+        "like": 6,
+        "source": "https://www.bilibili.com/video/av569583111"
+      },
+      {
+        "text": "我倆个刃D5，16X2灯光，当年才700多，现在抢钱呢",
+        "like": 4,
+        "source": "https://www.bilibili.com/video/av116753367571342"
+      },
+      {
+        "text": "有出台式机DDR5 16G或者24G的吗？[笑哭]",
+        "like": 1,
+        "source": "https://www.bilibili.com/video/av116753367571342"
+      }
+    ],
+    "sources": [
+      {
+        "title": "DDR5内存时代来了？ 380元金百达DDR5 6000 8GX2银爵内存开箱",
+        "url": "https://www.bilibili.com/video/av946171928",
+        "from": "B站"
+      },
+      {
+        "title": "【2026年618内存条推荐】等等党的胜利？200-1000元以上价位，包含DDR4||DDR5内存条，哪几款更值得入手？七彩虹、阿斯加特、金士顿、金百达等",
+        "url": "https://www.bilibili.com/video/av116753367571342",
+        "from": "B站"
+      },
+      {
+        "title": "【开箱】金百达 银爵 DDR5 16Gx2 6000 C30，是时候入手DDR5内存了？",
+        "url": "https://www.bilibili.com/video/av569583111",
+        "from": "B站"
+      }
+    ]
+  },
+  "ram-d5-96": {
+    "name": "芝奇 皇家戟 96GB(48G×2) DDR5 6400",
+    "fetchedAt": "2026-07-13",
+    "comments": [
+      {
+        "text": "芝奇的做工不敢恭维，导光条松动，导热垫贴合度低，6400-6800的混用颗粒",
+        "like": 54,
+        "source": "https://www.bilibili.com/video/av1956200505"
+      },
+      {
+        "text": "[脱单doge]外观还是一样的熟悉，不折腾7200 xmp直接用了",
+        "like": 35,
+        "source": "https://www.bilibili.com/video/av1956200505"
+      },
+      {
+        "text": "是真的好看，这个内存[doge]",
+        "like": 27,
+        "source": "https://www.bilibili.com/video/av1956200505"
+      },
+      {
+        "text": "芝奇的条子看编号就知道颗粒。。10B就是三星B，芝奇可以说是最良心的了，颗粒公开。。。买什么就看你了",
+        "like": 20,
+        "source": "https://www.bilibili.com/video/av676466189"
+      },
+      {
+        "text": "幻光戟3200 C14 超到4000 C16",
+        "like": 15,
+        "source": "https://www.bilibili.com/video/av676466189"
+      },
+      {
+        "text": "买芝奇的，不都是冲着外观去的么？追求性能的话不要芝奇，太贵了。",
+        "like": 13,
+        "source": "https://www.bilibili.com/video/av676466189"
+      }
+    ],
+    "sources": [
+      {
+        "title": "特挑-芝奇‘垃圾之王’焰光戟3600C16，勿盲信品牌。累了就上DDR5 12代吧",
+        "url": "https://www.bilibili.com/video/av676466189",
+        "from": "B站"
+      },
+      {
+        "title": "首发推荐！芝奇皇家戟 Trident Z5 Royal DDR5",
+        "url": "https://www.bilibili.com/video/av1956200505",
+        "from": "B站"
+      }
+    ]
   }
 }
