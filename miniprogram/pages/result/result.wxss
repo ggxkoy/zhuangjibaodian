@@ -43,6 +43,16 @@ page { padding-top: 24rpx; }
 .verdict.stable, .verdict.normal { background: #f2f3f7; color: #86909c; }
 .hist { font-size: 21rpx; color: #86909c; }
 
+.review { margin-top: 18rpx; padding-top: 18rpx; border-top: 2rpx dashed #eef0f4; }
+.rv-head { font-size: 25rpx; font-weight: 600; color: #4e5969; margin-bottom: 8rpx; }
+.rv-meta { font-weight: 400; font-size: 21rpx; color: #86909c; margin-left: 8rpx; }
+.rv-summary { font-size: 24rpx; color: #4e5969; line-height: 1.6; margin-bottom: 8rpx; }
+.rv-item { font-size: 23rpx; line-height: 1.7; }
+.rv-item.pro { color: #0a8f4d; }
+.rv-item.con { color: #b25e00; }
+.rv-item.pit { color: #fa5151; font-weight: 500; }
+.rv-suit { font-size: 22rpx; color: #86909c; margin-top: 6rpx; }
+
 .ai-card { border: 3rpx solid #e3ddff; background: linear-gradient(180deg, #faf9ff, #fff); }
 .powered { font-size: 20rpx; font-weight: 400; color: #86909c; }
 .advice { font-size: 26rpx; color: #4e5969; line-height: 1.75; white-space: pre-wrap; }

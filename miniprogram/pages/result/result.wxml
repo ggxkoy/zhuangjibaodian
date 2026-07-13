@@ -37,6 +37,16 @@
     <text class="verdict {{p.verdict.level}}">{{p.verdict.label}}</text>
     <text class="hist">{{p.hist}}</text>
   </view>
+  <view class="review" wx:if="{{p.review}}">
+    <view class="rv-head">🗣️ 真实口碑
+      <text class="rv-meta">{{p.review.sampleCount}} 条社区评论{{p.review.confidence === 'low' ? ' · 样本较少仅供参考' : ''}}</text>
+    </view>
+    <view class="rv-summary" wx:if="{{p.review.summary}}">{{p.review.summary}}</view>
+    <view class="rv-item pro" wx:for="{{p.review.pros}}" wx:key="*this" wx:for-item="t">✓ {{t}}</view>
+    <view class="rv-item con" wx:for="{{p.review.cons}}" wx:key="*this" wx:for-item="t">− {{t}}</view>
+    <view class="rv-item pit" wx:for="{{p.review.pitfalls}}" wx:key="*this" wx:for-item="t">⚠ {{t}}</view>
+    <view class="rv-suit" wx:if="{{p.review.suitFor}}">适合：{{p.review.suitFor}}</view>
+  </view>
 </view>
 
 <view class="card ai-card" wx:if="{{aiEnabled && advice}}">

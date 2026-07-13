@@ -207,6 +207,7 @@ function renderPlan(plan) {
         <div class="buy-links"></div>
       </div>
       <div class="trend-row" hidden></div>
+      ${p.review ? renderReviewBlock(p.review) : ''}
     </div>`).join('');
 
   // 装机经验参考（本地经验库，无需任何凭据）
@@ -238,6 +239,23 @@ async function loadAiReview(plan) {
   } catch (e) {
     textEl.textContent = '点评暂不可用：' + e.message;
   }
+}
+
+// 真实口碑折叠区：来自社区评论的提炼卡片（人工审核过），带样本量与原帖溯源
+function renderReviewBlock(r) {
+  const li = (arr, cls, mark) => (arr || []).map(t => `<li class="rv-${cls}">${mark} ${escapeHtml(t)}</li>`).join('');
+  const srcs = (r.sources || []).map(s =>
+    `<a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.from)}·${escapeHtml(s.title.slice(0, 18))}…</a>`).join(' ');
+  return `
+  <details class="review-block">
+    <summary>🗣️ 真实口碑 <span class="rv-meta">${r.sampleCount} 条社区评论 · ${r.updatedAt}${r.confidence === 'low' ? ' · 样本较少仅供参考' : ''}</span></summary>
+    ${r.summary ? `<p class="rv-summary">${escapeHtml(r.summary)}</p>` : ''}
+    <ul class="rv-list">
+      ${li(r.pros, 'pro', '✓')}${li(r.cons, 'con', '−')}${li(r.pitfalls, 'pit', '⚠')}
+    </ul>
+    ${r.suitFor ? `<p class="rv-suit">适合：${escapeHtml(r.suitFor)}</p>` : ''}
+    <p class="rv-src">来源：${srcs}</p>
+  </details>`;
 }
 
 // 迷你价格走势折线图（近一年，日级数据点）

@@ -9,8 +9,8 @@ const ROOT = path.join(__dirname, '..');
 const DEST = path.join(ROOT, 'cloudfunctions', 'zhuangji');
 
 // llm-advisor 不进云函数（云开发版 AI 走小程序端 wx.cloud.extend.AI）
-const LIB_FILES = ['recommender.js', 'price-service.js', 'price-history.js', 'knowledge.js', 'boss-prompts.js'];
-const DATA_FILES = ['parts.json', 'knowledge.json', 'price-history.json'];
+const LIB_FILES = ['recommender.js', 'price-service.js', 'price-history.js', 'knowledge.js', 'boss-prompts.js', 'reviews.js'];
+const DATA_FILES = ['parts.json', 'knowledge.json', 'price-history.json', 'reviews.json'];
 
 for (const [dir, files] of [['lib', LIB_FILES], ['data', DATA_FILES]]) {
   fs.mkdirSync(path.join(DEST, dir), { recursive: true });

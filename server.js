@@ -8,6 +8,7 @@ const path = require('path');
 const { recommend } = require('./lib/recommender');
 const { getPrices, configuredPlatforms } = require('./lib/price-service');
 const { tipsForBuild, allKnowledge } = require('./lib/knowledge');
+const { attachReviews } = require('./lib/reviews');
 const advisor = require('./lib/llm-advisor');
 
 const PORT = process.env.PORT || 3000;
@@ -65,7 +66,10 @@ const server = http.createServer(async (req, res) => {
         return sendJson(res, 400, { error: '请输入有效预算（1 ~ 500000 元）' });
       }
       const plan = recommend(budget, usage, exclude);
-      if (!plan.error) plan.tips = tipsForBuild(plan);
+      if (!plan.error) {
+        plan.tips = tipsForBuild(plan);
+        attachReviews(plan);
+      }
       return sendJson(res, plan.error ? 422 : 200, plan);
     }
 

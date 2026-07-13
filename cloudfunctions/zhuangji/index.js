@@ -11,6 +11,7 @@
 const { recommend } = require('./lib/recommender');
 const { getPrices, configuredPlatforms } = require('./lib/price-service');
 const { tipsForBuild, allKnowledge } = require('./lib/knowledge');
+const { attachReviews } = require('./lib/reviews');
 const prompts = require('./lib/boss-prompts');
 
 exports.main = async (event = {}) => {
@@ -28,6 +29,7 @@ exports.main = async (event = {}) => {
         const plan = recommend(budget, event.usage || 'gaming', Array.isArray(event.exclude) ? event.exclude : []);
         if (plan.error) return { ok: false, error: plan.error };
         plan.tips = tipsForBuild(plan);
+        attachReviews(plan);
         return { ok: true, plan };
       }
 

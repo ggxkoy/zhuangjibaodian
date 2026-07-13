@@ -166,6 +166,26 @@ body {
 .verdict-badge.stable, .verdict-badge.normal { background: #f2f3f7; color: var(--text-2); }
 .hist-info { font-size: 10.5px; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* 真实口碑 */
+.review-block {
+  margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eef0f4;
+  font-size: 12.5px;
+}
+.review-block summary {
+  cursor: pointer; font-weight: 600; color: #4e5969; list-style: none;
+}
+.review-block summary::-webkit-details-marker { display: none; }
+.rv-meta { font-weight: 400; font-size: 11px; color: var(--text-2); margin-left: 4px; }
+.rv-summary { color: #4e5969; line-height: 1.6; margin: 8px 0 6px; }
+.rv-list { list-style: none; margin: 4px 0; }
+.rv-list li { line-height: 1.7; }
+.rv-pro { color: #0a8f4d; }
+.rv-con { color: #b25e00; }
+.rv-pit { color: var(--red); font-weight: 500; }
+.rv-suit { color: var(--text-2); margin-top: 4px; }
+.rv-src { margin-top: 6px; font-size: 11px; color: var(--text-2); }
+.rv-src a { color: #6b87c4; text-decoration: none; margin-right: 6px; }
+
 .result-actions { display: flex; gap: 10px; margin-top: 16px; }
 .btn-secondary {
   flex: 1; border: 1.5px solid #e5e6eb; background: var(--card);

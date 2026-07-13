@@ -1,0 +1,36 @@
+{
+  "gpu-rtx5060": {
+    "summary": "入门丐版定位：便宜是真便宜，用料缩水也是真缩水；搭老主板务必先刷 BIOS。",
+    "pros": [
+      "价格实惠，同档里定价激进"
+    ],
+    "cons": [
+      "丐版用料：热管直触 + 塑料背板",
+      "散热与噪音表现缺乏充分实测数据"
+    ],
+    "pitfalls": [
+      "搭配老主板开机黑屏是大范围现象，需先把主板 BIOS 刷到最新；用无核显 CPU 且没有亮机卡的新手会卡死在排障上"
+    ],
+    "suitFor": "预算有限、主板较新（或会刷 BIOS）的入门玩家",
+    "confidence": "low",
+    "sampleCount": 8,
+    "sources": [
+      {
+        "title": "微星RTX5060万图师发布，性能表现力究竟如何？",
+        "url": "https://www.bilibili.com/video/av115258819609643",
+        "from": "B站"
+      },
+      {
+        "title": "巴掌大小 正反塑料 微星5060万图师显卡开箱 黑屏",
+        "url": "https://www.bilibili.com/video/av114619976779238",
+        "from": "B站"
+      },
+      {
+        "title": "微星万图师5060显卡开箱及测试",
+        "url": "https://www.bilibili.com/video/av114743826189527",
+        "from": "B站"
+      }
+    ],
+    "updatedAt": "2026-07-12"
+  }
+}

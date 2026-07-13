@@ -27,6 +27,7 @@ DeepSeek 大模型，免服务器/免备案/免 API key），也可一键切回�
 - **AI 装机顾问（DeepSeek）**：自然语言描述需求（"我有张 2080Ti，8000 配一套跑 UE5 的平台"）自动解析成预算/用途/特殊约束；方案生成后给出"老板娘点评"——合理性、风险、该不该现在买
 - **老板娘多轮对话**：右下角"👩‍💼 问老板娘"，电脑城老板娘人设的问答（H5 与小程序均有）。人设铁律：只聊装机、价格只引用系统比价数据绝不编造、拿不准直说；对话自动携带当前方案与各件价位判定作为上下文，可以追问"内存现在能买吗""这套换个白色机箱"
 - **装机经验库**：内置图拉丁吧等社区沉淀的实战共识，按方案零件/平台/用途匹配展示最相关的几条，同时作为 AI 点评的知识上下文
+- **真实口碑**：三层管道把社区真实评论变成零件卡片上的"口碑折叠区"（优点/缺点/翻车点/适合人群，带样本量、置信度、原帖溯源链接），并注入老板娘上下文——`fetch-reviews`（抓 B 站评测视频高赞评论+清洗去水）→ `digest-reviews`（DeepSeek 提炼，只依据评论不编造）→ `approve-reviews`（人工审核闸门，审过才生效）
 
 ## 项目结构
 
@@ -42,6 +43,10 @@ data/price-history.json   # 价格历史（天级数据点，运行时持续追�
 data/knowledge.json       # 装机经验条目（社区共识，人工维护）
 scripts/seed-history.js   # 从公开行情报道推算的品类级历史基线生成器
 scripts/fetch-knowledge.js# 多源经验线索抓取（B站专栏/图拉丁吧，候选供人工筛选）
+lib/reviews.js            # 口碑卡片数据服务
+scripts/fetch-reviews.js  # 口碑管道1：抓社区评论+清洗去水 -> reviews-inbox
+scripts/digest-reviews.js # 口碑管道2：DeepSeek 提炼口碑卡片 -> reviews-pending
+scripts/approve-reviews.js# 口碑管道3：人工审核入库 -> reviews.json 生效
 public/                   # H5 前端（原生 HTML/CSS/JS，小程序风格）
 miniprogram/              # 原生微信小程序（双模式：云开发/自建后端）
 cloudfunctions/zhuangji/  # 微信云开发云函数（lib/data 由 sync-cloud.js 同步，勿直改）
