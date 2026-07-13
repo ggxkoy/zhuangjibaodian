@@ -38,7 +38,7 @@
   </view>
 
   <!-- 常驻输入（对话式确立需求，打字是主要交互） -->
-  <view class="input-bar" catchtap>
+  <view class="input-bar" catchtap="onSwallow">
     <input value="{{input}}" bindinput="onInput" bindconfirm="onSend" confirm-type="send"
       maxlength="300" placeholder="跟{{bossName}}说说：预算多少、拿来干啥…" />
     <button class="send" catchtap="onSend" disabled="{{waiting}}">发送</button>
@@ -46,7 +46,7 @@
 
   <!-- 自定义老板娘 -->
   <view class="backlog" wx:if="{{panelOpen}}" catchtap="onClosePanel">
-    <view class="bl-panel" catchtap>
+    <view class="bl-panel" catchtap="onSwallow">
       <view class="bl-title">更换店主<text class="bl-close" catchtap="onClosePanel">✕</text></view>
       <scroll-view class="char-list" scroll-y>
         <view class="char-item {{curId === item.id ? 'cur' : ''}}" wx:for="{{presets}}" wx:key="id"
@@ -71,7 +71,7 @@
 
   <!-- 回想（对话记录） -->
   <view class="backlog" wx:if="{{backlogOpen}}" catchtap="onCloseBacklog">
-    <view class="bl-panel" catchtap>
+    <view class="bl-panel" catchtap="onSwallow">
       <view class="bl-title">对话记录<text class="bl-close" catchtap="onCloseBacklog">✕</text></view>
       <scroll-view class="bl-list" scroll-y scroll-into-view="{{scrollInto}}">
         <view class="bl-item {{item.role}}" wx:for="{{backlog}}" wx:key="id" id="{{item.id}}">

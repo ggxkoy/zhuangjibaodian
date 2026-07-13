@@ -198,7 +198,8 @@ Page({
     if (this.queue.length) this.step();
   },
 
-  onSpriteErr() { this.setData({ hasSprite: false }); },
+  // 仅阻止遮罩内部点击冒泡，不触发任何业务逻辑。
+  onSwallow() {},
 
   // ---------- 输入与选项 ----------
   onInput(e) { this.setData({ input: e.detail.value }); },

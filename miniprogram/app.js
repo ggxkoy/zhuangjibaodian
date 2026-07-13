@@ -13,7 +13,7 @@
 App({
   globalData: {
     mode: 'cloud',
-    cloudEnv: '',
+    cloudEnv: 'cloud1-d2gf7m4m8eebee14e',
     apiBase: 'http://127.0.0.1:3000',
     config: { deepseek: false, platforms: {} },
     plan: null,
