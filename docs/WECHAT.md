@@ -62,11 +62,50 @@ curl "http://localhost:3000/api/recommend?budget=2000&usage=gaming"
 4. 文件树右键 `cloudfunctions/zhuangji` →「上传并部署：云端安装依赖」（本函数零依赖，秒级完成）。
 5. 编译运行。AI 能力要求基础库 ≥ 3.7.1（`project.config.json` 已指定）。
 
+### 微信内置 DeepSeek（`wx.cloud.extend.AI`）使用说明
+
+这是云开发模式下老板娘/需求解析/点评的 AI 通道，**不走任何自建服务、不需要 DeepSeek 开放平台的 key**，
+由微信云开发直接提供模型接入、按 token 计费（新环境有免费额度）。
+
+**本项目的调用链**（验证 AI 问题先看这条链）：
+
+```
+页面（index/result/chat）
+  └─ miniprogram/utils/ai.js        ← AI 双模式分发，云模式的核心在 cloudAiText()
+       ├─ cloudCall('prompts', {plan})   → 云函数下发人设+方案上下文（boss-prompts 同源）
+       └─ wx.cloud.extend.AI.createModel('deepseek')
+            └─ model.streamText({ data: { model: 'deepseek-v3', messages } })
+                 └─ for await (chunk of res.textStream) 逐段收流，收完整段返回
+```
+
+**前置条件**（缺一不可，也是排错顺序）：
+
+1. 真实 AppID + 已开通云开发环境（`wx.cloud.init` 在 `app.js` 的 `onLaunch` 里执行）；
+2. 基础库 ≥ **3.7.1**——`project.config.json` 已指定 `libVersion: 3.7.1`，但开发者工具里
+   「详情 → 本地设置 → 调试基础库」需要确认切到 ≥ 3.7.1，否则 `wx.cloud.extend` 为 undefined；
+3. 云开发控制台若提示开通「AI 能力」/确认计费协议，需点一次同意（部分环境版本首次调用前需要）。
+
+**常见报错对照**：
+
+| 现象 | 原因 | 处理 |
+|------|------|------|
+| `wx.cloud.extend is undefined` / `AI is undefined` | 调试基础库低于 3.7.1 | 开发者工具切换调试基础库 |
+| `cloud.init` 报错 / `env check invalid` | 未开通云开发或 `cloudEnv` 填错 | 核对环境 ID，或留空用默认环境 |
+| `Insufficient balance` / 配额类错误 | 免费额度用尽 | 云开发控制台 AI 用量页充值或换环境 |
+| 对话页回复「哎呀店里网卡了：…」 | 上述任一错误被 UI 捕获后的展示 | 打开调试器 Console 看原始错误 |
+| 游客模式下 AI 卡片不出现 | 游客模式不支持云能力 | 换真实 AppID |
+
+**可调项**：模型名在 `miniprogram/utils/ai.js` 的 `cloudAiText()` 里（`deepseek-v3`，
+可换 `deepseek-r1` 获得推理增强、代价是更慢更贵）；人设与提示词在 `lib/boss-prompts.js`
+（改后运行 `node scripts/sync-cloud.js` 并重新上传云函数）。当前实现是收完整段再显示，
+`res.textStream` 本身支持逐字流式，将来做打字机效果不需要改调用方式。
+
 ### 云开发模式验收清单
 
 - [ ] 出方案/比价/走势判定/经验参考全部正常（数据走云函数，模拟器 Network 面板无 `wx.request`，只有 `callFunction`）
 - [ ] 首页 AI 卡片和「👩‍💼 问老板娘」按钮**默认可见**（云开发模式 AI 恒可用）
-- [ ] 对话页发送「内存现在能买吗」→ 收到老板娘口吻回复（走 `wx.cloud.extend.AI`，控制台无自建域名请求）
+- [ ] 对话页发送「内存现在能买吗」→ 收到老板娘口吻回复（走 `wx.cloud.extend.AI`，控制台无自建域名请求）；
+      若失败，按上一节「常见报错对照」逐条排查，优先检查调试基础库版本
 - [ ] 云函数控制台可见 `zhuangji` 的调用日志
 - [ ] 边界：云函数文件系统只读，价格历史不追加（走势判定基于内置基线），属预期；
       电商联盟凭据若要启用，配在云函数控制台「环境变量」
