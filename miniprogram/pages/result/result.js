@@ -118,7 +118,12 @@ Page({
     }
   },
 
-  onChat() { wx.navigateTo({ url: '/pages/chat/chat' }); },
+  onChat() {
+    const pages = getCurrentPages();
+    const prev = pages[pages.length - 2];
+    if (prev && prev.route.includes('chat')) return wx.navigateBack();
+    wx.navigateTo({ url: '/pages/chat/chat' });
+  },
 
   onBack() { wx.navigateBack(); }
 });

@@ -1,11 +1,12 @@
 .chat-page { display: flex; flex-direction: column; height: 100vh; }
-.msgs { flex: 1; padding: 24rpx 20rpx 10rpx; box-sizing: border-box; }
+.msgs { flex: 1; padding: 24rpx 20rpx 0; box-sizing: border-box; }
+.msgs-bottom-pad { height: 20rpx; }
 .msg { display: flex; align-items: flex-end; gap: 14rpx; margin-bottom: 22rpx; }
 .msg.user { flex-direction: row-reverse; }
 .avatar { font-size: 42rpx; }
 .bubble {
   max-width: 78%; padding: 16rpx 24rpx; border-radius: 26rpx;
-  font-size: 27rpx; line-height: 1.6; word-break: break-all;
+  font-size: 27rpx; line-height: 1.6; word-break: break-all; white-space: pre-wrap;
   background: #fff; color: #1f2329; border-bottom-left-radius: 8rpx;
 }
 .msg.user .bubble {
@@ -13,6 +14,34 @@
   border-bottom-left-radius: 26rpx; border-bottom-right-radius: 8rpx;
 }
 .typing { color: #86909c; }
+
+/* 配置单卡片（消息流内） */
+.plan-card {
+  max-width: 82%; background: #fff; border-radius: 26rpx; border-bottom-left-radius: 8rpx;
+  padding: 24rpx 28rpx; box-shadow: 0 4rpx 20rpx rgba(43, 111, 255, 0.12);
+  border: 3rpx solid #dce7ff;
+}
+.pc-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8rpx; }
+.pc-tag {
+  background: #eaf1ff; color: #2b6fff; font-size: 21rpx; font-weight: 600;
+  padding: 4rpx 16rpx; border-radius: 999rpx;
+}
+.pc-budget { font-size: 21rpx; color: #86909c; }
+.pc-total { font-size: 44rpx; font-weight: 800; color: #1f2329; margin-bottom: 12rpx; }
+.pc-line { font-size: 24rpx; color: #4e5969; line-height: 1.8; }
+.pc-more {
+  margin-top: 14rpx; padding-top: 14rpx; border-top: 2rpx dashed #eef0f4;
+  font-size: 24rpx; color: #2b6fff; font-weight: 600;
+}
+
+/* 快捷选项 */
+.chips-row { display: flex; flex-wrap: wrap; gap: 12rpx; margin: -6rpx 0 22rpx 56rpx; }
+.qchip {
+  background: #fff; border: 3rpx solid #dce7ff; color: #2b6fff;
+  font-size: 24rpx; padding: 10rpx 24rpx; border-radius: 999rpx;
+}
+.qchip:active { background: #eaf1ff; }
+
 .input-row {
   display: flex; gap: 14rpx; padding: 16rpx 20rpx calc(16rpx + env(safe-area-inset-bottom));
   background: #fff; border-top: 2rpx solid #f2f3f7;

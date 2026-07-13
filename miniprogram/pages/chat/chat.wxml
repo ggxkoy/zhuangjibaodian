@@ -1,17 +1,42 @@
 <view class="chat-page">
   <scroll-view class="msgs" scroll-y scroll-into-view="{{scrollInto}}" scroll-with-animation>
-    <view class="msg {{m.role}}" wx:for="{{messages}}" wx:key="id" wx:for-item="m" id="{{m.id}}">
-      <text class="avatar" wx:if="{{m.role === 'assistant'}}">👩‍💼</text>
-      <text class="bubble">{{m.content}}</text>
-    </view>
+    <block wx:for="{{messages}}" wx:key="id" wx:for-item="m" wx:for-index="idx">
+
+      <view wx:if="{{m.type === 'text'}}" class="msg {{m.role}}" id="{{m.id}}">
+        <text class="avatar" wx:if="{{m.role === 'assistant'}}">👩‍💼</text>
+        <text class="bubble">{{m.content}}</text>
+      </view>
+
+      <view wx:elif="{{m.type === 'plan'}}" class="msg assistant" id="{{m.id}}">
+        <text class="avatar">👩‍💼</text>
+        <view class="plan-card" data-idx="{{idx}}" bindtap="onOpenPlan">
+          <view class="pc-head">
+            <text class="pc-tag">{{m.plan.usageLabel}}配置</text>
+            <text class="pc-budget">预算 ¥{{m.plan.budget}}</text>
+          </view>
+          <view class="pc-total">¥{{m.plan.total}}</view>
+          <view class="pc-line" wx:for="{{m.keyParts}}" wx:key="id" wx:for-item="kp">
+            {{kp.icon}} {{kp.name}}
+          </view>
+          <view class="pc-more">查看完整配置单（{{m.plan.parts.length}} 件）→</view>
+        </view>
+      </view>
+
+      <view wx:elif="{{m.type === 'chips'}}" class="chips-row" id="{{m.id}}">
+        <view class="qchip" wx:for="{{m.chips}}" wx:key="*this" data-t="{{item}}" bindtap="onChip">{{item}}</view>
+      </view>
+
+    </block>
     <view class="msg assistant" wx:if="{{pending}}" id="typing">
       <text class="avatar">👩‍💼</text>
-      <text class="bubble typing">正在打字…</text>
+      <text class="bubble typing">正在盘算…</text>
     </view>
+    <view class="msgs-bottom-pad"></view>
   </scroll-view>
+
   <view class="input-row">
     <input value="{{input}}" bindinput="onInput" bindconfirm="onSend" confirm-type="send"
-      maxlength="300" placeholder="问点啥？内存现在能买吗…" />
+      maxlength="300" placeholder="预算多少？干啥用？直接说～" />
     <button class="send" bindtap="onSend" disabled="{{pending}}">发送</button>
   </view>
 </view>
