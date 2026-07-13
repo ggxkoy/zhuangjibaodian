@@ -1,4 +1,5 @@
-const { request } = require('../../utils/api');
+const { getRecommend, getPrices } = require('../../utils/api');
+const { reviewBuild } = require('../../utils/ai');
 
 const PLATFORM_NAMES = { jd: '京东', taobao: '淘宝', pdd: '拼多多', ref: '参考价' };
 
@@ -41,8 +42,7 @@ Page({
   async loadPrices(plan) {
     this.setData({ priceStatus: '正在拉取京东 / 淘宝 / 拼多多最低价…', priceStatusLevel: '' });
     try {
-      const ids = plan.parts.map(p => p.id).join(',');
-      const data = await request('/api/prices?ids=' + ids);
+      const data = await getPrices(plan.parts.map(p => p.id));
       let live = 0, total = 0, high = 0, deal = 0;
       const parts = this.data.parts.map(p => {
         const q = data.prices.find(x => x.partId === p.id);
@@ -82,13 +82,10 @@ Page({
 
   async loadReview(plan) {
     if (!this.data.aiEnabled) return;
-    this.setData({ advice: '顾问正在看你的配置单…' });
+    this.setData({ advice: '老板娘正在看你的配置单…' });
     try {
-      const data = await request('/api/review', {
-        method: 'POST',
-        data: { plan, note: getApp().globalData.aiNote }
-      });
-      this.setData({ advice: data.advice });
+      const advice = await reviewBuild(plan, getApp().globalData.aiNote);
+      this.setData({ advice });
     } catch (e) {
       this.setData({ advice: '点评暂不可用：' + e.message });
     }
@@ -108,8 +105,7 @@ Page({
     const plan = this.data.plan;
     this.setData({ regenLoading: true });
     try {
-      const exclude = app.globalData.excludeHistory.join(',');
-      const next = await request(`/api/recommend?budget=${plan.budget}&usage=${plan.usage}&exclude=${exclude}`);
+      const next = await getRecommend(plan.budget, plan.usage, app.globalData.excludeHistory);
       app.globalData.plan = next;
       [next.keyIds.cpu, next.keyIds.gpu].filter(Boolean)
         .forEach(id => app.globalData.excludeHistory.push(id));

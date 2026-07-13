@@ -3,13 +3,17 @@
 > 本文档面向接手验证的工程师/AI 代理（Codex）：目标是把装机宝典在微信端跑起来并逐项验收。
 > 后端零依赖（Node.js ≥ 16 即可），所有验证不需要任何付费凭据。
 
-## 一、三条微信端路径
+## 一、四条微信端路径
 
 | 路径 | 适用 | 改造量 | 前置条件 |
 |------|------|--------|----------|
-| A. 微信内 H5 | 最快验证/分享 | 零改造 | 公网 HTTPS 域名 |
+| **D. 云开发（推荐，纯小程序生态）** | 免服务器/免备案/免 API key | 已完成 | 开通微信云开发（有免费额度） |
+| A. 微信内 H5 | 最快验证/分享 | 零改造 | 公网 HTTPS 域名 + 自建服务器 |
 | B. 小程序 web-view 壳 | 已有 H5 想套壳 | 一个页面 | **仅企业主体**小程序支持 web-view；域名需 HTTPS + ICP 备案 + 业务域名校验 |
-| C. 原生小程序（`miniprogram/`，已提供） | 个人主体可上线 | 已完成 | 本地验证零门槛；上线需备案域名 |
+| C. 原生小程序 + 自建后端 | 想自己控后端 | 已完成 | 本地验证零门槛；上线需备案域名 |
+
+小程序代码是**双模式**的：`miniprogram/app.js` 里 `globalData.mode` 切换
+`'cloud'`（云开发，默认）/ `'server'`（自建后端），页面代码不感知差异。
 
 ## 二、后端冒烟测试（先做这个）
 
@@ -42,15 +46,37 @@ curl "http://localhost:3000/api/recommend?budget=2000&usage=gaming"
 可选：配置 `DEEPSEEK_API_KEY=sk-xxx` 重启后，第 3 步 `deepseek` 应为 `true`，
 第 4 步应返回 `{ budget, usage, note }` 结构化解析结果。
 
-## 三、路径 C：原生小程序验证（重点）
+## 三、路径 D：微信云开发（重点，纯小程序生态）
 
-### 本地跑通（微信开发者工具）
+整套后端逻辑打包成云函数 `cloudfunctions/zhuangji`（与 `lib/` 同源，
+改动后运行 `node scripts/sync-cloud.js` 同步）；老板娘/需求解析/点评走
+**云开发内置大模型** `wx.cloud.extend.AI`（DeepSeek，微信直接提供，无需申请任何 API key）。
 
-1. 安装[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)。
-2. 本机启动后端：`node server.js`。
-3. 开发者工具 →「导入项目」→ 目录选仓库下的 **`miniprogram/`** → AppID 选「测试号」（游客模式即可，无需注册）。
-4. `project.config.json` 已设 `urlCheck: false`（等价于「详情 → 本地设置 → 不校验合法域名」），
-   `app.js` 里 `apiBase` 默认 `http://127.0.0.1:3000`，模拟器可直连本机服务，**无需任何修改**。
+### 部署步骤（微信开发者工具）
+
+1. 安装[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)，
+  「导入项目」→ 目录选**仓库根目录**（`project.config.json` 已配置
+   `miniprogramRoot` + `cloudfunctionRoot`）。云开发需要真实 AppID（个人主体可注册），游客模式不支持云能力。
+2. 工具栏点「云开发」→ 开通（选按量付费，有免费额度）→ 记下环境 ID。
+3. `miniprogram/app.js` → `globalData.cloudEnv` 填环境 ID（只有一个环境可留空）；`mode` 保持 `'cloud'`。
+4. 文件树右键 `cloudfunctions/zhuangji` →「上传并部署：云端安装依赖」（本函数零依赖，秒级完成）。
+5. 编译运行。AI 能力要求基础库 ≥ 3.7.1（`project.config.json` 已指定）。
+
+### 云开发模式验收清单
+
+- [ ] 出方案/比价/走势判定/经验参考全部正常（数据走云函数，模拟器 Network 面板无 `wx.request`，只有 `callFunction`）
+- [ ] 首页 AI 卡片和「👩‍💼 问老板娘」按钮**默认可见**（云开发模式 AI 恒可用）
+- [ ] 对话页发送「内存现在能买吗」→ 收到老板娘口吻回复（走 `wx.cloud.extend.AI`，控制台无自建域名请求）
+- [ ] 云函数控制台可见 `zhuangji` 的调用日志
+- [ ] 边界：云函数文件系统只读，价格历史不追加（走势判定基于内置基线），属预期；
+      电商联盟凭据若要启用，配在云函数控制台「环境变量」
+
+## 三点五、路径 C：原生小程序 + 自建后端
+
+1. 本机启动后端：`node server.js`。
+2. `miniprogram/app.js` → `mode` 改为 `'server'`；AppID 可用「测试号」（游客模式即可）。
+3. `project.config.json` 已设 `urlCheck: false`（等价于「详情 → 本地设置 → 不校验合法域名」），
+   `apiBase` 默认 `http://127.0.0.1:3000`，模拟器可直连本机服务。
 
 ### 模拟器验收清单
 

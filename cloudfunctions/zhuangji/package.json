@@ -1,0 +1,6 @@
+{
+  "name": "zhuangji",
+  "version": "1.0.0",
+  "description": "装机宝典云函数（零依赖）",
+  "main": "index.js"
+}

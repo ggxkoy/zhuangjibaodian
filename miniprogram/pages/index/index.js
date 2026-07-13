@@ -1,4 +1,5 @@
-const { request } = require('../../utils/api');
+const { getRecommend } = require('../../utils/api');
+const { parseRequirement } = require('../../utils/ai');
 
 const USAGES = [
   { key: 'gaming', icon: '🎮', name: '游戏', desc: '3A大作 / 电竞网游' },
@@ -35,7 +36,7 @@ Page({
     if (!text) return this.setData({ aiNote: '先描述一下你的需求~' });
     this.setData({ loading: true, aiNote: 'AI 解析中…' });
     try {
-      const p = await request('/api/parse', { method: 'POST', data: { text } });
+      const p = await parseRequirement(text);
       const usageName = (USAGES.find(u => u.key === p.usage) || {}).name || p.usage;
       getApp().globalData.aiNote = p.note || '';
       this.setData({
@@ -62,7 +63,7 @@ Page({
     if (!budget || budget < 1000) return this.setData({ errMsg: '请输入有效预算（至少 1000 元）' });
     this.setData({ errMsg: '' });
     try {
-      const plan = await request(`/api/recommend?budget=${budget}&usage=${this.data.usage}`);
+      const plan = await getRecommend(budget, this.data.usage);
       const app = getApp();
       app.globalData.plan = plan;
       app.globalData.excludeHistory = [plan.keyIds.cpu, plan.keyIds.gpu].filter(Boolean);

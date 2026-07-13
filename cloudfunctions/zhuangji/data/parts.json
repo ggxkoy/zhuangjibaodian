@@ -1,0 +1,803 @@
+{
+  "cpu": [
+    {
+      "id": "cpu-i3-12100f",
+      "name": "Intel 酷睿 i3-12100F",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "cores": "4核8线程",
+      "tdp": 89,
+      "hasIGPU": false,
+      "game": 42,
+      "work": 30,
+      "refPrice": 529,
+      "jdSku": "",
+      "keyword": "i3-12100F 散片"
+    },
+    {
+      "id": "cpu-i3-12100",
+      "name": "Intel 酷睿 i3-12100",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "cores": "4核8线程",
+      "tdp": 89,
+      "hasIGPU": true,
+      "game": 42,
+      "work": 30,
+      "refPrice": 649,
+      "jdSku": "",
+      "keyword": "i3-12100"
+    },
+    {
+      "id": "cpu-i5-12400f",
+      "name": "Intel 酷睿 i5-12400F",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "cores": "6核12线程",
+      "tdp": 117,
+      "hasIGPU": false,
+      "game": 52,
+      "work": 44,
+      "refPrice": 749,
+      "jdSku": "",
+      "keyword": "i5-12400F"
+    },
+    {
+      "id": "cpu-i5-12400",
+      "name": "Intel 酷睿 i5-12400",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "cores": "6核12线程",
+      "tdp": 117,
+      "hasIGPU": true,
+      "game": 52,
+      "work": 44,
+      "refPrice": 899,
+      "jdSku": "",
+      "keyword": "i5-12400"
+    },
+    {
+      "id": "cpu-i5-12600kf",
+      "name": "Intel 酷睿 i5-12600KF",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "cores": "10核16线程",
+      "tdp": 150,
+      "hasIGPU": false,
+      "game": 60,
+      "work": 58,
+      "refPrice": 1099,
+      "jdSku": "",
+      "keyword": "i5-12600KF"
+    },
+    {
+      "id": "cpu-i5-14600kf",
+      "name": "Intel 酷睿 i5-14600KF",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "cores": "14核20线程",
+      "tdp": 181,
+      "hasIGPU": false,
+      "game": 68,
+      "work": 72,
+      "refPrice": 1599,
+      "jdSku": "",
+      "keyword": "i5-14600KF"
+    },
+    {
+      "id": "cpu-i7-14700kf",
+      "name": "Intel 酷睿 i7-14700KF",
+      "brand": "Intel",
+      "socket": "LGA1700",
+      "cores": "20核28线程",
+      "tdp": 253,
+      "hasIGPU": false,
+      "game": 74,
+      "work": 86,
+      "refPrice": 2399,
+      "jdSku": "",
+      "keyword": "i7-14700KF"
+    },
+    {
+      "id": "cpu-ultra5-235",
+      "name": "Intel 酷睿 Ultra 5 235",
+      "brand": "Intel",
+      "socket": "LGA1851",
+      "cores": "14核14线程",
+      "tdp": 121,
+      "hasIGPU": true,
+      "game": 66,
+      "work": 74,
+      "refPrice": 1699,
+      "jdSku": "",
+      "keyword": "酷睿 Ultra5 235"
+    },
+    {
+      "id": "cpu-ultra7-265k",
+      "name": "Intel 酷睿 Ultra 7 265K",
+      "brand": "Intel",
+      "socket": "LGA1851",
+      "cores": "20核20线程",
+      "tdp": 250,
+      "hasIGPU": true,
+      "game": 75,
+      "work": 92,
+      "refPrice": 2299,
+      "jdSku": "",
+      "keyword": "酷睿 Ultra7 265K"
+    },
+    {
+      "id": "cpu-ultra9-285k",
+      "name": "Intel 酷睿 Ultra 9 285K",
+      "brand": "Intel",
+      "socket": "LGA1851",
+      "cores": "24核24线程",
+      "tdp": 250,
+      "hasIGPU": true,
+      "game": 79,
+      "work": 100,
+      "refPrice": 4099,
+      "jdSku": "",
+      "keyword": "酷睿 Ultra9 285K"
+    },
+    {
+      "id": "cpu-r5-4600g",
+      "name": "AMD 锐龙 R5 4600G",
+      "brand": "AMD",
+      "socket": "AM4",
+      "cores": "6核12线程",
+      "tdp": 65,
+      "hasIGPU": true,
+      "game": 35,
+      "work": 32,
+      "refPrice": 499,
+      "jdSku": "",
+      "keyword": "锐龙 4600G"
+    },
+    {
+      "id": "cpu-r5-5600",
+      "name": "AMD 锐龙 R5 5600",
+      "brand": "AMD",
+      "socket": "AM4",
+      "cores": "6核12线程",
+      "tdp": 76,
+      "hasIGPU": false,
+      "game": 48,
+      "work": 40,
+      "refPrice": 599,
+      "jdSku": "",
+      "keyword": "锐龙 5600"
+    },
+    {
+      "id": "cpu-r5-5600g",
+      "name": "AMD 锐龙 R5 5600G",
+      "brand": "AMD",
+      "socket": "AM4",
+      "cores": "6核12线程",
+      "tdp": 65,
+      "hasIGPU": true,
+      "game": 45,
+      "work": 38,
+      "refPrice": 699,
+      "jdSku": "",
+      "keyword": "锐龙 5600G"
+    },
+    {
+      "id": "cpu-r5-7500f",
+      "name": "AMD 锐龙 R5 7500F",
+      "brand": "AMD",
+      "socket": "AM5",
+      "cores": "6核12线程",
+      "tdp": 88,
+      "hasIGPU": false,
+      "game": 58,
+      "work": 50,
+      "refPrice": 999,
+      "jdSku": "",
+      "keyword": "锐龙 7500F"
+    },
+    {
+      "id": "cpu-r5-8600g",
+      "name": "AMD 锐龙 R5 8600G",
+      "brand": "AMD",
+      "socket": "AM5",
+      "cores": "6核12线程",
+      "tdp": 65,
+      "hasIGPU": true,
+      "game": 52,
+      "work": 46,
+      "refPrice": 1249,
+      "jdSku": "",
+      "keyword": "锐龙 8600G"
+    },
+    {
+      "id": "cpu-r7-7700",
+      "name": "AMD 锐龙 R7 7700",
+      "brand": "AMD",
+      "socket": "AM5",
+      "cores": "8核16线程",
+      "tdp": 88,
+      "hasIGPU": true,
+      "game": 63,
+      "work": 64,
+      "refPrice": 1599,
+      "jdSku": "",
+      "keyword": "锐龙 7700"
+    },
+    {
+      "id": "cpu-r7-7800x3d",
+      "name": "AMD 锐龙 R7 7800X3D",
+      "brand": "AMD",
+      "socket": "AM5",
+      "cores": "8核16线程",
+      "tdp": 120,
+      "hasIGPU": true,
+      "game": 82,
+      "work": 62,
+      "refPrice": 2499,
+      "jdSku": "",
+      "keyword": "锐龙 7800X3D"
+    },
+    {
+      "id": "cpu-r7-9700x",
+      "name": "AMD 锐龙 R7 9700X",
+      "brand": "AMD",
+      "socket": "AM5",
+      "cores": "8核16线程",
+      "tdp": 88,
+      "hasIGPU": true,
+      "game": 68,
+      "work": 70,
+      "refPrice": 2099,
+      "jdSku": "",
+      "keyword": "锐龙 9700X"
+    },
+    {
+      "id": "cpu-r7-9800x3d",
+      "name": "AMD 锐龙 R7 9800X3D",
+      "brand": "AMD",
+      "socket": "AM5",
+      "cores": "8核16线程",
+      "tdp": 120,
+      "hasIGPU": true,
+      "game": 92,
+      "work": 68,
+      "refPrice": 3399,
+      "jdSku": "",
+      "keyword": "锐龙 9800X3D"
+    },
+    {
+      "id": "cpu-r9-9900x",
+      "name": "AMD 锐龙 R9 9900X",
+      "brand": "AMD",
+      "socket": "AM5",
+      "cores": "12核24线程",
+      "tdp": 120,
+      "hasIGPU": true,
+      "game": 72,
+      "work": 88,
+      "refPrice": 2899,
+      "jdSku": "",
+      "keyword": "锐龙 9900X"
+    },
+    {
+      "id": "cpu-r9-9950x",
+      "name": "AMD 锐龙 R9 9950X",
+      "brand": "AMD",
+      "socket": "AM5",
+      "cores": "16核32线程",
+      "tdp": 170,
+      "hasIGPU": true,
+      "game": 76,
+      "work": 100,
+      "refPrice": 4399,
+      "jdSku": "",
+      "keyword": "锐龙 9950X"
+    }
+  ],
+  "motherboard": [
+    {
+      "id": "mb-h610m",
+      "name": "微星 PRO H610M-E DDR4",
+      "socket": "LGA1700",
+      "ramType": "DDR4",
+      "formFactor": "MATX",
+      "refPrice": 429,
+      "jdSku": "",
+      "keyword": "微星 H610M DDR4"
+    },
+    {
+      "id": "mb-b760m-d4",
+      "name": "华硕 PRIME B760M-K D4",
+      "socket": "LGA1700",
+      "ramType": "DDR4",
+      "formFactor": "MATX",
+      "refPrice": 699,
+      "jdSku": "",
+      "keyword": "华硕 B760M-K D4"
+    },
+    {
+      "id": "mb-b760m-d5",
+      "name": "微星 B760M MORTAR 迫击炮 DDR5",
+      "socket": "LGA1700",
+      "ramType": "DDR5",
+      "formFactor": "MATX",
+      "refPrice": 899,
+      "jdSku": "",
+      "keyword": "微星 B760M 迫击炮 DDR5"
+    },
+    {
+      "id": "mb-z790",
+      "name": "微星 Z790 TOMAHAWK 战斧导弹",
+      "socket": "LGA1700",
+      "ramType": "DDR5",
+      "formFactor": "ATX",
+      "refPrice": 1599,
+      "jdSku": "",
+      "keyword": "微星 Z790 战斧"
+    },
+    {
+      "id": "mb-b860m",
+      "name": "华硕 TUF B860M-PLUS 重炮手",
+      "socket": "LGA1851",
+      "ramType": "DDR5",
+      "formFactor": "MATX",
+      "refPrice": 1099,
+      "jdSku": "",
+      "keyword": "华硕 B860M 重炮手"
+    },
+    {
+      "id": "mb-z890",
+      "name": "微星 MPG Z890 EDGE 刀锋",
+      "socket": "LGA1851",
+      "ramType": "DDR5",
+      "formFactor": "ATX",
+      "refPrice": 2399,
+      "jdSku": "",
+      "keyword": "微星 Z890 刀锋"
+    },
+    {
+      "id": "mb-a520m",
+      "name": "华擎 A520M-HDV",
+      "socket": "AM4",
+      "ramType": "DDR4",
+      "formFactor": "MATX",
+      "refPrice": 349,
+      "jdSku": "",
+      "keyword": "华擎 A520M"
+    },
+    {
+      "id": "mb-b550m",
+      "name": "微星 B550M PRO-VDH WIFI",
+      "socket": "AM4",
+      "ramType": "DDR4",
+      "formFactor": "MATX",
+      "refPrice": 549,
+      "jdSku": "",
+      "keyword": "微星 B550M"
+    },
+    {
+      "id": "mb-a620m",
+      "name": "华硕 PRIME A620M-K",
+      "socket": "AM5",
+      "ramType": "DDR5",
+      "formFactor": "MATX",
+      "refPrice": 549,
+      "jdSku": "",
+      "keyword": "华硕 A620M"
+    },
+    {
+      "id": "mb-b650m",
+      "name": "微星 B650M MORTAR 迫击炮 WIFI",
+      "socket": "AM5",
+      "ramType": "DDR5",
+      "formFactor": "MATX",
+      "refPrice": 849,
+      "jdSku": "",
+      "keyword": "微星 B650M 迫击炮"
+    },
+    {
+      "id": "mb-b850m",
+      "name": "华硕 TUF B850M-PLUS 重炮手 WIFI",
+      "socket": "AM5",
+      "ramType": "DDR5",
+      "formFactor": "MATX",
+      "refPrice": 1199,
+      "jdSku": "",
+      "keyword": "华硕 B850M 重炮手"
+    },
+    {
+      "id": "mb-x870",
+      "name": "微星 MPG X870 EDGE 刀锋 WIFI",
+      "socket": "AM5",
+      "ramType": "DDR5",
+      "formFactor": "ATX",
+      "refPrice": 1999,
+      "jdSku": "",
+      "keyword": "微星 X870 刀锋"
+    }
+  ],
+  "gpu": [
+    {
+      "id": "gpu-rx6500xt",
+      "name": "盈通 RX 6500 XT 大地之神 4G",
+      "vram": "4GB",
+      "power": 107,
+      "game": 30,
+      "work": 20,
+      "refPrice": 899,
+      "jdSku": "",
+      "keyword": "盈通 RX6500XT"
+    },
+    {
+      "id": "gpu-rtx3050",
+      "name": "七彩虹 RTX 3050 Ultra 8G",
+      "vram": "8GB",
+      "power": 130,
+      "game": 38,
+      "work": 32,
+      "refPrice": 1399,
+      "jdSku": "",
+      "keyword": "七彩虹 RTX3050 8G"
+    },
+    {
+      "id": "gpu-arc-b580",
+      "name": "英特尔 锐炫 Arc B580 12G",
+      "vram": "12GB",
+      "power": 190,
+      "game": 46,
+      "work": 40,
+      "refPrice": 1999,
+      "jdSku": "",
+      "keyword": "英特尔 Arc B580"
+    },
+    {
+      "id": "gpu-rtx4060",
+      "name": "七彩虹 RTX 4060 战斧 8G",
+      "vram": "8GB",
+      "power": 115,
+      "game": 48,
+      "work": 44,
+      "refPrice": 2199,
+      "jdSku": "",
+      "keyword": "七彩虹 RTX4060 战斧"
+    },
+    {
+      "id": "gpu-rtx5060",
+      "name": "微星 RTX 5060 万图师 8G",
+      "vram": "8GB",
+      "power": 145,
+      "game": 56,
+      "work": 52,
+      "refPrice": 2449,
+      "jdSku": "",
+      "keyword": "微星 RTX5060 万图师"
+    },
+    {
+      "id": "gpu-rx9060xt",
+      "name": "蓝宝石 RX 9060 XT 白金版 16G",
+      "vram": "16GB",
+      "power": 180,
+      "game": 62,
+      "work": 50,
+      "refPrice": 2899,
+      "jdSku": "",
+      "keyword": "蓝宝石 RX9060XT 16G"
+    },
+    {
+      "id": "gpu-rtx5060ti",
+      "name": "七彩虹 RTX 5060 Ti Ultra 16G",
+      "vram": "16GB",
+      "power": 180,
+      "game": 64,
+      "work": 60,
+      "refPrice": 3499,
+      "jdSku": "",
+      "keyword": "七彩虹 RTX5060Ti 16G"
+    },
+    {
+      "id": "gpu-rx9070",
+      "name": "蓝宝石 RX 9070 极地版 16G",
+      "vram": "16GB",
+      "power": 220,
+      "game": 74,
+      "work": 62,
+      "refPrice": 4299,
+      "jdSku": "",
+      "keyword": "蓝宝石 RX9070"
+    },
+    {
+      "id": "gpu-rtx5070",
+      "name": "微星 RTX 5070 万图师 12G",
+      "vram": "12GB",
+      "power": 250,
+      "game": 76,
+      "work": 74,
+      "refPrice": 4599,
+      "jdSku": "",
+      "keyword": "微星 RTX5070 万图师"
+    },
+    {
+      "id": "gpu-rx9070xt",
+      "name": "蓝宝石 RX 9070 XT 超白金 16G",
+      "vram": "16GB",
+      "power": 304,
+      "game": 82,
+      "work": 68,
+      "refPrice": 5399,
+      "jdSku": "",
+      "keyword": "蓝宝石 RX9070XT 超白金"
+    },
+    {
+      "id": "gpu-rtx5070ti",
+      "name": "七彩虹 RTX 5070 Ti Advanced 16G",
+      "vram": "16GB",
+      "power": 300,
+      "game": 85,
+      "work": 84,
+      "refPrice": 6299,
+      "jdSku": "",
+      "keyword": "七彩虹 RTX5070Ti"
+    },
+    {
+      "id": "gpu-rtx5080",
+      "name": "华硕 TUF RTX 5080 16G",
+      "vram": "16GB",
+      "power": 360,
+      "game": 94,
+      "work": 92,
+      "refPrice": 8699,
+      "jdSku": "",
+      "keyword": "华硕 TUF RTX5080"
+    },
+    {
+      "id": "gpu-rtx5090d",
+      "name": "微星 RTX 5090D 超龙 32G",
+      "vram": "32GB",
+      "power": 575,
+      "game": 100,
+      "work": 100,
+      "refPrice": 16999,
+      "jdSku": "",
+      "keyword": "微星 RTX5090D 超龙"
+    }
+  ],
+  "ram": [
+    {
+      "id": "ram-d4-16",
+      "name": "金百达 银爵 16GB(8G×2) DDR4 3200",
+      "type": "DDR4",
+      "capacity": 16,
+      "refPrice": 899,
+      "jdSku": "",
+      "keyword": "金百达 银爵 DDR4 3200 16G"
+    },
+    {
+      "id": "ram-d4-32",
+      "name": "金百达 银爵 32GB(16G×2) DDR4 3600",
+      "type": "DDR4",
+      "capacity": 32,
+      "refPrice": 1699,
+      "jdSku": "",
+      "keyword": "金百达 DDR4 3600 32G"
+    },
+    {
+      "id": "ram-d5-16",
+      "name": "金百达 白刃 16GB(8G×2) DDR5 6000",
+      "type": "DDR5",
+      "capacity": 16,
+      "refPrice": 1999,
+      "jdSku": "",
+      "keyword": "金百达 白刃 DDR5 6000 16G"
+    },
+    {
+      "id": "ram-d5-32",
+      "name": "金百达 白刃 32GB(16G×2) DDR5 6000 C30",
+      "type": "DDR5",
+      "capacity": 32,
+      "refPrice": 3899,
+      "jdSku": "",
+      "keyword": "金百达 白刃 DDR5 6000 32G"
+    },
+    {
+      "id": "ram-d5-48",
+      "name": "芝奇 幻锋戟 48GB(24G×2) DDR5 6400",
+      "type": "DDR5",
+      "capacity": 48,
+      "refPrice": 4699,
+      "jdSku": "",
+      "keyword": "芝奇 幻锋戟 DDR5 6400 48G"
+    },
+    {
+      "id": "ram-d5-64",
+      "name": "金百达 黑刃 64GB(32G×2) DDR5 6000",
+      "type": "DDR5",
+      "capacity": 64,
+      "refPrice": 5099,
+      "jdSku": "",
+      "keyword": "金百达 DDR5 6000 64G"
+    },
+    {
+      "id": "ram-d5-96",
+      "name": "芝奇 皇家戟 96GB(48G×2) DDR5 6400",
+      "type": "DDR5",
+      "capacity": 96,
+      "refPrice": 7999,
+      "jdSku": "",
+      "keyword": "芝奇 皇家戟 DDR5 96G"
+    }
+  ],
+  "ssd": [
+    {
+      "id": "ssd-512",
+      "name": "致态 TiPlus5000 512GB NVMe",
+      "capacity": "512GB",
+      "refPrice": 599,
+      "jdSku": "",
+      "keyword": "致态 TiPlus5000 512G"
+    },
+    {
+      "id": "ssd-1t",
+      "name": "致态 TiPlus7100 1TB PCIe4.0",
+      "capacity": "1TB",
+      "refPrice": 1199,
+      "jdSku": "",
+      "keyword": "致态 TiPlus7100 1TB"
+    },
+    {
+      "id": "ssd-2t",
+      "name": "致态 TiPlus7100 2TB PCIe4.0",
+      "capacity": "2TB",
+      "refPrice": 1799,
+      "jdSku": "",
+      "keyword": "致态 TiPlus7100 2TB"
+    },
+    {
+      "id": "ssd-4t",
+      "name": "三星 990 PRO 4TB PCIe4.0",
+      "capacity": "4TB",
+      "refPrice": 3999,
+      "jdSku": "",
+      "keyword": "三星 990PRO 4TB"
+    }
+  ],
+  "psu": [
+    {
+      "id": "psu-450",
+      "name": "航嘉 WD450 额定450W",
+      "watts": 450,
+      "refPrice": 199,
+      "jdSku": "",
+      "keyword": "航嘉 WD450"
+    },
+    {
+      "id": "psu-550",
+      "name": "长城 HOPE-6000DS 额定550W",
+      "watts": 550,
+      "refPrice": 279,
+      "jdSku": "",
+      "keyword": "长城 550W 电源"
+    },
+    {
+      "id": "psu-650",
+      "name": "微星 MAG A650BN 额定650W 铜牌",
+      "watts": 650,
+      "refPrice": 379,
+      "jdSku": "",
+      "keyword": "微星 A650BN"
+    },
+    {
+      "id": "psu-750",
+      "name": "振华 LEADEX III 750W 金牌全模",
+      "watts": 750,
+      "refPrice": 549,
+      "jdSku": "",
+      "keyword": "振华 LEADEX 750W"
+    },
+    {
+      "id": "psu-850",
+      "name": "海韵 FOCUS GX850 金牌全模 ATX3.0",
+      "watts": 850,
+      "refPrice": 749,
+      "jdSku": "",
+      "keyword": "海韵 GX850 ATX3.0"
+    },
+    {
+      "id": "psu-1000",
+      "name": "振华 LEADEX VII 1000W 金牌 ATX3.1",
+      "watts": 1000,
+      "refPrice": 999,
+      "jdSku": "",
+      "keyword": "振华 1000W ATX3.1"
+    },
+    {
+      "id": "psu-1200",
+      "name": "海韵 VERTEX GX-1200 金牌 ATX3.0",
+      "watts": 1200,
+      "refPrice": 1499,
+      "jdSku": "",
+      "keyword": "海韵 VERTEX 1200W"
+    }
+  ],
+  "cooler": [
+    {
+      "id": "cooler-ag400",
+      "name": "利民 AX120 R SE 单塔风冷",
+      "type": "风冷",
+      "maxTdp": 150,
+      "refPrice": 79,
+      "jdSku": "",
+      "keyword": "利民 AX120 R SE"
+    },
+    {
+      "id": "cooler-ak400",
+      "name": "九州风神 AK400 单塔风冷",
+      "type": "风冷",
+      "maxTdp": 190,
+      "refPrice": 129,
+      "jdSku": "",
+      "keyword": "九州风神 AK400"
+    },
+    {
+      "id": "cooler-pa120",
+      "name": "利民 PA120 SE 双塔风冷",
+      "type": "风冷",
+      "maxTdp": 245,
+      "refPrice": 219,
+      "jdSku": "",
+      "keyword": "利民 PA120 SE"
+    },
+    {
+      "id": "cooler-240",
+      "name": "瓦尔基里 E240 一体式水冷",
+      "type": "240水冷",
+      "maxTdp": 280,
+      "refPrice": 399,
+      "jdSku": "",
+      "keyword": "瓦尔基里 E240"
+    },
+    {
+      "id": "cooler-360",
+      "name": "九州风神 冰堡垒360 一体式水冷",
+      "type": "360水冷",
+      "maxTdp": 350,
+      "refPrice": 599,
+      "jdSku": "",
+      "keyword": "九州风神 冰堡垒360"
+    }
+  ],
+  "case": [
+    {
+      "id": "case-matx",
+      "name": "爱国者 YOGO M2 MATX机箱",
+      "fits": [
+        "MATX"
+      ],
+      "refPrice": 149,
+      "jdSku": "",
+      "keyword": "爱国者 YOGO M2"
+    },
+    {
+      "id": "case-atx",
+      "name": "先马 平头哥M1 ATX机箱",
+      "fits": [
+        "MATX",
+        "ATX"
+      ],
+      "refPrice": 199,
+      "jdSku": "",
+      "keyword": "先马 平头哥M1"
+    },
+    {
+      "id": "case-hai",
+      "name": "联力 包豪斯 O11 海景房机箱",
+      "fits": [
+        "MATX",
+        "ATX"
+      ],
+      "refPrice": 699,
+      "jdSku": "",
+      "keyword": "联力 O11 机箱"
+    }
+  ]
+}

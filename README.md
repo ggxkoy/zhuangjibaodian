@@ -11,8 +11,10 @@ node server.js
 # 打开 http://localhost:3000
 ```
 
-界面为移动端优先的小程序风格 H5；仓库同时提供**原生微信小程序**（`miniprogram/` 目录，
-微信开发者工具导入即可本地运行）。微信端三条路径与完整验收清单见 [docs/WECHAT.md](docs/WECHAT.md)。
+界面为移动端优先的小程序风格 H5；仓库同时提供**原生微信小程序**（`miniprogram/`），
+且小程序为双模式——默认走**微信云开发**（云函数 `cloudfunctions/zhuangji` + 云开发内置
+DeepSeek 大模型，免服务器/免备案/免 API key），也可一键切回自建后端。
+微信端四条路径与完整验收清单见 [docs/WECHAT.md](docs/WECHAT.md)。
 
 ## 功能
 
@@ -41,8 +43,10 @@ data/knowledge.json       # 装机经验条目（社区共识，人工维护）
 scripts/seed-history.js   # 从公开行情报道推算的品类级历史基线生成器
 scripts/fetch-knowledge.js# 多源经验线索抓取（B站专栏/图拉丁吧，候选供人工筛选）
 public/                   # H5 前端（原生 HTML/CSS/JS，小程序风格）
-miniprogram/              # 原生微信小程序（开发者工具导入即用）
-docs/WECHAT.md            # 微信端运行与验证指南（三条路径 + 验收清单）
+miniprogram/              # 原生微信小程序（双模式：云开发/自建后端）
+cloudfunctions/zhuangji/  # 微信云开发云函数（lib/data 由 sync-cloud.js 同步，勿直改）
+scripts/sync-cloud.js     # 同步 lib/ + data/ 到云函数目录
+docs/WECHAT.md            # 微信端运行与验证指南（四条路径 + 验收清单）
 ```
 
 ## API
