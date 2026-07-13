@@ -1,42 +1,61 @@
-<view class="chat-page">
-  <scroll-view class="msgs" scroll-y scroll-into-view="{{scrollInto}}" scroll-with-animation>
-    <block wx:for="{{messages}}" wx:key="id" wx:for-item="m" wx:for-index="idx">
+<view class="gal" bindtap="onAdvance">
 
-      <view wx:if="{{m.type === 'text'}}" class="msg {{m.role}}" id="{{m.id}}">
-        <text class="avatar" wx:if="{{m.role === 'assistant'}}">👩‍💼</text>
-        <text class="bubble">{{m.content}}</text>
-      </view>
-
-      <view wx:elif="{{m.type === 'plan'}}" class="msg assistant" id="{{m.id}}">
-        <text class="avatar">👩‍💼</text>
-        <view class="plan-card" data-idx="{{idx}}" bindtap="onOpenPlan">
-          <view class="pc-head">
-            <text class="pc-tag">{{m.plan.usageLabel}}配置</text>
-            <text class="pc-budget">预算 ¥{{m.plan.budget}}</text>
-          </view>
-          <view class="pc-total">¥{{m.plan.total}}</view>
-          <view class="pc-line" wx:for="{{m.keyParts}}" wx:key="id" wx:for-item="kp">
-            {{kp.icon}} {{kp.name}}
-          </view>
-          <view class="pc-more">查看完整配置单（{{m.plan.parts.length}} 件）→</view>
-        </view>
-      </view>
-
-      <view wx:elif="{{m.type === 'chips'}}" class="chips-row" id="{{m.id}}">
-        <view class="qchip" wx:for="{{m.chips}}" wx:key="*this" data-t="{{item}}" bindtap="onChip">{{item}}</view>
-      </view>
-
-    </block>
-    <view class="msg assistant" wx:if="{{pending}}" id="typing">
-      <text class="avatar">👩‍💼</text>
-      <text class="bubble typing">正在盘算…</text>
-    </view>
-    <view class="msgs-bottom-pad"></view>
-  </scroll-view>
-
-  <view class="input-row">
-    <input value="{{input}}" bindinput="onInput" bindconfirm="onSend" confirm-type="send"
-      maxlength="300" placeholder="预算多少？干啥用？直接说～" />
-    <button class="send" bindtap="onSend" disabled="{{pending}}">发送</button>
+  <!-- 舞台：立绘（含背景）；缺图降级为渐变场景 -->
+  <image wx:if="{{hasSprite}}" class="sprite {{typing ? 'talk' : ''}}" src="/assets/boss.png"
+    mode="aspectFill" binderror="onSpriteErr" />
+  <view wx:else class="stage-fallback">
+    <view class="fb-sky"></view>
+    <text class="fb-boss {{typing ? 'talk' : ''}}">👩‍💼</text>
   </view>
+
+  <!-- 当前方案面板（道具风，点开进明细） -->
+  <view class="plan-panel" wx:if="{{planMsg}}" catchtap="onOpenPlan">
+    <view class="pp-head">
+      <text class="pp-tag">{{planMsg.plan.usageLabel}}配置</text>
+      <text class="pp-total">¥{{planMsg.plan.total}}</text>
+    </view>
+    <view class="pp-line" wx:for="{{planMsg.keyParts}}" wx:key="id" wx:for-item="kp">{{kp.icon}} {{kp.name}}</view>
+    <view class="pp-more">查看完整配置单 →</view>
+  </view>
+
+  <!-- 选项肢（galgame 抉择） -->
+  <view class="choices" wx:if="{{choices.length && !backlogOpen}}">
+    <view class="choice" wx:for="{{choices}}" wx:key="*this" data-t="{{item}}" catchtap="onChoice">{{item}}</view>
+  </view>
+
+  <!-- 底部对话框 -->
+  <view class="dialog" catchtap="onAdvance">
+    <view class="name-tag">{{speaker === '我' ? '我' : '装机宝典 · 老板娘'}}</view>
+    <scroll-view class="line-box" scroll-y>
+      <text class="line">{{shownText}}</text><text class="adv" wx:if="{{hasMore && !typing}}">▼</text>
+      <text class="dots" wx:if="{{waiting}}">……</text>
+    </scroll-view>
+    <view class="tools">
+      <view class="tool" catchtap="onToggleInput">✏️</view>
+      <view class="tool" catchtap="onOpenBacklog">📜</view>
+    </view>
+  </view>
+
+  <!-- 自由输入（呼出式，保持沉浸） -->
+  <view class="input-mask" wx:if="{{inputOpen}}" catchtap="onToggleInput">
+    <view class="input-row" catchtap>
+      <input value="{{input}}" bindinput="onInput" bindconfirm="onSend" confirm-type="send" focus
+        maxlength="300" placeholder="预算多少？干啥用？直接说～" />
+      <button class="send" catchtap="onSend">发送</button>
+    </view>
+  </view>
+
+  <!-- 回想（对话记录） -->
+  <view class="backlog" wx:if="{{backlogOpen}}" catchtap="onCloseBacklog">
+    <view class="bl-panel" catchtap>
+      <view class="bl-title">对话记录<text class="bl-close" catchtap="onCloseBacklog">✕</text></view>
+      <scroll-view class="bl-list" scroll-y scroll-into-view="{{scrollInto}}">
+        <view class="bl-item {{item.role}}" wx:for="{{backlog}}" wx:key="id" id="{{item.id}}">
+          <text class="bl-name">{{item.role === 'user' ? '我' : '老板娘'}}</text>
+          <text class="bl-text">{{item.content}}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
 </view>
