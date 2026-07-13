@@ -40,8 +40,9 @@
 </view>
 
 <view class="card ai-card" wx:if="{{aiEnabled && advice}}">
-  <text class="card-title">🤖 AI 装机顾问点评 <text class="powered">by DeepSeek</text></text>
+  <text class="card-title">👩‍💼 老板娘点评 <text class="powered">by DeepSeek</text></text>
   <view class="advice">{{advice}}</view>
+  <button class="btn-chat" bindtap="onChat">💬 有疑问？进店问老板娘</button>
 </view>
 
 <view class="card" wx:if="{{plan.tips.length}}">

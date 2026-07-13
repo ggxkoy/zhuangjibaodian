@@ -23,6 +23,8 @@ Page({
     this.setData({ aiEnabled: !!getApp().globalData.config.deepseek });
   },
 
+  onChat() { wx.navigateTo({ url: '/pages/chat/chat' }); },
+
   onBudget(e) { this.setData({ budget: e.detail.value, errMsg: '' }); },
   onChip(e) { this.setData({ budget: e.currentTarget.dataset.v, errMsg: '' }); },
   onUsage(e) { this.setData({ usage: e.currentTarget.dataset.usage }); },

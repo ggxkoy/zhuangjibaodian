@@ -122,5 +122,7 @@ Page({
     }
   },
 
+  onChat() { wx.navigateTo({ url: '/pages/chat/chat' }); },
+
   onBack() { wx.navigateBack(); }
 });

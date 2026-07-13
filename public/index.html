@@ -91,7 +91,7 @@
       <section id="parts-list"></section>
 
       <section class="card ai-card" id="ai-review-card" hidden>
-        <h2 class="card-title">🤖 AI 装机顾问点评 <span class="powered">by DeepSeek</span></h2>
+        <h2 class="card-title">👩‍💼 老板娘点评 <span class="powered">by DeepSeek</span></h2>
         <p id="ai-review-text" class="ai-review-text">正在点评…</p>
       </section>
 
@@ -107,6 +107,20 @@
     </main>
 
     <footer class="footer">装机宝典 · 价格仅供参考，下单前请以平台页面为准</footer>
+
+    <!-- 老板娘对话 -->
+    <button id="chat-fab" class="chat-fab" hidden>👩‍💼<span>问老板娘</span></button>
+    <div id="chat-panel" class="chat-panel" hidden>
+      <div class="chat-header">
+        <span>👩‍💼 老板娘 <i class="chat-online">· 在线</i></span>
+        <button id="chat-close" class="chat-close">✕</button>
+      </div>
+      <div id="chat-msgs" class="chat-msgs"></div>
+      <div class="chat-input-row">
+        <input id="chat-input" type="text" maxlength="300" placeholder="问点啥？内存现在能买吗…">
+        <button id="chat-send" class="chat-send">发送</button>
+      </div>
+    </div>
   </div>
   <script src="app.js"></script>
 </body>

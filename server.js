@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const { recommend } = require('./lib/recommender');
 const { getPrices, configuredPlatforms } = require('./lib/price-service');
-const { tipsForBuild } = require('./lib/knowledge');
+const { tipsForBuild, allKnowledge } = require('./lib/knowledge');
 const advisor = require('./lib/llm-advisor');
 
 const PORT = process.env.PORT || 3000;
@@ -96,6 +96,31 @@ const server = http.createServer(async (req, res) => {
       }
       const advice = await advisor.reviewBuild(plan, tipsForBuild(plan, 8), priceNotes, note);
       return sendJson(res, 200, { advice });
+    }
+
+    // 老板娘多轮对话（DeepSeek + 方案上下文 + 经验库）
+    if (url.pathname === '/api/chat' && req.method === 'POST') {
+      if (!advisor.configured()) return sendJson(res, 501, { error: '未配置 DEEPSEEK_API_KEY，老板娘暂时不在店里' });
+      const { messages, plan } = await readJsonBody(req);
+      if (!Array.isArray(messages) || messages.length === 0) return sendJson(res, 400, { error: '缺少对话内容' });
+      // 只信任 user/assistant 两种角色，截断长度，防止客户端注入系统提示
+      const history = messages
+        .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+        .slice(-12)
+        .map(m => ({ role: m.role, content: m.content.slice(0, 600) }));
+      if (history.length === 0 || history[history.length - 1].role !== 'user') {
+        return sendJson(res, 400, { error: '最后一条应为用户消息' });
+      }
+      let priceNotes = {};
+      if (plan && Array.isArray(plan.parts) && plan.parts.length <= 20) {
+        const { prices } = await getPrices(plan.parts.map(p => p.id));
+        for (const q of prices) {
+          const v = q.history && q.history.verdict;
+          priceNotes[q.partId] = `当前最低约¥${q.price}${q.live ? '·实时' : '·参考价'}${v && v.label ? '·' + v.label : ''}`;
+        }
+      }
+      const reply = await advisor.bossChat(history, plan, priceNotes, allKnowledge());
+      return sendJson(res, 200, { reply });
     }
 
     if (url.pathname === '/api/prices') {

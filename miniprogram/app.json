@@ -1,5 +1,5 @@
 {
-  "pages": ["pages/index/index", "pages/result/result"],
+  "pages": ["pages/index/index", "pages/result/result", "pages/chat/chat"],
   "window": {
     "navigationBarTitleText": "装机宝典",
     "navigationBarBackgroundColor": "#ffffff",

@@ -46,6 +46,10 @@ page { padding-top: 24rpx; }
 .ai-card { border: 3rpx solid #e3ddff; background: linear-gradient(180deg, #faf9ff, #fff); }
 .powered { font-size: 20rpx; font-weight: 400; color: #86909c; }
 .advice { font-size: 26rpx; color: #4e5969; line-height: 1.75; white-space: pre-wrap; }
+.btn-chat {
+  margin-top: 22rpx; background: linear-gradient(135deg, #ff7eb3, #ff5586);
+  color: #fff; font-size: 27rpx; font-weight: 600; border-radius: 18rpx; padding: 4rpx 0;
+}
 
 .tip { font-size: 25rpx; color: #4e5969; line-height: 1.65; padding: 14rpx 0; border-bottom: 2rpx dashed #eef0f4; }
 .tip:last-child { border-bottom: none; }

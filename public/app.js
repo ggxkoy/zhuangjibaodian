@@ -10,11 +10,66 @@ const state = {
   aiNote: '' // AI 解析出的用户特殊需求，随点评请求传给顾问
 };
 
-// 探测服务端能力：配置了 DeepSeek 才显示 AI 入口
+// 探测服务端能力：配置了 DeepSeek 才显示 AI 入口和老板娘
 fetch('/api/config').then(r => r.json()).then(cfg => {
   state.aiEnabled = !!cfg.deepseek;
   $('#ai-input-card').hidden = !state.aiEnabled;
+  $('#chat-fab').hidden = !state.aiEnabled;
 }).catch(() => {});
+
+// ---------- 老板娘对话 ----------
+const GREETING = '来啦？配置上有啥拿不准的尽管问，姐给你说道说道～生成方案之后问，姐还能对着你的配置单聊。';
+state.chat = [{ role: 'assistant', content: GREETING }];
+let chatPending = false;
+
+function renderChat() {
+  $('#chat-msgs').innerHTML = state.chat.map(m =>
+    `<div class="chat-msg ${m.role}">${m.role === 'assistant' ? '<span class="chat-avatar">👩‍💼</span>' : ''}<span class="chat-bubble">${escapeHtml(m.content)}</span></div>`
+  ).join('') + (chatPending ? '<div class="chat-msg assistant"><span class="chat-avatar">👩‍💼</span><span class="chat-bubble chat-typing">正在打字…</span></div>' : '');
+  const box = $('#chat-msgs');
+  box.scrollTop = box.scrollHeight;
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+$('#chat-fab').addEventListener('click', () => {
+  $('#chat-panel').hidden = false;
+  $('#chat-fab').hidden = true;
+  renderChat();
+  $('#chat-input').focus();
+});
+$('#chat-close').addEventListener('click', () => {
+  $('#chat-panel').hidden = true;
+  $('#chat-fab').hidden = !state.aiEnabled;
+});
+
+async function sendChat() {
+  const input = $('#chat-input');
+  const text = input.value.trim();
+  if (!text || chatPending) return;
+  input.value = '';
+  state.chat.push({ role: 'user', content: text });
+  chatPending = true;
+  renderChat();
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: state.chat, plan: state.plan })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    state.chat.push({ role: 'assistant', content: data.reply });
+  } catch (e) {
+    state.chat.push({ role: 'assistant', content: '哎呀店里网卡了：' + e.message });
+  } finally {
+    chatPending = false;
+    renderChat();
+  }
+}
+$('#chat-send').addEventListener('click', sendChat);
+$('#chat-input').addEventListener('keydown', e => { if (e.key === 'Enter') sendChat(); });
 
 const PLATFORM_NAMES = { jd: '京东', taobao: '淘宝', pdd: '拼多多', ref: '参考价' };
 

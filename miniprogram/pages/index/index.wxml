@@ -41,3 +41,5 @@
 <view class="err" wx:if="{{errMsg}}">{{errMsg}}</view>
 <button class="btn-primary" bindtap="onGenerate" disabled="{{loading}}">{{loading ? '正在生成…' : '生成装机方案'}}</button>
 <view class="tip-line">价格实时拉取京东 / 淘宝 / 拼多多，取各平台最低价</view>
+
+<view class="chat-fab" wx:if="{{aiEnabled}}" bindtap="onChat">👩‍💼<text>问老板娘</text></view>

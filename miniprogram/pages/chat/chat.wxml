@@ -1,0 +1,17 @@
+<view class="chat-page">
+  <scroll-view class="msgs" scroll-y scroll-into-view="{{scrollInto}}" scroll-with-animation>
+    <view class="msg {{m.role}}" wx:for="{{messages}}" wx:key="id" wx:for-item="m" id="{{m.id}}">
+      <text class="avatar" wx:if="{{m.role === 'assistant'}}">👩‍💼</text>
+      <text class="bubble">{{m.content}}</text>
+    </view>
+    <view class="msg assistant" wx:if="{{pending}}" id="typing">
+      <text class="avatar">👩‍💼</text>
+      <text class="bubble typing">正在打字…</text>
+    </view>
+  </scroll-view>
+  <view class="input-row">
+    <input value="{{input}}" bindinput="onInput" bindconfirm="onSend" confirm-type="send"
+      maxlength="300" placeholder="问点啥？内存现在能买吗…" />
+    <button class="send" bindtap="onSend" disabled="{{pending}}">发送</button>
+  </view>
+</view>
