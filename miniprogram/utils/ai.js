@@ -6,6 +6,12 @@
 
 const { mode, serverRequest, cloudCall } = require('./api');
 
+// 当前店主角色（自定义老板娘）：只传人设相关字段
+function character() {
+  const ch = getApp().globalData.character;
+  return ch ? { name: ch.name, style: ch.style } : null;
+}
+
 async function cloudAiText(messages) {
   const model = wx.cloud.extend.AI.createModel('deepseek');
   const res = await model.streamText({
@@ -38,10 +44,10 @@ async function parseRequirement(text) {
 
 async function reviewBuild(plan, note) {
   if (mode() !== 'cloud') {
-    const data = await serverRequest('/api/review', { method: 'POST', data: { plan, note } });
+    const data = await serverRequest('/api/review', { method: 'POST', data: { plan, note, character: character() } });
     return data.advice;
   }
-  const p = await cloudCall('prompts', { plan });
+  const p = await cloudCall('prompts', { plan, character: character() });
   return cloudAiText([
     { role: 'system', content: p.reviewSystem },
     { role: 'user', content: (note ? `顾客特殊需求：${note}\n` : '') + p.context }
@@ -50,10 +56,10 @@ async function reviewBuild(plan, note) {
 
 async function bossChat(messages, plan) {
   if (mode() !== 'cloud') {
-    const data = await serverRequest('/api/chat', { method: 'POST', data: { messages, plan } });
+    const data = await serverRequest('/api/chat', { method: 'POST', data: { messages, plan, character: character() } });
     return data.reply;
   }
-  const p = await cloudCall('prompts', { plan });
+  const p = await cloudCall('prompts', { plan, character: character() });
   return cloudAiText([
     { role: 'system', content: p.persona },
     { role: 'system', content: '【系统资料，仅你可见，回答时据此引用】\n' + (p.context || '（顾客还没生成方案）') },

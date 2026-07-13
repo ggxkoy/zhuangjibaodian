@@ -13,6 +13,12 @@ const { getPrices, configuredPlatforms } = require('./lib/price-service');
 const { tipsForBuild, allKnowledge } = require('./lib/knowledge');
 const { attachReviews } = require('./lib/reviews');
 const prompts = require('./lib/boss-prompts');
+const CHARACTERS = require('./data/characters.json');
+
+function sanitizeCharacter(c) {
+  if (!c || typeof c !== 'object') return null;
+  return { name: String(c.name || '').slice(0, 12), style: String(c.style || '').slice(0, 200) };
+}
 
 exports.main = async (event = {}) => {
   try {
@@ -40,9 +46,14 @@ exports.main = async (event = {}) => {
         return { ok: true, prices, sources, fetchedAt: new Date().toISOString() };
       }
 
-      // 下发老板娘人设 + 当前方案上下文，供小程序端拼装 AI 消息
+      case 'characters':
+        return { ok: true, characters: CHARACTERS };
+
+      // 下发店主人设 + 当前方案上下文，供小程序端拼装 AI 消息；
+      // character 为预设或用户自定义 { name, style }，铁律在 personaFor 内强制附加
       case 'prompts': {
         const plan = event.plan;
+        const character = sanitizeCharacter(event.character);
         const priceNotes = {};
         if (plan && Array.isArray(plan.parts) && plan.parts.length <= 20) {
           const { prices } = await getPrices(plan.parts.map(p => p.id));
@@ -53,9 +64,9 @@ exports.main = async (event = {}) => {
         }
         return {
           ok: true,
-          persona: prompts.BOSS_PERSONA,
+          persona: prompts.personaFor(character),
           parseSystem: prompts.PARSE_SYSTEM,
-          reviewSystem: prompts.reviewSystem(),
+          reviewSystem: prompts.reviewSystem(character),
           context: prompts.buildContext(plan, priceNotes, allKnowledge())
         };
       }

@@ -109,6 +109,29 @@
 .bl-close { float: right; color: #86909c; font-size: 30rpx; padding: 0 10rpx; }
 .bl-list { flex: 1; min-height: 300rpx; max-height: 56vh; }
 .bl-item { margin-bottom: 18rpx; }
+
+/* 自定义老板娘面板 */
+.char-list { max-height: 60vh; }
+.char-item {
+  border: 3rpx solid #e5e6eb; border-radius: 20rpx; padding: 20rpx 24rpx; margin-bottom: 16rpx;
+}
+.char-item.cur { border-color: #ff5586; background: #fff5f8; }
+.char-name { font-size: 29rpx; font-weight: 700; color: #1f2329; }
+.char-title { font-size: 21rpx; color: #86909c; font-weight: 400; margin-left: 12rpx; }
+.char-style { font-size: 23rpx; color: #4e5969; line-height: 1.5; margin-top: 6rpx; }
+.char-custom { border-top: 2rpx dashed #eef0f4; padding-top: 20rpx; }
+.cc-input, .cc-area {
+  width: 100%; box-sizing: border-box; border: 3rpx solid #e5e6eb; border-radius: 16rpx;
+  padding: 14rpx 20rpx; font-size: 26rpx; margin-top: 14rpx;
+}
+.cc-area { height: 120rpx; }
+.cc-row { display: flex; gap: 14rpx; margin-top: 16rpx; }
+.cc-btn {
+  flex: 1; margin: 0; font-size: 26rpx; font-weight: 600; border-radius: 16rpx; line-height: 2.3;
+  background: linear-gradient(135deg, #ff7eb3, #ff5586); color: #fff;
+}
+.cc-btn.ghost { background: #fff; color: #ff5586; border: 3rpx solid #ffb3c8; }
+.cc-tip { font-size: 20rpx; color: #b7bdc9; line-height: 1.5; margin-top: 12rpx; }
 .bl-name { font-size: 21rpx; color: #5d7bff; font-weight: 700; display: block; }
 .bl-item.user .bl-name { color: #b25e00; }
 .bl-text { font-size: 26rpx; color: #2a3550; line-height: 1.6; }

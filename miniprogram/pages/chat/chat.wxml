@@ -1,7 +1,7 @@
 <view class="gal" bindtap="onAdvance">
 
   <!-- 舞台：立绘（含背景）；缺图降级为渐变场景 -->
-  <image wx:if="{{hasSprite}}" class="sprite {{typing ? 'talk' : ''}}" src="/assets/boss.png"
+  <image wx:if="{{hasSprite}}" class="sprite {{typing ? 'talk' : ''}}" src="{{spriteSrc}}"
     mode="aspectFill" binderror="onSpriteErr" />
   <view wx:else class="stage-fallback">
     <view class="fb-sky"></view>
@@ -25,7 +25,7 @@
 
   <!-- 底部对话框 -->
   <view class="dialog" catchtap="onAdvance">
-    <view class="name-tag">{{speaker === '我' ? '我' : '装机宝典 · 老板娘'}}</view>
+    <view class="name-tag">{{speaker === '我' ? '我' : '装机宝典 · ' + bossName}}</view>
     <scroll-view class="line-box" scroll-y>
       <text class="line">{{shownText}}</text><text class="adv" wx:if="{{hasMore && !typing}}">▼</text>
       <text class="dots" wx:if="{{waiting}}">……</text>
@@ -33,6 +33,7 @@
     <view class="tools">
       <view class="tool" catchtap="onToggleInput">✏️</view>
       <view class="tool" catchtap="onOpenBacklog">📜</view>
+      <view class="tool" catchtap="onOpenPanel">👗</view>
     </view>
   </view>
 
@@ -42,6 +43,31 @@
       <input value="{{input}}" bindinput="onInput" bindconfirm="onSend" confirm-type="send" focus
         maxlength="300" placeholder="预算多少？干啥用？直接说～" />
       <button class="send" catchtap="onSend">发送</button>
+    </view>
+  </view>
+
+  <!-- 自定义老板娘 -->
+  <view class="backlog" wx:if="{{panelOpen}}" catchtap="onClosePanel">
+    <view class="bl-panel" catchtap>
+      <view class="bl-title">更换店主<text class="bl-close" catchtap="onClosePanel">✕</text></view>
+      <scroll-view class="char-list" scroll-y>
+        <view class="char-item {{curId === item.id ? 'cur' : ''}}" wx:for="{{presets}}" wx:key="id"
+          data-id="{{item.id}}" bindtap="onPickPreset">
+          <view class="char-name">{{item.name}}<text class="char-title">{{item.title}}</text></view>
+          <view class="char-style">{{item.style}}</view>
+        </view>
+        <view class="char-custom">
+          <view class="char-name">✨ 自定义店主{{curId === 'custom' ? '（当前）' : ''}}</view>
+          <input class="cc-input" value="{{customName}}" bindinput="onCustomName" maxlength="12" placeholder="名字（如：阿远）" />
+          <textarea class="cc-area" value="{{customStyle}}" bindinput="onCustomStyle" maxlength="200"
+            placeholder="性格与说话风格（如：冷静寡言的技术宅，只讲干货，偶尔冷幽默）" />
+          <view class="cc-row">
+            <button class="cc-btn ghost" catchtap="onPickSprite">{{customPicked ? '✓ 已选立绘' : '上传立绘(可选)'}}</button>
+            <button class="cc-btn" catchtap="onSaveCustom">启用</button>
+          </view>
+          <view class="cc-tip">立绘规格见 docs/ART-ASSETS.md；不上传则用默认立绘。人设只影响口吻，报价纪律不变。</view>
+        </view>
+      </scroll-view>
     </view>
   </view>
 

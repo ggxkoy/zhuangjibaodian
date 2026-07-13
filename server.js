@@ -5,6 +5,13 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const CHARACTERS = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'characters.json'), 'utf8'));
+
+// 只保留角色的可信字段并截断，防提示注入滥用
+function sanitizeCharacter(c) {
+  if (!c || typeof c !== 'object') return null;
+  return { name: String(c.name || '').slice(0, 12), style: String(c.style || '').slice(0, 200) };
+}
 const { recommend } = require('./lib/recommender');
 const { getPrices, configuredPlatforms } = require('./lib/price-service');
 const { tipsForBuild, allKnowledge } = require('./lib/knowledge');
@@ -77,6 +84,10 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, { deepseek: advisor.configured(), platforms: configuredPlatforms() });
     }
 
+    if (url.pathname === '/api/characters') {
+      return sendJson(res, 200, { characters: CHARACTERS });
+    }
+
     // 自然语言需求解析（DeepSeek）
     if (url.pathname === '/api/parse' && req.method === 'POST') {
       if (!advisor.configured()) return sendJson(res, 501, { error: '未配置 DEEPSEEK_API_KEY，AI 需求解析不可用' });
@@ -89,7 +100,7 @@ const server = http.createServer(async (req, res) => {
     // AI 装机顾问点评（DeepSeek + 经验库）
     if (url.pathname === '/api/review' && req.method === 'POST') {
       if (!advisor.configured()) return sendJson(res, 501, { error: '未配置 DEEPSEEK_API_KEY，AI 点评不可用' });
-      const { plan, note } = await readJsonBody(req);
+      const { plan, note, character } = await readJsonBody(req);
       if (!plan || !Array.isArray(plan.parts)) return sendJson(res, 400, { error: '缺少方案数据' });
       // 附带各零件当前价位判定，让点评能提“该不该现在买”
       const { prices } = await getPrices(plan.parts.map(p => p.id));
@@ -98,14 +109,14 @@ const server = http.createServer(async (req, res) => {
         const v = q.history && q.history.verdict;
         if (v && v.label) priceNotes[q.partId] = v.label;
       }
-      const advice = await advisor.reviewBuild(plan, tipsForBuild(plan, 8), priceNotes, note);
+      const advice = await advisor.reviewBuild(plan, tipsForBuild(plan, 8), priceNotes, note, sanitizeCharacter(character));
       return sendJson(res, 200, { advice });
     }
 
     // 老板娘多轮对话（DeepSeek + 方案上下文 + 经验库）
     if (url.pathname === '/api/chat' && req.method === 'POST') {
       if (!advisor.configured()) return sendJson(res, 501, { error: '未配置 DEEPSEEK_API_KEY，老板娘暂时不在店里' });
-      const { messages, plan } = await readJsonBody(req);
+      const { messages, plan, character } = await readJsonBody(req);
       if (!Array.isArray(messages) || messages.length === 0) return sendJson(res, 400, { error: '缺少对话内容' });
       // 只信任 user/assistant 两种角色，截断长度，防止客户端注入系统提示
       const history = messages
@@ -123,7 +134,7 @@ const server = http.createServer(async (req, res) => {
           priceNotes[q.partId] = `当前最低约¥${q.price}${q.live ? '·实时' : '·参考价'}${v && v.label ? '·' + v.label : ''}`;
         }
       }
-      const reply = await advisor.bossChat(history, plan, priceNotes, allKnowledge());
+      const reply = await advisor.bossChat(history, plan, priceNotes, allKnowledge(), sanitizeCharacter(character));
       return sendJson(res, 200, { reply });
     }
 

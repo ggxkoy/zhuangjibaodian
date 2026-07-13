@@ -19,9 +19,11 @@ App({
     plan: null,
     aiNote: '',
     excludeHistory: [],
-    chatHistory: null
+    chatHistory: null,
+    character: null // 当前店主角色，onLaunch 从本地存储恢复
   },
   onLaunch() {
+    this.globalData.character = require('./utils/characters').loadCharacter();
     if (this.globalData.mode === 'cloud') {
       wx.cloud.init({ env: this.globalData.cloudEnv || undefined });
     }
