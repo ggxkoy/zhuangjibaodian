@@ -47,10 +47,10 @@
 .choice:active { background: #eaf1ff; }
 @keyframes choice-in { from { opacity: 0; transform: translateY(16rpx); } to { opacity: 1; } }
 
-/* 底部对话框 */
+/* 底部对话框（下方是常驻输入栏） */
 .dialog {
   position: absolute; left: 20rpx; right: 20rpx;
-  bottom: calc(24rpx + env(safe-area-inset-bottom));
+  bottom: calc(130rpx + env(safe-area-inset-bottom));
   background: linear-gradient(180deg, rgba(250, 252, 255, 0.94), rgba(232, 240, 255, 0.94));
   border: 3rpx solid rgba(150, 180, 255, 0.9);
   border-radius: 26rpx; padding: 40rpx 28rpx 22rpx;
@@ -76,20 +76,16 @@
   box-shadow: 0 6rpx 20rpx rgba(10, 20, 50, 0.25);
 }
 
-/* 呼出输入 */
-.input-mask {
-  position: absolute; inset: 0; background: rgba(10, 15, 30, 0.45);
-  display: flex; align-items: flex-end;
+/* 常驻输入栏 */
+.input-bar {
+  position: absolute; left: 20rpx; right: 20rpx;
+  bottom: calc(20rpx + env(safe-area-inset-bottom));
+  display: flex; gap: 14rpx; align-items: center;
+  background: rgba(255, 255, 255, 0.92); border: 3rpx solid rgba(150, 180, 255, 0.7);
+  border-radius: 999rpx; padding: 10rpx 12rpx 10rpx 28rpx;
+  box-shadow: 0 8rpx 30rpx rgba(10, 20, 50, 0.3);
 }
-.input-row {
-  display: flex; gap: 14rpx; width: 100%;
-  padding: 20rpx 20rpx calc(20rpx + env(safe-area-inset-bottom));
-  background: #fff; border-radius: 26rpx 26rpx 0 0;
-}
-.input-row input {
-  flex: 1; border: 3rpx solid #e5e6eb; border-radius: 999rpx;
-  padding: 16rpx 28rpx; font-size: 28rpx;
-}
+.input-bar input { flex: 1; font-size: 27rpx; }
 .send {
   margin: 0; padding: 0 36rpx; border-radius: 999rpx; line-height: 2.5;
   background: linear-gradient(135deg, #ff7eb3, #ff5586); color: #fff;

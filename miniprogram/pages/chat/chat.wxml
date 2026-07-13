@@ -31,19 +31,17 @@
       <text class="dots" wx:if="{{waiting}}">……</text>
     </scroll-view>
     <view class="tools">
-      <view class="tool" catchtap="onToggleInput">✏️</view>
       <view class="tool" catchtap="onOpenBacklog">📜</view>
       <view class="tool" catchtap="onOpenPanel">👗</view>
+      <view class="tool" catchtap="onOpenForm">📋</view>
     </view>
   </view>
 
-  <!-- 自由输入（呼出式，保持沉浸） -->
-  <view class="input-mask" wx:if="{{inputOpen}}" catchtap="onToggleInput">
-    <view class="input-row" catchtap>
-      <input value="{{input}}" bindinput="onInput" bindconfirm="onSend" confirm-type="send" focus
-        maxlength="300" placeholder="预算多少？干啥用？直接说～" />
-      <button class="send" catchtap="onSend">发送</button>
-    </view>
+  <!-- 常驻输入（对话式确立需求，打字是主要交互） -->
+  <view class="input-bar" catchtap>
+    <input value="{{input}}" bindinput="onInput" bindconfirm="onSend" confirm-type="send"
+      maxlength="300" placeholder="跟{{bossName}}说说：预算多少、拿来干啥…" />
+    <button class="send" catchtap="onSend" disabled="{{waiting}}">发送</button>
   </view>
 
   <!-- 自定义老板娘 -->

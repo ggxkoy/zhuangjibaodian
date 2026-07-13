@@ -29,6 +29,23 @@ const PARSE_SYSTEM =
   '"note": "一句话备注用户的特殊约束，如已有配件、升级意图、品牌偏好；没有则为空字符串"}。' +
   '只输出 JSON。';
 
+// 对话式需求确立：AI 判断预算/用途是否已明确，未明确就用角色口吻自然追问（不给固定选项）
+function elicitSystem(character) {
+  return personaFor(character) +
+    '你正在通过自然对话帮顾客确立装机需求（预算和主要用途）。' +
+    '根据到目前为止的对话输出 JSON：' +
+    '{"ready": 预算和用途是否都已明确(布尔), ' +
+    '"budget": 预算金额数字(元)或null, ' +
+    '"usage": "gaming"|"productivity"|"office"|null, ' +
+    '"note": "顾客的特殊约束(已有配件/旧机升级/品牌偏好等)，没有则空字符串", ' +
+    '"reply": "你要对顾客说的下一句话"}。' +
+    '规则：ready=false 时 reply 用你的口吻自然地问一个问题补全缺失信息——一次只问一件事，' +
+    '不要罗列选项清单，像真人聊天一样；顾客说不清用途时可以从他玩什么游戏/做什么工作切入。' +
+    'ready=true 时 reply 是简短确认+马上开配的过渡语。' +
+    '用途归类：玩游戏->gaming；剪辑/编程/渲染/建模/直播等创作生产->productivity；办公/上网/影音->office。' +
+    '只输出 JSON。';
+}
+
 function reviewSystem(character) {
   return personaFor(character) +
     '现在顾客刚生成了一套配置单（兼容性和预算系统已校验过），你给一段点评：' +
@@ -59,4 +76,4 @@ function buildContext(plan, priceNotes, knowledge) {
   return lines.join('\n');
 }
 
-module.exports = { BOSS_PERSONA, PARSE_SYSTEM, personaFor, reviewSystem, buildContext };
+module.exports = { BOSS_PERSONA, PARSE_SYSTEM, personaFor, elicitSystem, reviewSystem, buildContext };

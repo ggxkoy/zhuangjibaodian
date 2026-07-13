@@ -97,6 +97,19 @@ const server = http.createServer(async (req, res) => {
       return sendJson(res, 200, parsed);
     }
 
+    // 对话式需求确立（DeepSeek 驱动追问，不给固定选项）
+    if (url.pathname === '/api/elicit' && req.method === 'POST') {
+      if (!advisor.configured()) return sendJson(res, 501, { error: '未配置 DEEPSEEK_API_KEY，AI 需求引导不可用' });
+      const { messages, character } = await readJsonBody(req);
+      const history = (Array.isArray(messages) ? messages : [])
+        .filter(m => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+        .slice(-10)
+        .map(m => ({ role: m.role, content: m.content.slice(0, 600) }));
+      if (history.length === 0) return sendJson(res, 400, { error: '缺少对话内容' });
+      const result = await advisor.elicit(history, sanitizeCharacter(character));
+      return sendJson(res, 200, result);
+    }
+
     // AI 装机顾问点评（DeepSeek + 经验库）
     if (url.pathname === '/api/review' && req.method === 'POST') {
       if (!advisor.configured()) return sendJson(res, 501, { error: '未配置 DEEPSEEK_API_KEY，AI 点评不可用' });

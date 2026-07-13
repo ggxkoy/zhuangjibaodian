@@ -8,8 +8,8 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const DEST = path.join(ROOT, 'cloudfunctions', 'zhuangji');
 
-// llm-advisor 不进云函数（云开发版 AI 走小程序端 wx.cloud.extend.AI）
-const LIB_FILES = ['recommender.js', 'price-service.js', 'price-history.js', 'knowledge.js', 'boss-prompts.js', 'reviews.js'];
+// llm-advisor 也进云函数：配置云函数环境变量 DEEPSEEK_API_KEY 后走 ownKey 模式（自有模型）
+const LIB_FILES = ['recommender.js', 'price-service.js', 'price-history.js', 'knowledge.js', 'boss-prompts.js', 'reviews.js', 'llm-advisor.js'];
 const DATA_FILES = ['parts.json', 'knowledge.json', 'price-history.json', 'reviews.json', 'characters.json'];
 
 for (const [dir, files] of [['lib', LIB_FILES], ['data', DATA_FILES]]) {

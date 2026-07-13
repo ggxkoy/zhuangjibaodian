@@ -3,12 +3,13 @@
 // 业务路由与 chat-first 版一致：换一套 > 本地意图 > AI 解析/闲聊 > 引导。
 // 立绘素材：miniprogram/assets/boss.png（竖构图，背景合入图内）；缺图自动降级为渐变场景。
 
-const { getRecommend } = require('../../utils/api');
-const { parseRequirement, reviewBuild, bossChat } = require('../../utils/ai');
+const { getRecommend, getConfig } = require('../../utils/api');
+const { elicit, reviewBuild, bossChat } = require('../../utils/ai');
 const { parseIntent, USAGE_LABEL } = require('../../utils/intent');
 const { PRESETS, loadCharacter, saveCharacter } = require('../../utils/characters');
 
-const START_CHIPS = ['6000 玩网游', '12000 玩3A大作', '8000 剪辑生产力', '4000 日常办公', '📋 表单模式'];
+const USAGE_ASK = '主要拿来干啥？打游戏、做视频剪辑这类创作，还是日常办公上网？';
+const BUDGET_ASK = '预算大概多少？直接说个数就行，8000、1.5万 都可以。';
 
 Page({
   data: {
@@ -30,9 +31,10 @@ Page({
     this.idle = true;   // 舞台上没有正在播/待推进的内容
     this.busy = false;  // 请求进行中
     this.applyCharacterUI();
+    // 启动时的 config 拉取可能失败（云函数刚部署/网络抖动），进对话页再刷一次
+    getConfig().then(cfg => { app.globalData.config = cfg; }).catch(() => {});
     if (app.globalData.chatMsgs.length === 0) {
       this.say(this.ch().greeting || '想配台什么机子？预算和用途说说看～');
-      this.offer(START_CHIPS);
     } else {
       this.restore();
     }
@@ -187,7 +189,7 @@ Page({
     }, 40);
   },
   onAdvance() { // 点击画面：跳过打字 / 推进下一句
-    if (this.data.backlogOpen || this.data.inputOpen) return;
+    if (this.data.backlogOpen || this.data.panelOpen) return;
     if (this.data.typing) {
       this.clearTimer();
       this.setData({ shownText: this.full, typing: false, hasMore: this.queue.length > 0 });
@@ -199,19 +201,15 @@ Page({
   onSpriteErr() { this.setData({ hasSprite: false }); },
 
   // ---------- 输入与选项 ----------
-  onToggleInput() { this.setData({ inputOpen: !this.data.inputOpen }); },
   onInput(e) { this.setData({ input: e.detail.value }); },
   onSend() {
     const t = this.data.input.trim();
     if (!t) return;
-    this.setData({ input: '', inputOpen: false });
+    this.setData({ input: '' });
     this.handle(t);
   },
-  onChoice(e) {
-    const t = e.currentTarget.dataset.t;
-    if (t === '📋 表单模式') return wx.navigateTo({ url: '/pages/index/index' });
-    this.handle(t);
-  },
+  onChoice(e) { this.handle(e.currentTarget.dataset.t); },
+  onOpenForm() { wx.navigateTo({ url: '/pages/index/index' }); },
 
   onOpenBacklog() {
     const backlog = getApp().globalData.chatMsgs
@@ -227,6 +225,8 @@ Page({
   },
 
   // ---------- 业务路由 ----------
+  // 需求确立完全走对话：AI 在场时由模型自然追问（elicit），
+  // 无 AI 时用本地槽位填充 + 自然问句兜底，两条路都不出固定选项。
   async handle(text) {
     if (this.busy) return;
     this.busy = true;
@@ -245,33 +245,42 @@ Page({
       if (/^(换一套|再换|换个|再来一套|不满意)/.test(text) && app.globalData.plan) {
         return await this.regen();
       }
-      if (/^(完整配置单|看明细|配置单)$/.test(text) && app.globalData.plan) {
+      if (/^(完整配置单|看明细|看完整配置单|配置单)$/.test(text) && app.globalData.plan) {
         this.setData({ waiting: false });
         return wx.navigateTo({ url: '/pages/result/result' });
       }
+      // 本地快路径：一句话里预算用途齐了直接开配（不耗 AI）
       const it = parseIntent(text);
-      if (it.budget && it.usage) return await this.makePlan(it.budget, it.usage, '');
-      if (it.budget) {
-        this.pendingBudget = it.budget;
-        this.say(`预算 ¥${it.budget} 姐记下了，主要拿来干啥？`);
-        return this.offer(['玩游戏', '剪辑/编程生产力', '日常办公']);
-      }
-      if (it.usage && this.pendingBudget) {
-        const b = this.pendingBudget;
-        this.pendingBudget = null;
-        return await this.makePlan(b, it.usage, '');
+      if (it.budget) this.pendingBudget = it.budget;
+      if (it.usage) this.pendingUsage = it.usage;
+      if (this.pendingBudget && this.pendingUsage) {
+        const b = this.pendingBudget, u = this.pendingUsage;
+        this.pendingBudget = this.pendingUsage = null;
+        return await this.makePlan(b, u, app.globalData.aiNote || '');
       }
       if (aiOn) {
-        if (!app.globalData.plan && /\d{4,}/.test(text) && /(配|装|套|预算|主机|电脑)/.test(text)) {
-          const p = await parseRequirement(text);
-          app.globalData.aiNote = p.note || '';
-          return await this.makePlan(p.budget, p.usage, p.note);
+        // 已有方案且这句不是新需求 → 当追问闲聊；否则 AI 驱动需求确立
+        if (app.globalData.plan && !it.budget && !it.usage) {
+          const reply = await bossChat(app.globalData.chatHistory, app.globalData.plan);
+          return this.say(reply);
         }
-        const reply = await bossChat(app.globalData.chatHistory, app.globalData.plan);
-        return this.say(reply);
+        const r = await elicit(app.globalData.chatHistory);
+        if (r.note) app.globalData.aiNote = r.note;
+        if (r.ready) {
+          this.pendingBudget = this.pendingUsage = null;
+          return await this.makePlan(r.budget, r.usage, r.note, r.reply);
+        }
+        if (r.budget) this.pendingBudget = r.budget;
+        if (r.usage) this.pendingUsage = r.usage;
+        return this.say(r.reply || USAGE_ASK);
       }
-      this.say('姐没太听懂😅 一句话告诉我预算和用途就行，比如「8000 打游戏」「1.5万 剪辑」');
-      this.offer(START_CHIPS.slice(0, 4));
+      // 无 AI 的本地引导（自然问句，不给选项）
+      if (this.pendingBudget) return this.say(`预算 ¥${this.pendingBudget} 记下了。${USAGE_ASK}`);
+      if (this.pendingUsage) return this.say(`${USAGE_LABEL[this.pendingUsage]}是吧，明白。${BUDGET_ASK}`);
+      if (app.globalData.plan) {
+        return this.say('这个问题店里的智能助手还没接上（AI 未配置），答不准。想调整配置就说「换一套」，或者直接告诉我新的预算和用途。');
+      }
+      this.say(`想配机的话，告诉我预算和用途就行——${BUDGET_ASK}`);
     } catch (e) {
       this.setMood('surprise');
       this.say('哎呀出岔子了：' + e.message);
@@ -281,18 +290,19 @@ Page({
     }
   },
 
-  async makePlan(budget, usage, note) {
+  async makePlan(budget, usage, note, transition) {
     const app = getApp();
     const plan = await getRecommend(budget, usage);
     app.globalData.plan = plan;
     app.globalData.excludeHistory = [plan.keyIds.cpu, plan.keyIds.gpu].filter(Boolean);
     const saved = plan.budget - plan.total;
     this.setMood('happy');
-    this.say(`${budget} 块的${USAGE_LABEL[usage]}机是吧？配好了：合计 ¥${plan.total}` +
+    this.say((transition ? transition + '\n' : '') +
+      `合计 ¥${plan.total}` +
       (saved > 0 ? `，还给你留了 ¥${saved} 余量` : '，预算用得刚刚好') +
       `。${plan.summary}`);
     this.showPlanCard(plan);
-    this.offer(['换一套', '完整配置单', '内存现在能买吗']);
+    this.offer(['换一套', '看完整配置单']);
     if (app.globalData.config.deepseek) {
       reviewBuild(plan, note || app.globalData.aiNote)
         .then(advice => { this.say('姐再多说两句：\n' + advice); })
@@ -310,7 +320,7 @@ Page({
         .forEach(id => app.globalData.excludeHistory.push(id));
       this.say('成，换个搭配给你：');
       this.showPlanCard(next);
-      this.offer(['换一套', '完整配置单']);
+      this.offer(['换一套', '看完整配置单']);
     } catch (e) {
       app.globalData.excludeHistory = [];
       this.say('好搭配都让你看遍啦，姐从头再给你配一套：');
