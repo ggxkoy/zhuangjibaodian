@@ -1,5 +1,6 @@
 {
   "pages": ["pages/chat/chat", "pages/result/result", "pages/index/index"],
+  "lazyCodeLoading": "requiredComponents",
   "window": {
     "navigationBarTitleText": "装机宝典",
     "navigationBarBackgroundColor": "#ffffff",
