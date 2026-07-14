@@ -8,6 +8,7 @@ const { elicit, reviewBuild, bossChat } = require('../../utils/ai');
 const { parseIntent, USAGE_LABEL } = require('../../utils/intent');
 const { PRESETS, loadCharacter, saveCharacter, isUnlocked, unlock } = require('../../utils/characters');
 const { rewardedEnabled, showRewarded, takeSplashUnit } = require('../../utils/ads');
+const { spriteSrc } = require('../../utils/sprites');
 
 const FREE_REGEN = 2; // 每套需求免费“换一套”次数（激励视频未配置时不限）
 
@@ -90,7 +91,7 @@ Page({
       const supported = SPRITE_MOODS[base] || ['normal'];
       const mood = supported.includes(this.data.mood) ? this.data.mood : 'normal';
       if (mood !== this.data.mood) this.setData({ mood });
-      src = `/assets/${base}${mood !== 'normal' ? '-' + mood : ''}.jpg`;
+      src = spriteSrc(`${base}${mood !== 'normal' ? '-' + mood : ''}.jpg`);
     }
     this.setData({ spriteSrc: src, hasSprite: true });
   },
@@ -159,6 +160,7 @@ Page({
     });
   },
   switchCharacter(ch) {
+    this.turnSeq = (this.turnSeq || 0) + 1; // 换店主也算新话题，挡住旧店主的迟到点评
     getApp().globalData.character = ch;
     saveCharacter(ch);
     this.setData({ panelOpen: false, mood: 'normal' });
@@ -276,6 +278,7 @@ Page({
   async handle(text) {
     if (this.busy) return;
     this.busy = true;
+    this.turnSeq = (this.turnSeq || 0) + 1; // 轮次标记：迟到的异步回复据此判断是否还该上台
     const app = getApp();
     // 玩家台词直接上屏（不走打字机），随后进入等待
     getApp().globalData.chatMsgs.push({ type: 'text', role: 'user', content: text });
@@ -361,8 +364,19 @@ Page({
     this.showPlanCard(plan);
     this.offer(['换一套', '看完整配置单']);
     if (app.globalData.config.deepseek) {
+      // 点评是慢异步请求（LLM 数秒~十几秒）：回来时若用户已开启新话题，
+      // 只写进回想记录和 AI 上下文，不打断舞台上的新对话
+      const turn = this.turnSeq || 0;
       reviewBuild(plan, note || app.globalData.aiNote)
-        .then(advice => { this.say('姐再多说两句：\n' + advice); })
+        .then(advice => {
+          const text = '姐再多说两句：\n' + advice;
+          if ((this.turnSeq || 0) !== turn) {
+            getApp().globalData.chatMsgs.push({ type: 'text', role: 'assistant', content: text });
+            getApp().globalData.chatHistory.push({ role: 'assistant', content: text });
+            return;
+          }
+          this.say(text);
+        })
         .catch(() => {});
     }
   },

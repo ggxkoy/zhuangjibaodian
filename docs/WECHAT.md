@@ -117,8 +117,11 @@ curl "http://localhost:3000/api/recommend?budget=2000&usage=gaming"
 ⚠️ **改完服务端代码必须重新上传部署云函数**：小程序端调用的是云端已部署的版本，
 本地代码更新不会自动生效——elicit/chat/ownKey 等新 action 都要求云函数是最新版。
 
-⚠️ **主包体积**：小程序主包上限 2MB。含背景的立绘一律用 **JPG（≤400KB）**，
-不要放 1MB+ 的 PNG（背景已合入图内不需要透明通道）；透明底差分才用 PNG。
+⚠️ **主包体积**：微信 1.5MB 起提示、2MB 硬上限。立绘策略——主包只保留
+`assets/boss.jpg` 兜底，其余全部放 `assets-remote/`（不打包），上线上传到
+**云开发云存储 sprites/ 目录**，File ID 前缀填 `miniprogram/utils/sprites.js`
+的 `REMOTE_BASE`（`<image>` 原生支持 cloud:// 地址）。未配置时所有角色回落
+默认立绘，不报错。新增素材一律进 assets-remote/，**别再往 assets/ 塞图**。
 
 ### 云开发模式验收清单
 
