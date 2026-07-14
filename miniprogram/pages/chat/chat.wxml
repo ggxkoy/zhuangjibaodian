@@ -86,7 +86,7 @@
       <view class="bl-title">对话记录<text class="bl-close" catchtap="onCloseBacklog">✕</text></view>
       <scroll-view class="bl-list" scroll-y scroll-into-view="{{scrollInto}}">
         <view class="bl-item {{item.role}}" wx:for="{{backlog}}" wx:key="id" id="{{item.id}}">
-          <text class="bl-name">{{item.role === 'user' ? '我' : '老板娘'}}</text>
+          <text class="bl-name">{{item.role === 'user' ? '我' : bossName}}</text>
           <text class="bl-text">{{item.content}}</text>
         </view>
       </scroll-view>

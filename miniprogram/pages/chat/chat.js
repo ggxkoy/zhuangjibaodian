@@ -13,6 +13,11 @@ const FREE_REGEN = 2; // 每套需求免费“换一套”次数（激励视频�
 
 const USAGE_ASK = '主要拿来干啥？打游戏、做视频剪辑这类创作，还是日常办公上网？';
 const BUDGET_ASK = '预算大概多少？直接说个数就行，8000、1.5万 都可以。';
+const SPRITE_MOODS = {
+  boss: ['normal', 'happy', 'think', 'surprise'],
+  'char-yuanqi': ['normal', 'happy', 'think'],
+  'char-yujie': ['normal', 'happy', 'think']
+};
 
 Page({
   data: {
@@ -68,6 +73,7 @@ Page({
   applyCharacterUI() {
     const ch = this.ch();
     this.setData({ bossName: ch.name, curId: ch.id || 'custom' });
+    wx.setNavigationBarTitle({ title: `装机宝典 · ${ch.name}` });
     this.updateSprite();
   },
   setMood(mood) {
@@ -81,7 +87,10 @@ Page({
     if (ch.customSprite) src = ch.customSprite; // 用户上传的立绘（无表情差分）
     else {
       const base = ch.sprite || 'boss';
-      src = `/assets/${base}${this.data.mood !== 'normal' ? '-' + this.data.mood : ''}.jpg`;
+      const supported = SPRITE_MOODS[base] || ['normal'];
+      const mood = supported.includes(this.data.mood) ? this.data.mood : 'normal';
+      if (mood !== this.data.mood) this.setData({ mood });
+      src = `/assets/${base}${mood !== 'normal' ? '-' + mood : ''}.jpg`;
     }
     this.setData({ spriteSrc: src, hasSprite: true });
   },
