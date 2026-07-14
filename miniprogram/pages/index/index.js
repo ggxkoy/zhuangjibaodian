@@ -1,5 +1,6 @@
 const { getRecommend } = require('../../utils/api');
 const { parseRequirement } = require('../../utils/ai');
+const { bannerBottomUnit } = require('../../utils/ads');
 
 const USAGES = [
   { key: 'gaming', icon: '🎮', name: '游戏', desc: '3A大作 / 电竞网游' },
@@ -17,11 +18,15 @@ Page({
     aiText: '',
     aiNote: '',
     loading: false,
-    errMsg: ''
+    errMsg: '',
+    bannerBottomUnit: ''
   },
 
   onShow() {
-    this.setData({ aiEnabled: !!getApp().globalData.config.deepseek });
+    this.setData({
+      aiEnabled: !!getApp().globalData.config.deepseek,
+      bannerBottomUnit: bannerBottomUnit()
+    });
   },
 
   onChat() {

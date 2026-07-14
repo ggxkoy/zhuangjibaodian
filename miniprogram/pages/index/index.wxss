@@ -29,6 +29,7 @@
 .usage-desc { font-size: 19rpx; color: #86909c; text-align: center; }
 
 .err { color: #fa5151; font-size: 26rpx; text-align: center; margin-bottom: 16rpx; }
+.ad-wrap { margin: 24rpx; border-radius: 20rpx; overflow: hidden; }
 
 .ai-card { border: 3rpx solid #e3ddff; background: linear-gradient(180deg, #faf9ff, #fff); }
 .ai-text {

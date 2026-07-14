@@ -2,19 +2,34 @@
 //
 // 开通流量主（累计UV≥1000后在 mp 后台申请）→ 创建对应类型广告位 → 把 adUnitId 填进
 // AD_UNITS → 发版。任何一项留空即该广告完全隐身，功能回到免费无广告形态：
-//   banner        明细页底部横幅
-//   interstitial  离开明细页时的插屏（每次启动最多弹 1 次）
+//   splash        开屏广告（启动时全屏展示，5秒倒计时可跳过；用「原生模板」类型广告位）
+//   bannerTop     明细页顶部横幅
+//   bannerBottom  明细页/表单页底部横幅
+//   interstitial  离开明细页时的插屏（每次启动最多 1 次）
 //   rewarded      激励视频（解锁预设角色皮肤 / 第3次起的“换一套”）
 //
-// 设计原则：广告失败绝不拦用户——激励视频拉取失败直接放行视为已解锁。
+// 设计原则：广告失败绝不拦用户——开屏拉取失败立即放行进入主界面，
+// 激励视频拉取失败直接视为已解锁。
 
 const AD_UNITS = {
-  banner: '',
+  splash: '',
+  bannerTop: '',
+  bannerBottom: '',
   interstitial: '',
   rewarded: ''
 };
 
-function bannerUnit() { return AD_UNITS.banner; }
+function bannerTopUnit() { return AD_UNITS.bannerTop; }
+function bannerBottomUnit() { return AD_UNITS.bannerBottom; }
+
+// 开屏：每次启动最多展示一次
+let splashShown = false;
+function takeSplashUnit() {
+  if (!AD_UNITS.splash || splashShown) return '';
+  splashShown = true;
+  return AD_UNITS.splash;
+}
+
 function rewardedEnabled() { return !!AD_UNITS.rewarded && !!wx.createRewardedVideoAd; }
 
 let rewardedAd = null;
@@ -46,4 +61,7 @@ function maybeShowInterstitial() {
   } catch (e) { /* 忽略 */ }
 }
 
-module.exports = { AD_UNITS, bannerUnit, rewardedEnabled, showRewarded, maybeShowInterstitial };
+module.exports = {
+  AD_UNITS, bannerTopUnit, bannerBottomUnit, takeSplashUnit,
+  rewardedEnabled, showRewarded, maybeShowInterstitial
+};

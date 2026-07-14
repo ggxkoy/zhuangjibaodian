@@ -92,6 +92,22 @@
   font-size: 28rpx; font-weight: 600;
 }
 
+/* 开屏广告 */
+.splash {
+  position: absolute; inset: 0; z-index: 99; background: #fff;
+  display: flex; flex-direction: column;
+}
+.splash-skip {
+  position: absolute; top: calc(20rpx + env(safe-area-inset-top)); right: 24rpx; z-index: 2;
+  background: rgba(0, 0, 0, 0.45); color: #fff; font-size: 24rpx;
+  padding: 10rpx 26rpx; border-radius: 999rpx;
+}
+.splash-ad { flex: 1; display: flex; align-items: center; justify-content: center; padding: 80rpx 24rpx 24rpx; }
+.splash-logo {
+  padding: 30rpx 0 calc(40rpx + env(safe-area-inset-bottom));
+  text-align: center; font-size: 30rpx; font-weight: 700; color: #4e5969;
+}
+
 /* 回想 */
 .backlog {
   position: absolute; inset: 0; background: rgba(10, 15, 30, 0.6);

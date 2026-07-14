@@ -7,7 +7,7 @@ const { getRecommend, getConfig } = require('../../utils/api');
 const { elicit, reviewBuild, bossChat } = require('../../utils/ai');
 const { parseIntent, USAGE_LABEL } = require('../../utils/intent');
 const { PRESETS, loadCharacter, saveCharacter, isUnlocked, unlock } = require('../../utils/characters');
-const { rewardedEnabled, showRewarded } = require('../../utils/ads');
+const { rewardedEnabled, showRewarded, takeSplashUnit } = require('../../utils/ads');
 
 const FREE_REGEN = 2; // 每套需求免费“换一套”次数（激励视频未配置时不限）
 
@@ -22,7 +22,8 @@ Page({
     choices: [], planMsg: null,
     inputOpen: false, input: '',
     backlogOpen: false, backlog: [], scrollInto: '',
-    panelOpen: false, presets: PRESETS, curId: 'jie', customName: '', customStyle: '', customPicked: false
+    panelOpen: false, presets: PRESETS, curId: 'jie', customName: '', customStyle: '', customPicked: false,
+    splashUnit: '', splashCount: 5
   },
 
   onLoad() {
@@ -33,6 +34,7 @@ Page({
     this.full = '';
     this.idle = true;   // 舞台上没有正在播/待推进的内容
     this.busy = false;  // 请求进行中
+    this.startSplash();
     this.applyCharacterUI();
     // 启动时的 config 拉取可能失败（云函数刚部署/网络抖动），进对话页再刷一次
     getConfig().then(cfg => { app.globalData.config = cfg; }).catch(() => {});
@@ -42,7 +44,24 @@ Page({
       this.restore();
     }
   },
-  onUnload() { this.clearTimer(); },
+  onUnload() { this.clearTimer(); this.clearSplashTimer(); },
+
+  // ---------- 开屏广告（未配置广告位时不出现；广告加载失败立即放行） ----------
+  startSplash() {
+    const unit = takeSplashUnit();
+    if (!unit) return;
+    this.setData({ splashUnit: unit, splashCount: 5 });
+    this.splashTimer = setInterval(() => {
+      const n = this.data.splashCount - 1;
+      if (n <= 0) return this.onSplashSkip();
+      this.setData({ splashCount: n });
+    }, 1000);
+  },
+  clearSplashTimer() { if (this.splashTimer) { clearInterval(this.splashTimer); this.splashTimer = null; } },
+  onSplashSkip() {
+    this.clearSplashTimer();
+    this.setData({ splashUnit: '' });
+  },
 
   // ---------- 店主角色（自定义老板娘） ----------
   ch() { return getApp().globalData.character || PRESETS[0]; },

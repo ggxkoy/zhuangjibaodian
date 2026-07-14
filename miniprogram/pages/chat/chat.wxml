@@ -71,6 +71,15 @@
     </view>
   </view>
 
+  <!-- 开屏广告（参考通用小程序开屏样式：右上角倒计时跳过 + 底部品牌标识） -->
+  <view class="splash" wx:if="{{splashUnit}}" catchtap="onSwallow">
+    <view class="splash-skip" catchtap="onSplashSkip">跳过 {{splashCount}}s</view>
+    <view class="splash-ad">
+      <ad-custom unit-id="{{splashUnit}}" binderror="onSplashSkip"></ad-custom>
+    </view>
+    <view class="splash-logo">🖥️ 装机宝典</view>
+  </view>
+
   <!-- 回想（对话记录） -->
   <view class="backlog" wx:if="{{backlogOpen}}" catchtap="onCloseBacklog">
     <view class="bl-panel" catchtap="onSwallow">

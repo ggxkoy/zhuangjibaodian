@@ -67,4 +67,5 @@ page { padding-top: 24rpx; }
 
 .actions { margin: 28rpx 24rpx 0; }
 .ad-wrap { margin: 24rpx; border-radius: 20rpx; overflow: hidden; }
+.ad-wrap.top { margin-top: 0; }
 .btn-secondary { border: 3rpx solid #e5e6eb; background: #fff; font-size: 29rpx; font-weight: 600; border-radius: 22rpx; }

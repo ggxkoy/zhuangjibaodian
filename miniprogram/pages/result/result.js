@@ -1,6 +1,6 @@
 const { getRecommend, getPrices } = require('../../utils/api');
 const { reviewBuild } = require('../../utils/ai');
-const { bannerUnit, maybeShowInterstitial } = require('../../utils/ads');
+const { bannerTopUnit, bannerBottomUnit, maybeShowInterstitial } = require('../../utils/ads');
 
 const PLATFORM_NAMES = { jd: '京东', taobao: '淘宝', pdd: '拼多多', ref: '参考价' };
 
@@ -16,12 +16,17 @@ Page({
     aiEnabled: false,
     advice: '',
     regenLoading: false,
-    bannerUnit: ''
+    bannerTopUnit: '',
+    bannerBottomUnit: ''
   },
 
   onLoad() {
     const app = getApp();
-    this.setData({ aiEnabled: !!app.globalData.config.deepseek, bannerUnit: bannerUnit() });
+    this.setData({
+      aiEnabled: !!app.globalData.config.deepseek,
+      bannerTopUnit: bannerTopUnit(),
+      bannerBottomUnit: bannerBottomUnit()
+    });
     this.renderPlan(app.globalData.plan);
   },
 
