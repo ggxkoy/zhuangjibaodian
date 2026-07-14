@@ -6,7 +6,10 @@
 const { getRecommend, getConfig } = require('../../utils/api');
 const { elicit, reviewBuild, bossChat } = require('../../utils/ai');
 const { parseIntent, USAGE_LABEL } = require('../../utils/intent');
-const { PRESETS, loadCharacter, saveCharacter } = require('../../utils/characters');
+const { PRESETS, loadCharacter, saveCharacter, isUnlocked, unlock } = require('../../utils/characters');
+const { rewardedEnabled, showRewarded } = require('../../utils/ads');
+
+const FREE_REGEN = 2; // 每套需求免费“换一套”次数（激励视频未配置时不限）
 
 const USAGE_ASK = '主要拿来干啥？打游戏、做视频剪辑这类创作，还是日常办公上网？';
 const BUDGET_ASK = '预算大概多少？直接说个数就行，8000、1.5万 都可以。';
@@ -76,6 +79,8 @@ Page({
     const ch = this.ch();
     this.setData({
       panelOpen: true,
+      // premium 角色带锁标记（激励视频未配置时全员免费）
+      presets: PRESETS.map(p => ({ ...p, locked: !!p.premium && rewardedEnabled() && !isUnlocked(p.id) })),
       curId: ch.id || 'custom',
       customName: ch.id === 'custom' ? ch.name : '',
       customStyle: ch.id === 'custom' ? ch.style : '',
@@ -83,9 +88,21 @@ Page({
     });
   },
   onClosePanel() { this.setData({ panelOpen: false }); },
-  onPickPreset(e) {
+  async onPickPreset(e) {
     const preset = PRESETS.find(p => p.id === e.currentTarget.dataset.id);
     if (!preset) return;
+    if (preset.premium && rewardedEnabled() && !isUnlocked(preset.id)) {
+      const ok = await new Promise(r => wx.showModal({
+        title: '解锁' + preset.name,
+        content: '看一个小广告，永久解锁这位店主～',
+        confirmText: '看广告', cancelText: '算了',
+        success: res => r(res.confirm), fail: () => r(false)
+      }));
+      if (!ok) return;
+      const done = await showRewarded();
+      if (!done) return wx.showToast({ title: '广告没看完，下次再来~', icon: 'none' });
+      unlock(preset.id);
+    }
     this.switchCharacter({ ...preset });
   },
   onCustomName(e) { this.setData({ customName: e.detail.value }); },
@@ -243,7 +260,17 @@ Page({
 
     const aiOn = !!app.globalData.config.deepseek;
     try {
+      if (/^📺/.test(text) && app.globalData.plan) { // 看广告解锁继续换
+        const done = await showRewarded();
+        if (!done) return this.say('广告没看完哦，看完姐才能给你翻新货～');
+        this.regenCount = 0;
+        return await this.regen();
+      }
       if (/^(换一套|再换|换个|再来一套|不满意)/.test(text) && app.globalData.plan) {
+        if (rewardedEnabled() && (this.regenCount || 0) >= FREE_REGEN) {
+          this.say('姐都给你翻了' + this.regenCount + '套啦～看个小广告，姐接着给你配？');
+          return this.offer(['📺 看广告继续换', '看完整配置单']);
+        }
         return await this.regen();
       }
       if (/^(完整配置单|看明细|看完整配置单|配置单)$/.test(text) && app.globalData.plan) {
@@ -293,6 +320,7 @@ Page({
 
   async makePlan(budget, usage, note, transition) {
     const app = getApp();
+    this.regenCount = 0; // 新需求重置免费换一套额度
     const plan = await getRecommend(budget, usage);
     app.globalData.plan = plan;
     app.globalData.excludeHistory = [plan.keyIds.cpu, plan.keyIds.gpu].filter(Boolean);
@@ -314,6 +342,7 @@ Page({
   async regen() {
     const app = getApp();
     const plan = app.globalData.plan;
+    this.regenCount = (this.regenCount || 0) + 1;
     try {
       const next = await getRecommend(plan.budget, plan.usage, app.globalData.excludeHistory);
       app.globalData.plan = next;

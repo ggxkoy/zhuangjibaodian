@@ -51,7 +51,9 @@
       <scroll-view class="char-list" scroll-y>
         <view class="char-item {{curId === item.id ? 'cur' : ''}}" wx:for="{{presets}}" wx:key="id"
           data-id="{{item.id}}" bindtap="onPickPreset">
-          <view class="char-name">{{item.name}}<text class="char-title">{{item.title}}</text></view>
+          <view class="char-name">{{item.name}}<text class="char-title">{{item.title}}</text>
+            <text class="char-lock" wx:if="{{item.locked}}">🔒 看广告解锁</text>
+          </view>
           <view class="char-style">{{item.style}}</view>
         </view>
         <view class="char-custom">

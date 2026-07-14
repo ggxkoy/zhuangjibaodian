@@ -66,4 +66,5 @@ page { padding-top: 24rpx; }
 .tip-src { font-size: 20rpx; color: #b25e00; background: #fff7e8; padding: 2rpx 14rpx; border-radius: 999rpx; margin-right: 10rpx; }
 
 .actions { margin: 28rpx 24rpx 0; }
+.ad-wrap { margin: 24rpx; border-radius: 20rpx; overflow: hidden; }
 .btn-secondary { border: 3rpx solid #e5e6eb; background: #fff; font-size: 29rpx; font-weight: 600; border-radius: 22rpx; }

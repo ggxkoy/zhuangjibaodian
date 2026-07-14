@@ -65,4 +65,10 @@
 <view class="actions">
   <button class="btn-secondary" bindtap="onRegen" disabled="{{regenLoading}}">🔄 换一套方案</button>
 </view>
+
+<!-- 流量主 banner（未配置 adUnitId 时隐藏） -->
+<view class="ad-wrap" wx:if="{{bannerUnit}}">
+  <ad unit-id="{{bannerUnit}}"></ad>
+</view>
+
 <view class="tip-line">价格仅供参考，下单前请以平台页面为准</view>

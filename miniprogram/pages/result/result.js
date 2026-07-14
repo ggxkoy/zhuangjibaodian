@@ -1,5 +1,6 @@
 const { getRecommend, getPrices } = require('../../utils/api');
 const { reviewBuild } = require('../../utils/ai');
+const { bannerUnit, maybeShowInterstitial } = require('../../utils/ads');
 
 const PLATFORM_NAMES = { jd: '京东', taobao: '淘宝', pdd: '拼多多', ref: '参考价' };
 
@@ -14,14 +15,17 @@ Page({
     priceStatusLevel: '',
     aiEnabled: false,
     advice: '',
-    regenLoading: false
+    regenLoading: false,
+    bannerUnit: ''
   },
 
   onLoad() {
     const app = getApp();
-    this.setData({ aiEnabled: !!app.globalData.config.deepseek });
+    this.setData({ aiEnabled: !!app.globalData.config.deepseek, bannerUnit: bannerUnit() });
     this.renderPlan(app.globalData.plan);
   },
+
+  onUnload() { maybeShowInterstitial(); }, // 离开明细页时的插屏（每次启动最多1次）
 
   renderPlan(plan) {
     if (!plan) return wx.navigateBack();

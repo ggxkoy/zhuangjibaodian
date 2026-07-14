@@ -114,6 +114,10 @@
 .char-item.cur { border-color: #ff5586; background: #fff5f8; }
 .char-name { font-size: 29rpx; font-weight: 700; color: #1f2329; }
 .char-title { font-size: 21rpx; color: #86909c; font-weight: 400; margin-left: 12rpx; }
+.char-lock {
+  float: right; font-size: 20rpx; font-weight: 500; color: #b25e00;
+  background: #fff7e8; padding: 2rpx 14rpx; border-radius: 999rpx;
+}
 .char-style { font-size: 23rpx; color: #4e5969; line-height: 1.5; margin-top: 6rpx; }
 .char-custom { border-top: 2rpx dashed #eef0f4; padding-top: 20rpx; }
 .cc-input, .cc-area {
