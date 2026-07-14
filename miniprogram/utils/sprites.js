@@ -14,7 +14,8 @@ const REMOTE_BASE = ''; // 例：'cloud://cloud1-xxx.636c-cloud1-xxx-1250000000/
 const LOCAL_FILES = ['boss.jpg']; // 主包内实际打包的立绘
 
 function spriteSrc(file) {
-  if (LOCAL_FILES.indexOf(file) >= 0 || !REMOTE_BASE) return '/assets/' + file;
+  if (LOCAL_FILES.indexOf(file) >= 0) return '/assets/' + file;
+  if (!REMOTE_BASE) return '/assets/boss.jpg';
   return REMOTE_BASE + '/' + file;
 }
 

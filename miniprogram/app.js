@@ -28,7 +28,9 @@ App({
       wx.cloud.init({ env: this.globalData.cloudEnv || undefined });
     }
     const app = this;
-    require('./utils/api').getConfig()
+    // onLaunch 阶段部分基础库里 getApp() 还可能返回 undefined，
+    // 直接传入当前实例，避免启动时读取 globalData 报错。
+    require('./utils/api').getConfig(app)
       .then(cfg => { app.globalData.config = cfg; })
       .catch(() => {});
   }

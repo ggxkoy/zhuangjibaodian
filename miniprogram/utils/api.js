@@ -3,10 +3,15 @@
 //   mode 'cloud'  —— wx.cloud.callFunction 调云函数 zhuangji（免服务器免备案）
 // 页面只用下面的 getConfig/getRecommend/getPrices，不感知模式差异。
 
-function mode() { return getApp().globalData.mode || 'server'; }
+function appData(app) {
+  const current = app || (typeof getApp === 'function' ? getApp() : null);
+  return current && current.globalData ? current.globalData : {};
+}
 
-function serverRequest(path, { method = 'GET', data } = {}) {
-  const base = getApp().globalData.apiBase;
+function mode(app) { return appData(app).mode || 'server'; }
+
+function serverRequest(path, { method = 'GET', data } = {}, app) {
+  const base = appData(app).apiBase || '';
   return new Promise((resolve, reject) => {
     wx.request({
       url: base + path,
@@ -38,8 +43,8 @@ function cloudCall(action, data = {}) {
   });
 }
 
-function getConfig() {
-  return mode() === 'cloud' ? cloudCall('config') : serverRequest('/api/config');
+function getConfig(app) {
+  return mode(app) === 'cloud' ? cloudCall('config') : serverRequest('/api/config', {}, app);
 }
 
 async function getRecommend(budget, usage, exclude = []) {
