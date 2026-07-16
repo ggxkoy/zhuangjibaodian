@@ -22,6 +22,8 @@
   <view class="perf">{{plan.summary}}</view>
 </view>
 
+<view class="rule-note">本方案由固定硬件数据和兼容性规则计算，预算、接口与功耗均由程序校验。</view>
+
 <view class="price-status {{priceStatusLevel}}">{{priceStatus}}</view>
 
 <view class="card part" wx:for="{{parts}}" wx:key="id" wx:for-item="p">
@@ -52,12 +54,6 @@
     <view class="rv-item pit" wx:for="{{p.review.pitfalls}}" wx:key="*this" wx:for-item="t">⚠ {{t}}</view>
     <view class="rv-suit" wx:if="{{p.review.suitFor}}">适合：{{p.review.suitFor}}</view>
   </view>
-</view>
-
-<view class="card ai-card" wx:if="{{aiEnabled && advice}}">
-  <text class="card-title">👩‍💼 老板娘点评 <text class="powered">by DeepSeek</text></text>
-  <view class="advice">{{advice}}</view>
-  <button class="btn-chat" bindtap="onChat">💬 有疑问？进店问老板娘</button>
 </view>
 
 <view class="card" wx:if="{{plan.tips.length}}">

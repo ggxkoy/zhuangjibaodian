@@ -1,5 +1,4 @@
 const { getRecommend } = require('../../utils/api');
-const { parseRequirement } = require('../../utils/ai');
 const { bannerBottomUnit } = require('../../utils/ads');
 
 const USAGES = [
@@ -14,56 +13,20 @@ Page({
     usage: 'gaming',
     budget: '',
     chips: ['3000', '5000', '8000', '12000', '20000'],
-    aiEnabled: false,
-    aiText: '',
-    aiNote: '',
     loading: false,
     errMsg: '',
     bannerBottomUnit: ''
   },
 
   onShow() {
-    this.setData({
-      aiEnabled: !!getApp().globalData.config.deepseek,
-      bannerBottomUnit: bannerBottomUnit()
-    });
-  },
-
-  onChat() {
-    const pages = getCurrentPages();
-    const prev = pages[pages.length - 2];
-    if (prev && prev.route.includes('chat')) return wx.navigateBack();
-    wx.navigateTo({ url: '/pages/chat/chat' });
+    this.setData({ bannerBottomUnit: bannerBottomUnit() });
   },
 
   onBudget(e) { this.setData({ budget: e.detail.value, errMsg: '' }); },
   onChip(e) { this.setData({ budget: e.currentTarget.dataset.v, errMsg: '' }); },
   onUsage(e) { this.setData({ usage: e.currentTarget.dataset.usage }); },
-  onAiText(e) { this.setData({ aiText: e.detail.value }); },
-
-  async onAiParse() {
-    const text = this.data.aiText.trim();
-    if (!text) return this.setData({ aiNote: '先描述一下你的需求~' });
-    this.setData({ loading: true, aiNote: 'AI 解析中…' });
-    try {
-      const p = await parseRequirement(text);
-      const usageName = (USAGES.find(u => u.key === p.usage) || {}).name || p.usage;
-      getApp().globalData.aiNote = p.note || '';
-      this.setData({
-        budget: String(p.budget),
-        usage: p.usage,
-        aiNote: `✓ 已解析：预算 ¥${p.budget} · ${usageName}${p.note ? ' · ' + p.note : ''}`
-      });
-      await this.generate();
-    } catch (e) {
-      this.setData({ aiNote: '解析失败：' + e.message });
-    } finally {
-      this.setData({ loading: false });
-    }
-  },
 
   async onGenerate() {
-    getApp().globalData.aiNote = '';
     this.setData({ loading: true });
     try { await this.generate(); } finally { this.setData({ loading: false }); }
   },

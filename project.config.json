@@ -32,7 +32,10 @@
   },
   "simulatorPluginLibVersion": {},
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      { "type": "file", "value": "assets/boss.jpg" },
+      { "type": "file", "value": "assets/README.md" }
+    ],
     "include": []
   },
   "editorSetting": {}

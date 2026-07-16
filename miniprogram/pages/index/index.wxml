@@ -2,16 +2,13 @@
   <text class="header-icon">🖥️</text>
   <view>
     <view class="header-title">装机宝典</view>
-    <view class="header-sub">说出预算和用途，一键生成整机方案</view>
+    <view class="header-sub">选择预算和用途，按硬件规则生成整机方案</view>
   </view>
 </view>
 
-<view class="card ai-card" wx:if="{{aiEnabled}}">
-  <text class="card-title">🤖 直接说需求（AI 解析）</text>
-  <textarea class="ai-text" value="{{aiText}}" bindinput="onAiText" maxlength="300"
-    placeholder="例如：我有一张2080Ti留着用，8000块配一套跑UE5的平台，以后只换显卡" />
-  <button class="btn-ai" bindtap="onAiParse" disabled="{{loading}}">AI 解析并生成方案</button>
-  <view class="ai-note" wx:if="{{aiNote}}">{{aiNote}}</view>
+<view class="rule-info">
+  <view class="rule-title">规则计算说明</view>
+  <view class="rule-text">输入项仅用于预算和用途筛选。方案由固定硬件数据、接口兼容、功耗与预算规则计算。</view>
 </view>
 
 <view class="card">
@@ -46,5 +43,3 @@
 <view class="ad-wrap" wx:if="{{bannerBottomUnit}}">
   <ad unit-id="{{bannerBottomUnit}}"></ad>
 </view>
-
-<view class="chat-fab" wx:if="{{aiEnabled}}" bindtap="onChat">👩‍💼<text>问老板娘</text></view>

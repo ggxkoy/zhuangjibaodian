@@ -31,25 +31,9 @@
 .err { color: #fa5151; font-size: 26rpx; text-align: center; margin-bottom: 16rpx; }
 .ad-wrap { margin: 24rpx; border-radius: 20rpx; overflow: hidden; }
 
-.ai-card { border: 3rpx solid #e3ddff; background: linear-gradient(180deg, #faf9ff, #fff); }
-.ai-text {
-  width: 100%; box-sizing: border-box; height: 120rpx;
-  border: 3rpx solid #e5e6eb; border-radius: 18rpx; padding: 18rpx 22rpx;
-  font-size: 27rpx; margin-bottom: 18rpx;
+.rule-info {
+  margin: 0 24rpx 24rpx; padding: 20rpx 24rpx;
+  border: 2rpx solid #d9e6ff; border-radius: 16rpx; background: #f5f8ff;
 }
-.btn-ai {
-  background: linear-gradient(135deg, #8b5cf6, #6d4aff); color: #fff;
-  font-size: 30rpx; font-weight: 600; border-radius: 18rpx; padding: 4rpx 0;
-}
-.btn-ai[disabled] { opacity: 0.6; color: #fff !important; background: linear-gradient(135deg, #8b5cf6, #6d4aff) !important; }
-.ai-note { font-size: 24rpx; color: #6d4aff; margin-top: 14rpx; line-height: 1.5; }
-
-.chat-fab {
-  position: fixed; right: 30rpx; bottom: 50rpx; z-index: 50;
-  display: flex; flex-direction: column; align-items: center; gap: 2rpx;
-  padding: 18rpx 22rpx; border-radius: 30rpx;
-  background: linear-gradient(135deg, #ff7eb3, #ff5586);
-  color: #fff; font-size: 44rpx;
-  box-shadow: 0 10rpx 30rpx rgba(255, 85, 134, 0.4);
-}
-.chat-fab text { font-size: 19rpx; font-weight: 600; }
+.rule-title { color: #2b6fff; font-size: 25rpx; font-weight: 600; margin-bottom: 6rpx; }
+.rule-text { color: #4e5969; font-size: 23rpx; line-height: 1.6; }

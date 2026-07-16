@@ -8,9 +8,15 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const DEST = path.join(ROOT, 'cloudfunctions', 'zhuangji');
 
-// llm-advisor 也进云函数：配置云函数环境变量 DEEPSEEK_API_KEY 后走 ownKey 模式（自有模型）
-const LIB_FILES = ['recommender.js', 'price-service.js', 'price-history.js', 'knowledge.js', 'boss-prompts.js', 'reviews.js', 'llm-advisor.js'];
-const DATA_FILES = ['parts.json', 'knowledge.json', 'price-history.json', 'reviews.json', 'characters.json'];
+// 个人主体审核版只同步规则推荐、价格与固定资料模块。
+const LIB_FILES = ['recommender.js', 'price-service.js', 'price-history.js', 'knowledge.js', 'reviews.js'];
+const DATA_FILES = ['parts.json', 'knowledge.json', 'price-history.json', 'reviews.json'];
+const REMOVED_REVIEW_MODULES = ['boss-prompts.js', 'llm-advisor.js'];
+
+for (const f of REMOVED_REVIEW_MODULES) {
+  fs.rmSync(path.join(DEST, 'lib', f), { force: true });
+}
+fs.rmSync(path.join(DEST, 'data', 'characters.json'), { force: true });
 
 for (const [dir, files] of [['lib', LIB_FILES], ['data', DATA_FILES]]) {
   fs.mkdirSync(path.join(DEST, dir), { recursive: true });

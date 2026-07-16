@@ -1,5 +1,5 @@
 {
-  "pages": ["pages/chat/chat", "pages/result/result", "pages/index/index"],
+  "pages": ["pages/index/index", "pages/result/result"],
   "lazyCodeLoading": "requiredComponents",
   "window": {
     "navigationBarTitleText": "装机宝典",

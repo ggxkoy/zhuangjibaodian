@@ -1,5 +1,4 @@
 const { getRecommend, getPrices } = require('../../utils/api');
-const { reviewBuild } = require('../../utils/ai');
 const { bannerTopUnit, bannerBottomUnit, maybeShowInterstitial } = require('../../utils/ads');
 
 const PLATFORM_NAMES = { jd: '京东', taobao: '淘宝', pdd: '拼多多', ref: '参考价' };
@@ -13,8 +12,6 @@ Page({
     percent: 0,
     priceStatus: '正在拉取各平台最低价…',
     priceStatusLevel: '',
-    aiEnabled: false,
-    advice: '',
     regenLoading: false,
     bannerTopUnit: '',
     bannerBottomUnit: ''
@@ -23,7 +20,6 @@ Page({
   onLoad() {
     const app = getApp();
     this.setData({
-      aiEnabled: !!app.globalData.config.deepseek,
       bannerTopUnit: bannerTopUnit(),
       bannerBottomUnit: bannerBottomUnit()
     });
@@ -41,11 +37,9 @@ Page({
       plan, parts,
       total: plan.total,
       remainText: plan.remaining > 0 ? `还剩 ¥${plan.remaining}` : '预算刚好用满',
-      percent: Math.min(100, Math.round((plan.total / plan.budget) * 100)),
-      advice: ''
+      percent: Math.min(100, Math.round((plan.total / plan.budget) * 100))
     });
     this.loadPrices(plan);
-    this.loadReview(plan);
   },
 
   async loadPrices(plan) {
@@ -89,17 +83,6 @@ Page({
     }
   },
 
-  async loadReview(plan) {
-    if (!this.data.aiEnabled) return;
-    this.setData({ advice: '老板娘正在看你的配置单…' });
-    try {
-      const advice = await reviewBuild(plan, getApp().globalData.aiNote);
-      this.setData({ advice });
-    } catch (e) {
-      this.setData({ advice: '点评暂不可用：' + e.message });
-    }
-  },
-
   // 小程序不能直接打开外部网页：复制比价链接到剪贴板
   onCopyLink(e) {
     const { url, name } = e.currentTarget.dataset;
@@ -125,13 +108,6 @@ Page({
     } finally {
       this.setData({ regenLoading: false });
     }
-  },
-
-  onChat() {
-    const pages = getCurrentPages();
-    const prev = pages[pages.length - 2];
-    if (prev && prev.route.includes('chat')) return wx.navigateBack();
-    wx.navigateTo({ url: '/pages/chat/chat' });
   },
 
   onBack() { wx.navigateBack(); }
